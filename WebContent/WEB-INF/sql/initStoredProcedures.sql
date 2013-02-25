@@ -118,7 +118,8 @@ BEGIN
    SELECT 
    *
    FROM computer 
-   WHERE p_name = '' OR name = p_name
+   WHERE LOWER(name) LIKE LOWER(CONCAT('%', p_name, '%')) OR p_name = ''
+   ORDER BY name ASC
    ;
 END //
 DELIMITER ;

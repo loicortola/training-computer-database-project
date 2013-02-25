@@ -51,41 +51,6 @@ public class JdbcDbHandler{
 		return _result;
 	}
 
-
-	public ResultSet executeQueryRS(Connection conn, String query)
-	{
-		Statement statement = null;
-		ResultSet rs = null;
-
-		try
-		{
-			statement = conn.createStatement();
-			rs = statement.executeQuery(query);
-
-		}
-		catch (Exception e) {
-			System.err.println("Error in executeQueryRS:" + e.getMessage());
-		}
-		return rs;
-	}
-
-	public boolean executeQuery(String query)
-	{
-		Connection conn = null;
-		Statement statement = null;
-		try
-		{
-			conn = getConn();
-			statement = conn.createStatement();	
-			statement.executeUpdate(query);
-			return true;
-
-		}catch (Exception e) {
-			System.err.println("Error in executeQuery:" + e.getMessage());
-		}
-		return false;
-	}
-
 	public boolean closeConn(Connection conn)
 	{
 		try {

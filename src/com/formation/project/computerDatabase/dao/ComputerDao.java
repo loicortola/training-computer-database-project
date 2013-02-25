@@ -9,6 +9,6 @@ public interface ComputerDao {
 	public void updateComputer(Computer computer);
 	public void deleteComputer(Integer computerId);
 	public Computer getComputer(Integer computerId);
-	public List<Computer> getComputers();
+	public List<Computer> getComputers(String name);
 	
 }

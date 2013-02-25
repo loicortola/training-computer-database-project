@@ -26,7 +26,10 @@ public class ComputerDatabaseService {
 		return computerDao.getComputer(computerId);
 	}
 	public List<Computer> getComputers() {
-		return computerDao.getComputers();
+		return computerDao.getComputers("");
+	}
+	public List<Computer> getComputers(String name) {
+		return computerDao.getComputers(name);
 	}
 	
 }
