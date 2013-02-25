@@ -9,12 +9,12 @@ import java.util.Properties;
 import java.sql.Connection;
 
 
-public class JdbcDbHandler{
+public class JdbcConnectionFactory{
 
 	private static final String _dbName = "computerDatabaseProject_DB";
 	private Properties _connectionProps = null;
 
-	public JdbcDbHandler()
+	public JdbcConnectionFactory()
 	{
 		_connectionProps = new Properties();
 	    _connectionProps.put("user", "root");
@@ -24,7 +24,7 @@ public class JdbcDbHandler{
 	    try {
 			Class.forName("com.mysql.jdbc.Driver").newInstance();
 		} catch (Exception e) {
-			System.err.println("Error in JdbcDbHandler constructor: " + e.getMessage());
+			System.err.println("Error in JdbcConnectionFactory constructor: " + e.getMessage());
 			e.printStackTrace();
 		}
 

@@ -9,13 +9,13 @@ import java.util.HashMap;
 import com.formation.project.computerDatabase.base.Company;
 
 public class JdbcDbCompanyDao implements CompanyDao {
-	private JdbcDbHandler dbh = null;
+	private JdbcConnectionFactory dbh = null;
 	
 	public JdbcDbCompanyDao() {
-		dbh = new JdbcDbHandler();
+		dbh = new JdbcConnectionFactory();
 	}
 	
-	public JdbcDbCompanyDao(JdbcDbHandler dbh) {
+	public JdbcDbCompanyDao(JdbcConnectionFactory dbh) {
 		this.dbh = dbh;
 	}
 

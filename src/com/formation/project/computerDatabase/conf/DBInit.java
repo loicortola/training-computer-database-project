@@ -8,14 +8,14 @@ import java.sql.SQLException;
 
 import javax.servlet.ServletContext;
 
-import com.formation.project.computerDatabase.dao.JdbcDbHandler;
+import com.formation.project.computerDatabase.dao.JdbcConnectionFactory;
 
 
 public final class DBInit {
 
 	public static void initDatabase(ServletContext context) throws SQLException  
 	{  
-		JdbcDbHandler _dbHandler = new JdbcDbHandler();
+		JdbcConnectionFactory _dbHandler = new JdbcConnectionFactory();
 
 		DBScriptRunner sr = new DBScriptRunner(_dbHandler.getConn(),false,false);
 

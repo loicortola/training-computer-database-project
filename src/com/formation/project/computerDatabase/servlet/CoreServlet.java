@@ -57,7 +57,11 @@ public class CoreServlet extends HttpServlet {
 			System.out.println("Action requested: " + reqAction);
 			if("addComputer".equals(reqAction))
 			{
+				req.setAttribute("companies", cs.getCompaniesList());
+				ar.setUrl("addComputer.jsp");
 				
+				rd = req.getRequestDispatcher("jsp/index.jsp");
+				rd.forward(req, res);
 			}
 		}
 		

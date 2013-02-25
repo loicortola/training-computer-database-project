@@ -12,13 +12,13 @@ import com.formation.project.computerDatabase.base.Company;
 import com.formation.project.computerDatabase.base.Computer;
 
 public class JdbcDbComputerDao implements ComputerDao {
-	private JdbcDbHandler dbh = null;
+	private JdbcConnectionFactory dbh = null;
 	
 	public JdbcDbComputerDao() {
-		dbh = new JdbcDbHandler();
+		dbh = new JdbcConnectionFactory();
 	}
 	
-	public JdbcDbComputerDao(JdbcDbHandler dbh) {
+	public JdbcDbComputerDao(JdbcConnectionFactory dbh) {
 		this.dbh = dbh;
 	}
 

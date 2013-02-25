@@ -115,12 +115,13 @@ CREATE PROCEDURE getComputers
 )
 BEGIN
 
-   SELECT 
+   SELECT
    *
    FROM computer 
    WHERE LOWER(name) LIKE LOWER(CONCAT('%', p_name, '%')) OR p_name = ''
    ORDER BY name ASC
    ;
+   
 END //
 DELIMITER ;
 
