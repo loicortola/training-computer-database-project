@@ -2,24 +2,25 @@ package com.formation.project.computerDatabase.dao;
 
 
 import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.Statement;
-import java.util.ArrayList;
 import java.util.Properties;
 import java.sql.Connection;
 
 
-public class JdbcConnectionFactory{
+public abstract class JdbcConnectionFactory{
 
 	private static final String _dbName = "computerDatabaseProject_DB";
-	private Properties _connectionProps = null;
+	private static Properties _connectionProps = null;
 
 	public JdbcConnectionFactory()
 	{
+		
+	}
+	
+	private static void initConnectionFactory() {
+		
 		_connectionProps = new Properties();
 	    _connectionProps.put("user", "root");
 	    _connectionProps.put("password", "password");
-
 
 	    try {
 			Class.forName("com.mysql.jdbc.Driver").newInstance();
@@ -27,13 +28,13 @@ public class JdbcConnectionFactory{
 			System.err.println("Error in JdbcConnectionFactory constructor: " + e.getMessage());
 			e.printStackTrace();
 		}
-
-
 	}
 
-	public Connection getConn()
+	public static Connection getConn()
 	{ 
 		Connection conn = null;
+		if(_connectionProps == null)
+			initConnectionFactory();
 		try {
 			conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/"+_dbName, _connectionProps);
 		} catch (Exception e) {			
@@ -42,17 +43,10 @@ public class JdbcConnectionFactory{
 		return conn;
 	}
 
-	public ArrayList<ArrayList<String>> rsToArrayList(ResultSet rs)
+	public static boolean closeConn(Connection conn)
 	{
-		ArrayList<ArrayList<String>> _result = new ArrayList<ArrayList<String>>();
-
-		_result.add(new ArrayList<String>());
-
-		return _result;
-	}
-
-	public boolean closeConn(Connection conn)
-	{
+		if(_connectionProps == null)
+			initConnectionFactory();
 		try {
 			conn.close();
 			return true;

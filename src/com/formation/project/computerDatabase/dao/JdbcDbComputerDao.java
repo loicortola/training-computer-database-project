@@ -6,20 +6,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 import com.formation.project.computerDatabase.base.Company;
 import com.formation.project.computerDatabase.base.Computer;
 
-public class JdbcDbComputerDao implements ComputerDao {
-	private JdbcConnectionFactory dbh = null;
+public class JdbcDbComputerDao implements IComputerDao {
 	
 	public JdbcDbComputerDao() {
-		dbh = new JdbcConnectionFactory();
-	}
-	
-	public JdbcDbComputerDao(JdbcConnectionFactory dbh) {
-		this.dbh = dbh;
 	}
 
 	@Override
@@ -48,11 +41,11 @@ public class JdbcDbComputerDao implements ComputerDao {
 
 	@Override
 	public ArrayList<Computer> getComputers(String name) {
-		Connection conn 					= dbh.getConn();
+		Connection conn 					= JdbcConnectionFactory.getConn();
 		CallableStatement cs 				= null;
 		ResultSet rs 						= null;
 		ArrayList<Computer> computers 		= null;
-		CompanyDao companyDao				= new JdbcDbCompanyDao(dbh);
+		ICompanyDao companyDao				= DaoFactory.getCompanyDao();
 		
 		HashMap<Integer,Company> companies	= companyDao.getCompanies("");
 		
@@ -71,7 +64,7 @@ public class JdbcDbComputerDao implements ComputerDao {
 			} catch (SQLException e) {
 				System.out.println("Error in getComputers:" +e.getMessage());
 			} finally {
-				dbh.closeConn(conn);	
+				JdbcConnectionFactory.closeConn(conn);	
 			}
 
 		return computers;

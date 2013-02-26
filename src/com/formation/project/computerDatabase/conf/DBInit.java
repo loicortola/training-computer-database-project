@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileReader;  
 import java.io.IOException;
 
+import java.sql.Connection;
 import java.sql.SQLException;  
 
 import javax.servlet.ServletContext;
@@ -15,9 +16,8 @@ public final class DBInit {
 
 	public static void initDatabase(ServletContext context) throws SQLException  
 	{  
-		JdbcConnectionFactory _dbHandler = new JdbcConnectionFactory();
-
-		DBScriptRunner sr = new DBScriptRunner(_dbHandler.getConn(),false,false);
+		Connection conn	  = JdbcConnectionFactory.getConn();
+		DBScriptRunner sr = new DBScriptRunner(conn,false,false);
 
 
 		try {			
@@ -26,6 +26,8 @@ public final class DBInit {
 			sr.runScript(new FileReader(new File(context.getRealPath("WEB-INF/sql/initDefaultEntries.sql"))));
 		} catch (IOException e) {
 			System.out.println("Error in conf.DBInit: " + e.getMessage());
+		} finally {
+			JdbcConnectionFactory.closeConn(conn);
 		}
 
 

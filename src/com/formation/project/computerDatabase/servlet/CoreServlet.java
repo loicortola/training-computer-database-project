@@ -11,12 +11,13 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.formation.project.computerDatabase.base.Router;
-import com.formation.project.computerDatabase.service.ComputerDatabaseService;
+import com.formation.project.computerDatabase.service.IComputerDatabaseService;
+import com.formation.project.computerDatabase.service.ServiceFactory;
 
 @WebServlet("/CoreServlet")
 public class CoreServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-    private ComputerDatabaseService	cs 	= null;
+    private IComputerDatabaseService	cs 	= null;
 	private HttpSession session 		= null;
     private RequestDispatcher rd 		= null;
     public CoreServlet() {
@@ -28,7 +29,7 @@ public class CoreServlet extends HttpServlet {
 		System.out.println("CoreServlet: Entering doGet");
 		
 		session = req.getSession(true);
-		cs		= new ComputerDatabaseService();
+		cs		= ServiceFactory.getService();
 		
 		//Getting the routerBean from the user's session
 		Router ar 	= (Router) session.getAttribute("routerBean");

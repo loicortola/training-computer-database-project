@@ -4,7 +4,7 @@ import java.util.HashMap;
 
 import com.formation.project.computerDatabase.base.Company;
 
-public interface CompanyDao {
+public interface ICompanyDao {
 	public void addCompany(Company company);
 	public void updateCompany(Company company);
 	public void deleteCompany(Integer companyId);

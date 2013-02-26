@@ -8,20 +8,14 @@ import java.util.HashMap;
 
 import com.formation.project.computerDatabase.base.Company;
 
-public class JdbcDbCompanyDao implements CompanyDao {
-	private JdbcConnectionFactory dbh = null;
+public class JdbcDbCompanyDao implements ICompanyDao {
 	
 	public JdbcDbCompanyDao() {
-		dbh = new JdbcConnectionFactory();
-	}
-	
-	public JdbcDbCompanyDao(JdbcConnectionFactory dbh) {
-		this.dbh = dbh;
 	}
 
 	@Override
 	public HashMap<Integer,Company> getCompanies(String name) {
-		Connection conn 				= dbh.getConn();
+		Connection conn 				= JdbcConnectionFactory.getConn();
 		CallableStatement cs 			= null;
 		ResultSet rs 					= null;
 		HashMap<Integer,Company> companies 	= null;
@@ -39,7 +33,7 @@ public class JdbcDbCompanyDao implements CompanyDao {
 			} catch (SQLException e) {
 				System.out.println("Error in getCompanies:" +e.getMessage());
 			} finally {
-				dbh.closeConn(conn);	
+				JdbcConnectionFactory.closeConn(conn);	
 			}
 
 		return companies;

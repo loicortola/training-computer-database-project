@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.formation.project.computerDatabase.base.Computer;
 
-public interface ComputerDao {
+public interface IComputerDao {
 	public void addComputer(Computer computer);
 	public void updateComputer(Computer computer);
 	public void deleteComputer(Integer computerId);
