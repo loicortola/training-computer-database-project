@@ -39,7 +39,7 @@
 				for(Computer computer : computers) {
 			%>
 		    <tr>
-		        <td><%= computer.getName() %></td>
+		        <td><a href="?action=editComputer&id=<%= computer.getId() %>"><%= computer.getName() %></a></td>
 		        <td><%= computer.getFormatedIntroduced() %></td>
 		        <td><%= computer.getFormatedDiscontinued() %></td>
 		        <td><%= computer.getCompany().getName() %></td>

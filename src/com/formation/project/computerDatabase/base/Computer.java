@@ -110,7 +110,7 @@ public class Computer {
 	}
 	
 	public String getFormatedIntroduced() {
-		DateFormat df = new SimpleDateFormat("d MMMM yyyy");
+		DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 		if(introduced != null)
 			return df.format(introduced);
 		return "N/A";
@@ -125,7 +125,7 @@ public class Computer {
 	}
 	
 	public String getFormatedDiscontinued() {
-		DateFormat df = new SimpleDateFormat("d MMMM yyyy");
+		DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 		if(discontinued != null)
 			return df.format(discontinued);
 		return "N/A";

@@ -1,145 +1,83 @@
-<h1>Edit computer</h1>
+<%@ page import="java.util.*"%>
+<%@ page import="com.formation.project.computerDatabase.base.*"%>
+<%
+	ArrayList<Company> companies 	= (ArrayList<Company>) request.getAttribute("companies");
+	Computer computer				= (Computer) request.getAttribute("computer");
+	
+	String nameError				= (String) request.getAttribute("nameError");
+	String introducedError			= (String) request.getAttribute("introducedError");
+	String discontinuedError		= (String) request.getAttribute("discontinuedError");
+	String companyError				= (String) request.getAttribute("companyError");
+%>
 
+<h1>Edit a computer</h1>
 
-
-<form action="/computers/381" method="POST">
-
+<form action="?action=submitEditComputer&id=<%= computer.getId() %>" method="POST">
 	<fieldset>
-		<div class="clearfix ">
+		<div class="clearfix <% if(nameError != null) out.println("error"); %>">
 			<label for="name">Computer name</label>
 			<div class="input">
 
-				<input type="text" id="name" name="name" value="ACE"> <span
-					class="help-inline">Required</span>
+				<input type="text" id="name" name="name"
+					value="<% if(computer.getName() != null) out.print(computer.getName()); %>">
+
+				<span class="help-inline">Required</span>
 			</div>
 		</div>
-		<div class="clearfix ">
+
+		<div class="clearfix <% if(introducedError != null) out.println("error"); %>">
 			<label for="introduced">Introduced date</label>
 			<div class="input">
 
-				<input type="text" id="introduced" name="introduced" value="">
+				<input type="text" id="introduced" name="introduced"
+					value="<% if(computer.getIntroduced() != null) out.print(computer.getFormatedIntroduced()); %>">
 
 				<span class="help-inline">Date (&#x27;yyyy-MM-dd&#x27;)</span>
 			</div>
 		</div>
-		<div class="clearfix ">
+		<div class="clearfix <% if(discontinuedError != null) out.println("error"); %>">
 			<label for="discontinued">Discontinued date</label>
 			<div class="input">
 
-				<input type="text" id="discontinued" name="discontinued" value="">
+				<input type="text" id="discontinued" name="discontinued"
+					value="<% if(computer.getDiscontinued() != null) out.print(computer.getFormatedDiscontinued()); %>">
 
 				<span class="help-inline">Date (&#x27;yyyy-MM-dd&#x27;)</span>
 			</div>
 		</div>
-		<div class="clearfix ">
+		<div class="clearfix <% if(companyError != null) out.println("error"); %>">
 			<label for="company">Company</label>
 			<div class="input">
 
-				<select id="company" name="company">
-
-					<option class="blank" value="">-- Choose a company --</option>
-
-
-					<option value="22">Acorn computer</option>
-
-					<option value="29">ACVS</option>
-
-					<option value="14">Amiga Corporation</option>
-
-					<option value="38">Amstrad</option>
-
-					<option value="1">Apple Inc.</option>
-
-					<option value="37">ASUS</option>
-
-					<option value="20">Atari</option>
-
-					<option value="35">BBN Technologies</option>
-
-					<option value="15">Canon</option>
-
-					<option value="6">Commodore International</option>
-
-					<option value="31">Cray</option>
-
-					<option value="10">Digital Equipment Corporation</option>
-
-					<option value="33">E.S.R. Inc.</option>
-
-					<option value="32">Evans &amp; Sutherland</option>
-
-					<option value="27">Hewlett-Packard</option>
-
-					<option value="41">HTC Corporation</option>
-
-					<option value="13">IBM</option>
-
-					<option value="9">IMS Associates, Inc.</option>
-
-					<option value="36">Lenovo Group</option>
-
-					<option value="11">Lincoln Laboratory</option>
-
-					<option value="8">Micro Instrumentation and Telemetry
-						Systems</option>
-
-					<option value="12">Moore School of Electrical Engineering</option>
-
-					<option value="7">MOS Technology</option>
-
-					<option value="4">Netronics</option>
-
-					<option value="19">NeXT</option>
-
-					<option value="24">Nintendo</option>
-
-					<option value="16">Nokia</option>
-
-					<option value="34">OMRON</option>
-
-					<option value="18">OQO</option>
-
-					<option value="3">RCA</option>
-
-					<option value="42">Research In Motion</option>
-
-					<option value="43">Samsung Electronics</option>
-
-					<option value="30">Sanyo</option>
-
-					<option value="25">Sinclair Research Ltd</option>
-
-					<option value="17">Sony</option>
-
-					<option value="39">Sun Microsystems</option>
-
-					<option value="5">Tandy Corporation</option>
-
-					<option value="40">Texas Instruments</option>
-
-					<option value="2">Thinking Machines</option>
-
-					<option value="23">Timex Sinclair</option>
-
-					<option value="26">Xerox</option>
-
-					<option value="28">Zemmix</option>
-
-				</select> <span class="help-inline"></span>
+				<% if(companies == null) { %>
+					<select id="company" name="company" disabled="true"> </select>				
+				<% } else { %>
+					<select id="company" name="company">
+					<% 
+						for(Company company : companies) {
+					%>
+						<option value="<%= company.getId() %>" <% if(computer.getCompany().getId() != null && company.getId().toString().equals(computer.getCompany().getId())) out.print("selected"); %>>
+							<%= company.getName() %>
+						</option>
+					<%
+						}
+					%>
+					</select><span class="help-inline"></span>
+				<%
+					}
+				%>
 			</div>
 		</div>
+
 	</fieldset>
-
 	<div class="actions">
-		<input type="submit" value="Save this computer" class="btn primary">
-		or <a href="/computers" class="btn">Cancel</a>
+		<input type="submit" value="Save modifications" class="btn primary">
+		or <a href="CoreServlet" class="btn">Cancel</a>
 	</div>
-
-
 </form>
 
-<form action="/computers/381/delete" method="POST" class="topRight">
+<form action="?action=submitEditComputer" method="POST" class="topRight">
 
-	<input type="submit" value="Delete this computer" class="btn danger">
+	<input type="button" value="Delete this computer" class="btn danger" onclick="if(confirm('Are you sure you want to delete that computer?')){this.form.submit();}">
 
 </form>

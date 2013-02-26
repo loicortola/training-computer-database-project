@@ -10,6 +10,7 @@ import java.util.HashMap;
 
 import com.formation.project.computerDatabase.base.Company;
 import com.formation.project.computerDatabase.base.Computer;
+import com.formation.project.computerDatabase.base.ComputerBuilder;
 
 public class JdbcDbComputerDao implements IComputerDao {
 	
@@ -22,26 +23,45 @@ public class JdbcDbComputerDao implements IComputerDao {
 		CallableStatement cs 				= null;
 		
 		try {
-				cs = conn.prepareCall("{CALL addComputer(?,?,?,?)}");
-				cs.setString("p_name", computer.getName());
-				cs.setTimestamp("p_introduced", new Timestamp(computer.getIntroduced().getTime()));
-				if(computer.getDiscontinued() == null)
-					cs.setTimestamp("p_discontinued", null);
-				else
-					cs.setTimestamp("p_discontinued", new Timestamp(computer.getDiscontinued().getTime()));
-				cs.setInt("p_id_company", computer.getCompany().getId());
-				cs.executeQuery();
+			cs = conn.prepareCall("{CALL addComputer(?,?,?,?)}");
+			cs.setString("p_name", computer.getName());
+			cs.setTimestamp("p_introduced", new Timestamp(computer.getIntroduced().getTime()));
+			if(computer.getDiscontinued() == null)
+				cs.setTimestamp("p_discontinued", null);
+			else
+				cs.setTimestamp("p_discontinued", new Timestamp(computer.getDiscontinued().getTime()));
+			cs.setInt("p_id_company", computer.getCompany().getId());
+			cs.executeQuery();
 				
-			} catch (SQLException e) {
-				System.out.println("Error in addComputer:" +e.getMessage());
-			} finally {
-				JdbcConnectionFactory.closeConn(conn);	
-			}
+		} catch (SQLException e) {
+			System.out.println("Error in addComputer:" +e.getMessage());
+		} finally {
+			JdbcConnectionFactory.closeConn(conn);	
+		}
 	}
 
 	@Override
 	public void updateComputer(Computer computer) {
-		// TODO Auto-generated method stub
+		Connection conn 					= JdbcConnectionFactory.getConn();
+		CallableStatement cs 				= null;
+		
+		try {
+			cs = conn.prepareCall("{CALL updateComputer(?,?,?,?,?)}");
+			cs.setInt("p_id_computer", computer.getId());
+			cs.setString("p_name", computer.getName());
+			cs.setTimestamp("p_introduced", new Timestamp(computer.getIntroduced().getTime()));
+			if(computer.getDiscontinued() == null)
+				cs.setTimestamp("p_discontinued", null);
+			else
+				cs.setTimestamp("p_discontinued", new Timestamp(computer.getDiscontinued().getTime()));
+			cs.setInt("p_id_company", computer.getCompany().getId());
+			cs.executeQuery();
+				
+		} catch (SQLException e) {
+			System.out.println("Error in updateComputer:" +e.getMessage());
+		} finally {
+			JdbcConnectionFactory.closeConn(conn);	
+		}
 		
 	}
 
@@ -53,8 +73,36 @@ public class JdbcDbComputerDao implements IComputerDao {
 
 	@Override
 	public Computer getComputer(Integer computerId) {
-		// TODO Auto-generated method stub
-		return null;
+		Connection conn 					= JdbcConnectionFactory.getConn();
+		CallableStatement cs 				= null;
+		ResultSet rs 						= null;
+		Computer computer			 		= null;
+		ICompanyDao companyDao				= DaoFactory.getCompanyDao();
+		
+		HashMap<Integer,Company> companies	= companyDao.getCompanies("");
+		
+		try {
+				cs = conn.prepareCall("{CALL getComputer(?)}");
+				cs.setInt("p_id", computerId);
+				rs = cs.executeQuery();
+				
+				while(rs.next())
+				{
+					computer = new ComputerBuilder()
+									.id(rs.getInt("id_computer"))
+									.name(rs.getString("name"))
+									.introduced(rs.getTimestamp("introduced"))
+									.discontinued(rs.getTimestamp("discontinued"))
+									.company(companies.get(rs.getInt("id_company")))
+									.build();
+				}
+			} catch (SQLException e) {
+				System.out.println("Error in getComputer:" +e.getMessage());
+			} finally {
+				JdbcConnectionFactory.closeConn(conn);	
+			}
+
+		return computer;
 	}
 
 	@Override
@@ -66,8 +114,6 @@ public class JdbcDbComputerDao implements IComputerDao {
 		ICompanyDao companyDao				= DaoFactory.getCompanyDao();
 		
 		HashMap<Integer,Company> companies	= companyDao.getCompanies("");
-		
-		companyDao							= null;
 		
 		try {
 				cs = conn.prepareCall("{CALL getComputers(?)}");

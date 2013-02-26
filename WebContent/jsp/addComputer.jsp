@@ -2,11 +2,8 @@
 <%@ page import="com.formation.project.computerDatabase.base.*"%>
 <%
 	ArrayList<Company> companies 	= (ArrayList<Company>) request.getAttribute("companies");
-	String reqParamName 			= request.getParameter("name");
-	String reqParamIntroduced 		= request.getParameter("introduced");
-	String reqParamDiscontinued 	= request.getParameter("discontinued");
-	String reqParamCompany 			= request.getParameter("company");
-	
+	Computer computer				= (Computer) request.getAttribute("computer");
+
 	String nameError				= (String) request.getAttribute("nameError");
 	String introducedError			= (String) request.getAttribute("introducedError");
 	String discontinuedError		= (String) request.getAttribute("discontinuedError");
@@ -22,7 +19,7 @@
 			<div class="input">
 
 				<input type="text" id="name" name="name"
-					value="<% if(reqParamName != null) out.print(reqParamName); %>">
+					value="<% if(computer.getName() != null) out.print(computer.getName()); %>">
 
 				<span class="help-inline">Required</span>
 			</div>
@@ -33,7 +30,7 @@
 			<div class="input">
 
 				<input type="text" id="introduced" name="introduced"
-					value="<% if(reqParamIntroduced != null) out.print(reqParamIntroduced); %>">
+					value="<% if(computer.getIntroduced() != null) out.print(computer.getFormatedIntroduced()); %>">
 
 				<span class="help-inline">Date (&#x27;yyyy-MM-dd&#x27;)</span>
 			</div>
@@ -43,7 +40,7 @@
 			<div class="input">
 
 				<input type="text" id="discontinued" name="discontinued"
-					value="<% if(reqParamDiscontinued != null) out.print(reqParamDiscontinued); %>">
+					value="<% if(computer.getDiscontinued() != null) out.print(computer.getFormatedDiscontinued()); %>">
 
 				<span class="help-inline">Date (&#x27;yyyy-MM-dd&#x27;)</span>
 			</div>
@@ -59,7 +56,7 @@
 					<% 
 						for(Company company : companies) {
 					%>
-						<option value="<%= company.getId() %>" <% if(reqParamCompany != null && company.getId().toString().equals(reqParamCompany)) out.print("selected"); %>>
+						<option value="<%= company.getId() %>" <% if(computer.getCompany() != null && computer.getCompany().getId() != null && company.getId().toString().equals(computer.getCompany().getId())) out.print("selected"); %>>
 							<%= company.getName() %>
 						</option>
 					<%

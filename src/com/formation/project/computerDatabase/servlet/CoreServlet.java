@@ -51,6 +51,10 @@ public class CoreServlet extends HttpServlet {
 			{
 				addComputer(req, res);
 			}
+			if("editComputer".equals(reqAction))
+			{
+				editComputer(req, res);
+			}
 		}
 		
 	}
@@ -73,6 +77,10 @@ public class CoreServlet extends HttpServlet {
 			if("submitAddComputer".equals(reqAction))
 			{
 				submitAddComputer(req, res);
+			}
+			if("submitEditComputer".equals(reqAction))
+			{
+				submitEditComputer(req, res);
 			}
 		}
 	}
@@ -105,11 +113,32 @@ public class CoreServlet extends HttpServlet {
 	}
 	
 	private void addComputer(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+		req.setAttribute("computer",new Computer());
 		req.setAttribute("companies", cs.getCompaniesList());
 		ar.setUrl("addComputer.jsp");
 		
 		rd = req.getRequestDispatcher("jsp/index.jsp");
 		rd.forward(req, res);
+	}
+	
+	private void editComputer(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+		
+		DateFormat dateFormat	= new SimpleDateFormat("yyyy-MM-dd");
+		Boolean error			= false;
+		
+		Computer computer 		= cs.getComputer(Integer.parseInt(req.getParameter("id")));
+		
+		if(computer == null) {
+			defaultAction(req,res);	
+		}
+		else {
+			req.setAttribute("computer", computer);
+			req.setAttribute("companies", cs.getCompaniesList());
+			ar.setUrl("editComputer.jsp");
+			rd = req.getRequestDispatcher("jsp/index.jsp");
+			rd.forward(req, res);
+		}
+		
 	}
 
 	private void submitAddComputer(HttpServletRequest req, HttpServletResponse res) throws ServletException,	IOException {
@@ -139,28 +168,88 @@ public class CoreServlet extends HttpServlet {
 			System.out.println("Warning in CoreServlet.submitAddComputer: No discontinued date specified");
 		}
 		
-		try {
-			computer = new ComputerBuilder()
-			.name(name)
-			.introduced(introduced)
-			.discontinued(discontinued)
-			.company(company)
-			.build();
+		computer = new ComputerBuilder()
+		.name(name)
+		.introduced(introduced)
+		.discontinued(discontinued)
+		.company(company)
+		.build();
+		
+		try {			
 			cs.addComputer(computer);	
 		} catch (IllegalArgumentException e) {
 			System.err.println("Error in CoreServlet.submitAddComputer iae: " + e.getMessage());
 			error = true;
 		}
 			if(error) {
+				req.setAttribute("computer", computer);
 				req.setAttribute("companies", cs.getCompaniesList());
-				ar.setUrl("addComputer.jsp");
+				ar.setUrl("addComputer.jsp");				
+				rd = req.getRequestDispatcher("jsp/index.jsp");
+				rd.forward(req, res);
 			}
 			else {
-				req.setAttribute("computers", cs.getComputers());
-				ar.setUrl("dashboard.jsp");
+				defaultAction(req,res);
 			}
-		
-		rd = req.getRequestDispatcher("jsp/index.jsp");
-		rd.forward(req, res);
 	}
+	
+	private void submitEditComputer(HttpServletRequest req, HttpServletResponse res) throws ServletException,	IOException {
+		Computer computer 		= null;
+		DateFormat dateFormat	= new SimpleDateFormat("yyyy-MM-dd");
+		Boolean error			= false;
+		
+		Integer id			= Integer.parseInt(req.getParameter("id"));
+		String name			= req.getParameter("name");
+		Date introduced 	= null;
+		Date discontinued 	= null;
+		Company company		= cs.getCompany(Integer.parseInt(req.getParameter("company")));
+		
+		if(id == null) {
+			defaultAction(req,res);
+		}
+		else {
+			if(name == null || name == "")
+				req.setAttribute("nameError", "Name field is required");
+			if(company == null)
+				req.setAttribute("companyError", "Please select a company");
+			try {
+				introduced	 	= dateFormat.parse(req.getParameter("introduced"));	
+			} catch (ParseException e) {
+				System.err.println("Error in CoreServlet.submitEditComputer pe: " + e.getMessage());
+				req.setAttribute("introducedError", "Introduced date is not valid");
+			}
+			
+			try {
+				discontinued = dateFormat.parse(req.getParameter("discontinued"));
+			} catch (ParseException e1) {
+				System.out.println("Warning in CoreServlet.submitEditComputer: No discontinued date specified");
+			}
+			
+			computer = new ComputerBuilder()
+			.id(id)
+			.name(name)
+			.introduced(introduced)
+			.discontinued(discontinued)
+			.company(company)
+			.build();
+			
+			try {				
+				cs.updateComputer(computer);
+			} catch (IllegalArgumentException e) {
+				System.err.println("Error in CoreServlet.submitEditComputer iae: " + e.getMessage());
+				error = true;
+			}
+				if(error) {
+					req.setAttribute("computer", computer);
+					req.setAttribute("companies", cs.getCompaniesList());
+					ar.setUrl("editComputer.jsp");					
+					rd = req.getRequestDispatcher("jsp/index.jsp");
+					rd.forward(req, res);
+				}
+				else {
+					defaultAction(req,res);
+				}
+		}
+	}
+	
 }

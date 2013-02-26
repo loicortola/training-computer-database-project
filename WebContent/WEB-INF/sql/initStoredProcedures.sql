@@ -175,7 +175,7 @@ CREATE PROCEDURE updateComputer
 )
 BEGIN
 
-   UPDATE computer SET name = p_name, introduced = p_introduced, discontinued = p_discontinued, company = p_id_company 
+   UPDATE computer SET name = p_name, introduced = p_introduced, discontinued = p_discontinued, id_company = p_id_company 
    WHERE id_computer = p_id_computer
    ;
 END //

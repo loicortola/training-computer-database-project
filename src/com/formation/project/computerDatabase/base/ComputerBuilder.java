@@ -41,9 +41,7 @@ public class ComputerBuilder {
     
     public Computer build() {
     	System.out.println("name " + name + " introduced " + introduced + " disc " + discontinued + "company" + company);
-    	
-    	if(name == null || introduced == null || company == null)
-    		throw new IllegalArgumentException();
+
     	Computer computer = new Computer();
     	computer.setId(id);
     	computer.setName(name);

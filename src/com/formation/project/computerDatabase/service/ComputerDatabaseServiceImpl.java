@@ -24,6 +24,8 @@ public class ComputerDatabaseServiceImpl implements IComputerDatabaseService {
 	 */
 	@Override
 	public void addComputer(Computer computer) {
+		if(computer.getName() == null || computer.getIntroduced() == null || computer.getCompany() == null)
+    		throw new IllegalArgumentException();
 		computerDao.addComputer(computer);
 	}
 	/* (non-Javadoc)
@@ -31,6 +33,8 @@ public class ComputerDatabaseServiceImpl implements IComputerDatabaseService {
 	 */
 	@Override
 	public void updateComputer(Computer computer) {
+		if(computer.getName() == null || computer.getIntroduced() == null || computer.getCompany() == null)
+    		throw new IllegalArgumentException();
 		computerDao.updateComputer(computer);
 	}
 	/* (non-Javadoc)
