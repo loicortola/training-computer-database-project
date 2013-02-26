@@ -117,7 +117,7 @@ public class JdbcDbComputerDao implements IComputerDao {
 	}
 
 	@Override
-	public ArrayList<Computer> getComputers(Integer currentPage, Integer resultsPerPage, String name) {
+	public ArrayList<Computer> getComputers(Integer currentPage, Integer resultsPerPage, String sortBy, String name) {
 		Connection conn 					= JdbcConnectionFactory.getConn();
 		CallableStatement cs 				= null;
 		ResultSet rs 						= null;
@@ -126,10 +126,28 @@ public class JdbcDbComputerDao implements IComputerDao {
 		
 		HashMap<Integer,Company> companies	= companyDao.getCompanies("");
 		
+		if(sortBy.equals("name1"))
+			sortBy = "computer.name";
+		else if(sortBy.equals("name0"))
+			sortBy = "computer.name DESC";
+		else if(sortBy.equals("introduced1"))
+			sortBy = "introduced";
+		else if(sortBy.equals("introduced0"))
+			sortBy = "introduced DESC";
+		else if(sortBy.equals("discontinued1"))
+			sortBy = "discontinued";
+		else if(sortBy.equals("discontinued0"))
+			sortBy = "discontinued DESC";
+		else if(sortBy.equals("company1"))
+			sortBy = "company.name";
+		else if(sortBy.equals("company0"))
+			sortBy = "company.name DESC";
 		try {
-				cs = conn.prepareCall("{CALL getComputers(?,?,?)}");
+				cs = conn.prepareCall("{CALL getComputers(?,?,?,?)}");
 				cs.setInt("p_offset",(currentPage-1)*resultsPerPage);
 				cs.setInt("p_results_per_page",resultsPerPage);
+				cs.setString("p_sort_by", sortBy);
+				System.out.println("order by " + sortBy);
 				cs.setString("p_name", name);
 				rs = cs.executeQuery();
 				computers = new ArrayList<Computer>();

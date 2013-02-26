@@ -25,6 +25,6 @@ public interface IComputerDatabaseService {
 
 	public abstract ArrayList<Company> getCompaniesList();
 
-	public abstract List<Computer> getComputers(Integer currentPage, Integer resultsPerPage, String name);
+	public abstract List<Computer> getComputers(Integer currentPage, Integer resultsPerPage, String sortBy, String name);
 
 }

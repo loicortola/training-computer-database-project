@@ -69,8 +69,8 @@ public class ComputerDatabaseServiceImpl implements IComputerDatabaseService {
 	 * @see com.formation.project.computerDatabase.service.IComputerDatabaseService#getComputers(java.lang.String)
 	 */
 	@Override
-	public List<Computer> getComputers(Integer currentPage, Integer resultsPerPage, String name) {
-		return computerDao.getComputers(currentPage, resultsPerPage, name);
+	public List<Computer> getComputers(Integer currentPage, Integer resultsPerPage, String sortBy, String name) {
+		return computerDao.getComputers(currentPage, resultsPerPage, sortBy, name);
 	}
 
 	@Override

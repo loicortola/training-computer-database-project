@@ -3,10 +3,32 @@
 <%
 	ArrayList<Computer> computers 	= (ArrayList<Computer>) request.getAttribute("computers");
 	String searchName				= (String)	request.getParameter("searchName");
+	String sortBy					= (String)	request.getAttribute("sortBy");
 	Integer computerCount 			= (Integer) request.getAttribute("computerCount");
 	Integer pageCount 				= (Integer) request.getAttribute("pageCount");
 	Integer currentPage				= (Integer) request.getAttribute("currentPage");
 	Integer resultsPerPage			= (Integer) request.getAttribute("resultsPerPage");
+	
+	String actionPrefix				= "?";
+	if(sortBy != null)
+		actionPrefix += "&sortBy=" + sortBy;
+	if(searchName != null && !searchName.equals(""))
+		actionPrefix += "&searchName=" + searchName;
+	
+	String newSortByName 			= "1";
+	String newSortByIntroduced 		= "1";
+	String newSortByDiscontinued 	= "1";
+	String newSortByCompany 		= "1";
+	
+	if(sortBy.equals("name1"))
+		newSortByName = "0";
+	if(sortBy.equals("introduced1"))
+		newSortByIntroduced = "0";
+	if(sortBy.equals("discontinued1"))
+		newSortByDiscontinued = "0";
+	if(sortBy.equals("company1"))
+		newSortByCompany = "0";
+	
 %>
 <h1 id="homeTitle">Hey Baby! Wanna get a look at those computers? We have ${computerCount}</h1>
 
@@ -28,11 +50,11 @@
         
         <table class="computers zebra-striped">
             <thead>
-            	<tr>
-                	<th>Computer name</th>
-					<th>Introduced</th>
-					<th>Discontinued</th>
-					<th>Company</th>
+            	<tr>                	
+                	<th class="col2 header <% if(sortBy.contains("name")) { if(newSortByName.equals("1")) out.print("headerSortDown"); else out.print("headerSortUp");} %>"><a href="<%= actionPrefix %>&newSortBy=name<%= newSortByName %>">Computer name</a></th>
+					<th class="col3 header <% if(sortBy.contains("introduced")) { if(newSortByIntroduced.equals("1")) out.print("headerSortDown"); else out.print("headerSortUp");} %>"><a href="<%= actionPrefix %>&newSortBy=introduced<%= newSortByIntroduced %>">Introduced</a></th>
+					<th class="col4 header <% if(sortBy.contains("discontinued")) { if(newSortByDiscontinued.equals("1")) out.print("headerSortDown"); else out.print("headerSortUp");} %>"><a href="<%= actionPrefix %>&newSortBy=discontinued<%= newSortByDiscontinued %>">Discontinued</a></th>
+					<th class="col5 header <% if(sortBy.contains("company")) { if(newSortByCompany.equals("1")) out.print("headerSortDown"); else out.print("headerSortUp");} %>"><a href="<%= actionPrefix %>&newSortBy=company<%= newSortByCompany %>">Company</a></th>
 				</tr>
             </thead>
             <tbody>
@@ -62,7 +84,7 @@
 	            </li>
 	        <% } else { %>
 	            <li class="prev ">
-	               	<a href="?page=<%= currentPage-1 %><% if(searchName != null && !searchName.equals("")) out.print("&searchName="+searchName); %>">&larr; Previous</a>
+	               	<a href="<%= actionPrefix %>&page=<%= currentPage-1 %>">&larr; Previous</a>
 	            </li>
 	        <% } %>
 	             
@@ -76,7 +98,7 @@
 	            </li>
 	        <% } else { %>
 	            <li class="next ">
-	               	<a href="?page=<%= currentPage+1 %><% if(searchName != null && !searchName.equals("")) out.print("&searchName="+searchName); %>">Next &rarr;</a>
+	               	<a href="<%= actionPrefix %>&page=<%= currentPage+1 %>">Next &rarr;</a>
 	            </li>
 	        <% } %> 
                 

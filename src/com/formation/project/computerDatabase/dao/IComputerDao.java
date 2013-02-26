@@ -10,6 +10,6 @@ public interface IComputerDao {
 	public void deleteComputer(Integer computerId);
 	public Computer getComputer(Integer computerId);
 	public Integer getComputerCount(String name);
-	public List<Computer> getComputers(Integer currentPage, Integer resultsPerPage, String name);
+	public List<Computer> getComputers(Integer currentPage, Integer resultsPerPage, String sortBy, String name);
 	
 }

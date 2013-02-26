@@ -131,17 +131,21 @@ CREATE PROCEDURE getComputers
 (
 	IN p_offset INT(11),
 	IN p_results_per_page INT(11),
+	IN p_sort_by VARCHAR(255),
 	IN p_name VARCHAR(255)
 )
 BEGIN
+    SET @name_concat = LOWER(CONCAT('%', p_name, '%'));
+    SET @query = CONCAT("
+        SELECT computer.*
+        FROM computer 
+        INNER JOIN company ON computer.id_company = company.id_company
+        WHERE LOWER(computer.name) LIKE '",@name_concat,"' OR '",p_name,"' = ''
+        ORDER BY ", p_sort_by," LIMIT ",p_offset,",",p_results_per_page,";");
 
-   SELECT
-   *
-   FROM computer 
-   WHERE LOWER(name) LIKE LOWER(CONCAT('%', p_name, '%')) OR p_name = ''
-   ORDER BY name ASC
-   LIMIT p_offset,p_results_per_page
-   ;
+    PREPARE stmt FROM @query;
+    EXECUTE stmt;
+    DEALLOCATE PREPARE stmt;
    
 END //
 DELIMITER ;

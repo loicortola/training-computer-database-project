@@ -91,8 +91,16 @@ public class CoreServlet extends HttpServlet {
 	
 	private void defaultAction(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		String searchName = req.getParameter("searchName");
+		String sortBy = req.getParameter("sortBy");
+		String newSortBy = req.getParameter("newSortBy");
+		
 		if(searchName == null)
 			searchName = "";
+		if(sortBy == null)
+			sortBy = "name1";
+		if(newSortBy != null)
+			sortBy = newSortBy;
+		
 		Integer computerCount = cs.getComputerCount(searchName);
 		Integer resultsPerPage = 10;
 		Integer pageCount = ((Integer) computerCount/resultsPerPage) + 1;
@@ -103,12 +111,12 @@ public class CoreServlet extends HttpServlet {
 				currentPage = 1;
 		}
 		
-		req.setAttribute("computers", cs.getComputers(currentPage, resultsPerPage, searchName));
+		req.setAttribute("computers", cs.getComputers(currentPage, resultsPerPage, sortBy, searchName));
 		req.setAttribute("computerCount", computerCount);
 		req.setAttribute("pageCount", pageCount);
 		req.setAttribute("currentPage", currentPage);
 		req.setAttribute("resultsPerPage", resultsPerPage);
-		
+		req.setAttribute("sortBy", sortBy);
 		ar.setUrl("dashboard.jsp");
 		
 		rd = req.getRequestDispatcher("jsp/index.jsp");
