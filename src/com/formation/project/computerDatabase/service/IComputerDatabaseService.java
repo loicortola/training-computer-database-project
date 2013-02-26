@@ -16,6 +16,8 @@ public interface IComputerDatabaseService {
 	public abstract void deleteComputer(Integer computerId);
 
 	public abstract Computer getComputer(Integer computerId);
+	
+	public abstract Company getCompany(Integer companyId);
 
 	public abstract List<Computer> getComputers();
 

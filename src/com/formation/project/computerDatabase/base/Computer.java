@@ -17,15 +17,15 @@ public class Computer {
 		this.company = company;
 	}
 
-	public Integer id;
+	private Integer id;
     
-    public String name;
+    private String name;
     
-    public Date introduced;
+    private Date introduced;
     
-    public Date discontinued;
+    private Date discontinued;
     
-    public Company company;
+    private Company company;
     
     public Computer() {}
     
@@ -91,6 +91,11 @@ public class Computer {
 	public Integer getId() {
 		return id;
 	}
+	
+	protected void setId(Integer id) {
+		if(id != null)
+			this.id = id;
+	}
 
 	public String getName() {
 		return name;
@@ -138,28 +143,5 @@ public class Computer {
 		this.company = company;
 	}
     
-    /**
-     * Generic query helper for entity Computer with id Long
-     */
-//    public static Finder<Long,Computer> find = new Finder<Long,Computer>(Long.class, Computer.class); 
-//    
-//    /**
-//     * Return a page of computer
-//     *
-//     * @param page Page to display
-//     * @param pageSize Number of computers per page
-//     * @param sortBy Computer property used for sorting
-//     * @param order Sort order (either or asc or desc)
-//     * @param filter Filter applied on the name column
-//     */
-//    public static Page<Computer> page(int page, int pageSize, String sortBy, String order, String filter) {
-//        return 
-//            find.where()
-//                .ilike("name", "%" + filter + "%")
-//                .orderBy(sortBy + " " + order)
-//                .fetch("company")
-//                .findPagingList(pageSize)
-//                .getPage(page);
-//    }
     
 }

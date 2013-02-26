@@ -4,6 +4,7 @@ import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -17,8 +18,25 @@ public class JdbcDbComputerDao implements IComputerDao {
 
 	@Override
 	public void addComputer(Computer computer) {
-		// TODO Auto-generated method stub
+		Connection conn 					= JdbcConnectionFactory.getConn();
+		CallableStatement cs 				= null;
 		
+		try {
+				cs = conn.prepareCall("{CALL addComputer(?,?,?,?)}");
+				cs.setString("p_name", computer.getName());
+				cs.setTimestamp("p_introduced", new Timestamp(computer.getIntroduced().getTime()));
+				if(computer.getDiscontinued() == null)
+					cs.setTimestamp("p_discontinued", null);
+				else
+					cs.setTimestamp("p_discontinued", new Timestamp(computer.getDiscontinued().getTime()));
+				cs.setInt("p_id_company", computer.getCompany().getId());
+				cs.executeQuery();
+				
+			} catch (SQLException e) {
+				System.out.println("Error in addComputer:" +e.getMessage());
+			} finally {
+				JdbcConnectionFactory.closeConn(conn);	
+			}
 	}
 
 	@Override

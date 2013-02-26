@@ -1,5 +1,7 @@
 package com.formation.project.computerDatabase.base;
 
+import com.formation.project.computerDatabase.dao.DaoFactory;
+
 
 public class Company {
 
@@ -9,11 +11,11 @@ public class Company {
 		this.name = name;
 	}
 
-	public Integer id;
+	private Integer id;
     
-    public String name;
+    private String name;
     
-    public Company() {}
+    public Company() {}    
 
 	public Integer getId() {
 		return id;
@@ -52,14 +54,4 @@ public class Company {
 		this.name = name;
 	}
     
-//    public static Model.Finder<Long,Company> find = new Model.Finder<Long,Company>(Long.class, Company.class);
-//
-//    public static Map<String,String> options() {
-//        LinkedHashMap<String,String> options = new LinkedHashMap<String,String>();
-//        for(Company c: Company.find.orderBy("name").findList()) {
-//            options.put(c.id.toString(), c.name);
-//        }
-//        return options;
-//    }
-
 }

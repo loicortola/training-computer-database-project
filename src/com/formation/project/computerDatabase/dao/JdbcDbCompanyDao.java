@@ -59,8 +59,26 @@ public class JdbcDbCompanyDao implements ICompanyDao {
 
 	@Override
 	public Company getCompany(Integer companyId) {
-		// TODO Auto-generated method stub
-		return null;
+		Connection conn 				= JdbcConnectionFactory.getConn();
+		CallableStatement cs 			= null;
+		ResultSet rs 					= null;
+		Company company					= null;
+		try {
+				cs = conn.prepareCall("{CALL getCompany(?)}");
+				cs.setInt("p_id", companyId);
+				rs = cs.executeQuery();
+
+				while(rs.next())
+				{
+					company = new Company(rs.getInt("id_company"),rs.getString("name"));					
+				}
+			} catch (SQLException e) {
+				System.out.println("Error in getCompany:" +e.getMessage());
+			} finally {
+				JdbcConnectionFactory.closeConn(conn);	
+			}
+
+		return company;
 	}
 
 }

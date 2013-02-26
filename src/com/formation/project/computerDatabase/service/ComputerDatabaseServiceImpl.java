@@ -75,5 +75,10 @@ public class ComputerDatabaseServiceImpl implements IComputerDatabaseService {
 	public List<Computer> getComputers(String name) {
 		return computerDao.getComputers(name);
 	}
+
+	@Override
+	public Company getCompany(Integer companyId) {
+		return companyDao.getCompany(companyId);
+	}
 	
 }
