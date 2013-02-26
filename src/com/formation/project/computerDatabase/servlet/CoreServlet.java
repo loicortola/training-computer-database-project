@@ -82,6 +82,10 @@ public class CoreServlet extends HttpServlet {
 			{
 				submitEditComputer(req, res);
 			}
+			if("submitDeleteComputer".equals(reqAction))
+			{
+				submitDeleteComputer(req, res);
+			}
 		}
 	}
 	
@@ -122,9 +126,6 @@ public class CoreServlet extends HttpServlet {
 	}
 	
 	private void editComputer(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-		
-		DateFormat dateFormat	= new SimpleDateFormat("yyyy-MM-dd");
-		Boolean error			= false;
 		
 		Computer computer 		= cs.getComputer(Integer.parseInt(req.getParameter("id")));
 		
@@ -198,7 +199,9 @@ public class CoreServlet extends HttpServlet {
 		DateFormat dateFormat	= new SimpleDateFormat("yyyy-MM-dd");
 		Boolean error			= false;
 		
-		Integer id			= Integer.parseInt(req.getParameter("id"));
+		Integer id = null;
+		if(req.getParameter("id") != null)
+			id = Integer.parseInt(req.getParameter("id"));
 		String name			= req.getParameter("name");
 		Date introduced 	= null;
 		Date discontinued 	= null;
@@ -249,6 +252,21 @@ public class CoreServlet extends HttpServlet {
 				else {
 					defaultAction(req,res);
 				}
+		}
+	}
+	
+	private void submitDeleteComputer(HttpServletRequest req, HttpServletResponse res) throws ServletException,	IOException {
+		Integer id = null;
+		
+		if(req.getParameter("id") != null)
+			id = Integer.parseInt(req.getParameter("id"));
+		
+		if(id == null) {
+			defaultAction(req,res);
+		}
+		else {
+				cs.deleteComputer(id);
+				defaultAction(req,res);
 		}
 	}
 	

@@ -67,8 +67,19 @@ public class JdbcDbComputerDao implements IComputerDao {
 
 	@Override
 	public void deleteComputer(Integer computerId) {
-		// TODO Auto-generated method stub
+		Connection conn 					= JdbcConnectionFactory.getConn();
+		CallableStatement cs 				= null;
 		
+		try {
+			cs = conn.prepareCall("{CALL deleteComputer(?)}");
+			cs.setInt("p_id", computerId);
+			cs.executeQuery();
+				
+		} catch (SQLException e) {
+			System.out.println("Error in deleteComputer:" +e.getMessage());
+		} finally {
+			JdbcConnectionFactory.closeConn(conn);	
+		}
 	}
 
 	@Override

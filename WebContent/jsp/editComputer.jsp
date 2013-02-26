@@ -76,7 +76,7 @@
 	</div>
 </form>
 
-<form action="?action=submitEditComputer" method="POST" class="topRight">
+<form action="?action=submitDeleteComputer&id=<%= computer.getId() %>" method="POST" class="topRight">
 
 	<input type="button" value="Delete this computer" class="btn danger" onclick="if(confirm('Are you sure you want to delete that computer?')){this.form.submit();}">
 
