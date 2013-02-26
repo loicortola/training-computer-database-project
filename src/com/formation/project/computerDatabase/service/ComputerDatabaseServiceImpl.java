@@ -52,13 +52,6 @@ public class ComputerDatabaseServiceImpl implements IComputerDatabaseService {
 		return computerDao.getComputer(computerId);
 	}
 	/* (non-Javadoc)
-	 * @see com.formation.project.computerDatabase.service.IComputerDatabaseService#getComputers()
-	 */
-	@Override
-	public List<Computer> getComputers() {
-		return computerDao.getComputers("");
-	}
-	/* (non-Javadoc)
 	 * @see com.formation.project.computerDatabase.service.IComputerDatabaseService#getCompanies()
 	 */
 	@Override
@@ -76,13 +69,18 @@ public class ComputerDatabaseServiceImpl implements IComputerDatabaseService {
 	 * @see com.formation.project.computerDatabase.service.IComputerDatabaseService#getComputers(java.lang.String)
 	 */
 	@Override
-	public List<Computer> getComputers(String name) {
-		return computerDao.getComputers(name);
+	public List<Computer> getComputers(Integer currentPage, Integer resultsPerPage, String name) {
+		return computerDao.getComputers(currentPage, resultsPerPage, name);
 	}
 
 	@Override
 	public Company getCompany(Integer companyId) {
 		return companyDao.getCompany(companyId);
+	}
+
+	@Override
+	public Integer getComputerCount(String name) {
+		return computerDao.getComputerCount(name);
 	}
 	
 }

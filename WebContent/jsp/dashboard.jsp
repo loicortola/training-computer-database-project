@@ -1,16 +1,18 @@
 <%@ page import="java.util.*" %>
 <%@ page import="com.formation.project.computerDatabase.base.*" %>
 <%
-	ArrayList<Computer> computers = (ArrayList<Computer>) request.getAttribute("computers");
+	ArrayList<Computer> computers 	= (ArrayList<Computer>) request.getAttribute("computers");
+	String searchName				= (String)	request.getParameter("searchName");
+	Integer computerCount 			= (Integer) request.getAttribute("computerCount");
+	Integer pageCount 				= (Integer) request.getAttribute("pageCount");
+	Integer currentPage				= (Integer) request.getAttribute("currentPage");
+	Integer resultsPerPage			= (Integer) request.getAttribute("resultsPerPage");
 %>
-<h1 id="homeTitle">Hey Baby! Wanna get a look at those computers?</h1>
+<h1 id="homeTitle">Hey Baby! Wanna get a look at those computers? We have ${computerCount}</h1>
 
-    <div class="alert-message warning">
-    	<strong>Done!</strong>
-    </div>
     <div id="actions">
         <form action="" method="GET">
-            <input type="search" id="searchbox" name="searchName" value="" placeholder="Filter by computer name...">
+            <input type="search" id="searchbox" name="searchName" value="<% if(searchName != null && !searchName.equals("")) out.print(searchName); %>" placeholder="Filter by computer name...">
             <input type="submit" id="searchsubmit" value="Filter by name" class="btn primary">
         </form>
         <a class="btn success" id="add" href="?action=addComputer">Add a new computer</a>
@@ -51,3 +53,32 @@
             </tbody>
         </table>
 	<% } %>
+	<div id="pagination" class="pagination">
+            <ul>
+                
+	        <% if(currentPage == 1) { %>
+	            <li class="prev disabled">
+	            	<a>&larr; Previous</a>
+	            </li>
+	        <% } else { %>
+	            <li class="prev ">
+	               	<a href="?page=<%= currentPage-1 %><% if(searchName != null && !searchName.equals("")) out.print("&searchName="+searchName); %>">&larr; Previous</a>
+	            </li>
+	        <% } %>
+	             
+                <li class="current">
+                    <a>Displaying <%= (currentPage-1)*resultsPerPage+1 %> to <%= (currentPage)*resultsPerPage %> of <%= computerCount %></a>
+                </li>
+                
+            <% if(currentPage == pageCount) { %>
+	            <li class="next disabled">
+	            	<a>Next &rarr;</a>
+	            </li>
+	        <% } else { %>
+	            <li class="next ">
+	               	<a href="?page=<%= currentPage+1 %><% if(searchName != null && !searchName.equals("")) out.print("&searchName="+searchName); %>">Next &rarr;</a>
+	            </li>
+	        <% } %> 
+                
+            </ul>
+        </div>

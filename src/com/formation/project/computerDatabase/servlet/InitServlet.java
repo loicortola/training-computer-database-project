@@ -34,6 +34,7 @@ public class InitServlet extends HttpServlet {
 		} catch (SQLException e) {
 			System.err.println("error in InitServlet while initiating database: " + e.getMessage());
 		}	
+		response.sendRedirect("CoreServlet");
 	}
 
 	/**

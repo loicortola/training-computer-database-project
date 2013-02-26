@@ -11,6 +11,7 @@
     <link href="css/main.css" rel="stylesheet" media="screen">
   </head>
   <body>
+  	<section id="main">
     <% 
 		if( routerBean.getUrl() != "")  
 		{
@@ -18,6 +19,7 @@
 		<jsp:include page="<%= routerBean.getUrl() %>" />
 	<% 
 		}
-	%>
+	%>	
+  	</section>
   </body>
 </html>

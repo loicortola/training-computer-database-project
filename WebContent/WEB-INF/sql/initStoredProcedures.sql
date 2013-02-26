@@ -107,10 +107,30 @@ END //
 DELIMITER ;
 
 /*---------------------------------------------------*/
+DROP PROCEDURE IF EXISTS getComputerCount;
+DELIMITER //
+CREATE PROCEDURE getComputerCount 
+(
+	IN p_name VARCHAR(255)
+)
+BEGIN
+
+   SELECT
+   COUNT(*) as 'count'
+   FROM computer 
+   WHERE LOWER(name) LIKE LOWER(CONCAT('%', p_name, '%')) OR p_name = ''
+   ;
+   
+END //
+DELIMITER ;
+
+/*---------------------------------------------------*/
 DROP PROCEDURE IF EXISTS getComputers;
 DELIMITER //
 CREATE PROCEDURE getComputers 
 (
+	IN p_offset INT(11),
+	IN p_results_per_page INT(11),
 	IN p_name VARCHAR(255)
 )
 BEGIN
@@ -120,6 +140,7 @@ BEGIN
    FROM computer 
    WHERE LOWER(name) LIKE LOWER(CONCAT('%', p_name, '%')) OR p_name = ''
    ORDER BY name ASC
+   LIMIT p_offset,p_results_per_page
    ;
    
 END //

@@ -17,14 +17,14 @@ public interface IComputerDatabaseService {
 
 	public abstract Computer getComputer(Integer computerId);
 	
+	public abstract Integer getComputerCount(String name);	
+	
 	public abstract Company getCompany(Integer companyId);
-
-	public abstract List<Computer> getComputers();
 
 	public abstract HashMap<Integer, Company> getCompanies();
 
 	public abstract ArrayList<Company> getCompaniesList();
 
-	public abstract List<Computer> getComputers(String name);
+	public abstract List<Computer> getComputers(Integer currentPage, Integer resultsPerPage, String name);
 
 }

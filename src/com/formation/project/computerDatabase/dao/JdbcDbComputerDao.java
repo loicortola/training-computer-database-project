@@ -117,7 +117,7 @@ public class JdbcDbComputerDao implements IComputerDao {
 	}
 
 	@Override
-	public ArrayList<Computer> getComputers(String name) {
+	public ArrayList<Computer> getComputers(Integer currentPage, Integer resultsPerPage, String name) {
 		Connection conn 					= JdbcConnectionFactory.getConn();
 		CallableStatement cs 				= null;
 		ResultSet rs 						= null;
@@ -127,7 +127,9 @@ public class JdbcDbComputerDao implements IComputerDao {
 		HashMap<Integer,Company> companies	= companyDao.getCompanies("");
 		
 		try {
-				cs = conn.prepareCall("{CALL getComputers(?)}");
+				cs = conn.prepareCall("{CALL getComputers(?,?,?)}");
+				cs.setInt("p_offset",(currentPage-1)*resultsPerPage);
+				cs.setInt("p_results_per_page",resultsPerPage);
 				cs.setString("p_name", name);
 				rs = cs.executeQuery();
 				computers = new ArrayList<Computer>();
@@ -143,6 +145,30 @@ public class JdbcDbComputerDao implements IComputerDao {
 			}
 
 		return computers;
+	}
+
+	@Override
+	public Integer getComputerCount(String name) {
+		Connection conn 					= JdbcConnectionFactory.getConn();
+		CallableStatement cs 				= null;
+		ResultSet rs 						= null;
+		Integer count						= null;
+		try {
+				cs = conn.prepareCall("{CALL getComputerCount(?)}");
+				cs.setString("p_name", name);
+				rs = cs.executeQuery();		
+
+				while(rs.next())
+				{
+					count = rs.getInt("count");
+				}
+			} catch (SQLException e) {
+				System.out.println("Error in getComputerCount:" +e.getMessage());
+			} finally {
+				JdbcConnectionFactory.closeConn(conn);	
+			}
+
+		return count;
 	}
 
 }

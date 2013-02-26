@@ -90,10 +90,24 @@ public class CoreServlet extends HttpServlet {
 	}
 	
 	private void defaultAction(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-		if(req.getParameter("searchName") == null)
-			req.setAttribute("computers", cs.getComputers());
-		else
-			req.setAttribute("computers", cs.getComputers(req.getParameter("searchName")));
+		String searchName = req.getParameter("searchName");
+		if(searchName == null)
+			searchName = "";
+		Integer computerCount = cs.getComputerCount(searchName);
+		Integer resultsPerPage = 10;
+		Integer pageCount = ((Integer) computerCount/resultsPerPage) + 1;
+		Integer currentPage = 1;
+		if(req.getParameter("page") != null) {
+			currentPage = Integer.parseInt(req.getParameter("page"));
+			if(currentPage < 1 || currentPage > pageCount)
+				currentPage = 1;
+		}
+		
+		req.setAttribute("computers", cs.getComputers(currentPage, resultsPerPage, searchName));
+		req.setAttribute("computerCount", computerCount);
+		req.setAttribute("pageCount", pageCount);
+		req.setAttribute("currentPage", currentPage);
+		req.setAttribute("resultsPerPage", resultsPerPage);
 		
 		ar.setUrl("dashboard.jsp");
 		
