@@ -9,65 +9,61 @@ import com.formation.project.computerDatabase.base.Computer;
 import com.formation.project.computerDatabase.dao.ICompanyDao;
 import com.formation.project.computerDatabase.dao.IComputerDao;
 import com.formation.project.computerDatabase.dao.DaoFactory;
+import com.formation.project.computerDatabase.dao.IStatsDao;
 
 public class ComputerDatabaseServiceImpl implements IComputerDatabaseService {
-	private IComputerDao computerDao = DaoFactory.getComputerDao();
-	private ICompanyDao companyDao 	= DaoFactory.getCompanyDao();
-	
+	private DaoFactory daoFactory 		= null;
+	private IComputerDao computerDao 	= null;
+	private ICompanyDao companyDao		= null;
+	private IStatsDao statsDao			= null;
 	public ComputerDatabaseServiceImpl() {
-		computerDao = DaoFactory.getComputerDao();
-		companyDao 	= DaoFactory.getCompanyDao();
+		daoFactory 	= DaoFactory.getInstance();
+		
+		computerDao = daoFactory.getComputerDao();
+		companyDao	= daoFactory.getCompanyDao();
+		statsDao	= daoFactory.getStatsDao();
 	}
 	
-	/* (non-Javadoc)
-	 * @see com.formation.project.computerDatabase.service.IComputerDatabaseService#addComputer(com.formation.project.computerDatabase.base.Computer)
-	 */
+	
 	@Override
 	public void addComputer(Computer computer) {
 		if(computer.getName() == null || computer.getIntroduced() == null || computer.getCompany() == null)
     		throw new IllegalArgumentException();
+		
 		computerDao.addComputer(computer);
+		Integer lastInsertId = computerDao.getLastInsertId();
+		statsDao.logOperation(lastInsertId, "add");
 	}
-	/* (non-Javadoc)
-	 * @see com.formation.project.computerDatabase.service.IComputerDatabaseService#updateComputer(com.formation.project.computerDatabase.base.Computer)
-	 */
+	
 	@Override
 	public void updateComputer(Computer computer) {
 		if(computer.getName() == null || computer.getIntroduced() == null || computer.getCompany() == null)
     		throw new IllegalArgumentException();
 		computerDao.updateComputer(computer);
+		statsDao.logOperation(computer.getId(), "update");
 	}
-	/* (non-Javadoc)
-	 * @see com.formation.project.computerDatabase.service.IComputerDatabaseService#deleteComputer(java.lang.Integer)
-	 */
+	
 	@Override
 	public void deleteComputer(Integer computerId) {
 		computerDao.deleteComputer(computerId);
+		statsDao.logOperation(computerId, "delete");
 	}
-	/* (non-Javadoc)
-	 * @see com.formation.project.computerDatabase.service.IComputerDatabaseService#getComputer(java.lang.Integer)
-	 */
+	
 	@Override
 	public Computer getComputer(Integer computerId) {
 		return computerDao.getComputer(computerId);
 	}
-	/* (non-Javadoc)
-	 * @see com.formation.project.computerDatabase.service.IComputerDatabaseService#getCompanies()
-	 */
+	
 	@Override
 	public HashMap<Integer,Company> getCompanies() {
 		return companyDao.getCompanies("");
 	}
-	/* (non-Javadoc)
-	 * @see com.formation.project.computerDatabase.service.IComputerDatabaseService#getCompaniesList()
-	 */
+	
 	@Override
 	public ArrayList<Company> getCompaniesList() {
 		return new ArrayList<Company>(companyDao.getCompanies("").values());
 	}
-	/* (non-Javadoc)
-	 * @see com.formation.project.computerDatabase.service.IComputerDatabaseService#getComputers(java.lang.String)
-	 */
+	
 	@Override
 	public List<Computer> getComputers(Integer currentPage, Integer resultsPerPage, String sortBy, String name) {
 		return computerDao.getComputers(currentPage, resultsPerPage, sortBy, name);

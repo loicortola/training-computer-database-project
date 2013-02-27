@@ -6,39 +6,29 @@ import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Properties;
-
+ 
 import com.formation.project.computerDatabase.exception.DAOConfigurationException;
 import com.jolbox.bonecp.BoneCP;
 import com.jolbox.bonecp.BoneCPConfig;
-
-public class DaoFactory {
+ 
+public class NewJdbcConnectionFactory {
+ 
     private static final String FICHIER_PROPERTIES       = "com/formation/project/computerDatabase/dao/dao.properties";
 
     private static final String PROPERTY_URL             = "url";
     private static final String PROPERTY_DRIVER          = "driver";
     private static final String PROPERTY_NOM_UTILISATEUR = "user";
     private static final String PROPERTY_MOT_DE_PASSE    = "password";
-	
-	protected BoneCP connectionPool 				 	 = null;
-	
-	public DaoFactory(BoneCP connectionPool) {
-		this.connectionPool = connectionPool;
-	}
-	
-	public ICompanyDao getCompanyDao() {
-		return new JdbcDbCompanyDao(this);
-	}
-
-	public IComputerDao getComputerDao() {
-		return new JdbcDbComputerDao(this);
-	}
-	
-	public IStatsDao getStatsDao() {
-		return new JdbcDbStatsDao(this);
-	}
-	
-	public static DaoFactory getInstance() {
-		Properties properties = new Properties();
+ 
+    BoneCP connectionPool = null;
+ 
+    NewJdbcConnectionFactory( BoneCP connectionPool ) {
+        this.connectionPool = connectionPool;
+    }
+ 
+    public static NewJdbcConnectionFactory getInstance() {
+        
+    	Properties properties = new Properties();
         String url;
         String driver;
         String nomUtilisateur;
@@ -85,24 +75,12 @@ public class DaoFactory {
             e.printStackTrace();
             throw new DAOConfigurationException( "Configuration error in Connection Pool", e );
         }
-        DaoFactory instance = new DaoFactory( connectionPool );
+        NewJdbcConnectionFactory instance = new NewJdbcConnectionFactory( connectionPool );
         return instance;
-	}
-	
-	public Connection getConn() {
-        try {
-			return connectionPool.getConnection();
-		} catch (SQLException e) {
-			System.err.println("Error in DaoFactory.getConn: " + e.getMessage());
-		}
-        return null;
     }
-	
-	public static void closeConn(Connection conn) {
-		try {
-			conn.close();
-		} catch (SQLException e) {
-			System.err.println("Error in DaoFactory.closeConn: " + e.getMessage());
-		}
-	}
+ 
+    	Connection getConnection() throws SQLException {
+    		return connectionPool.getConnection();
+    }
+    
 }

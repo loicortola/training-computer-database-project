@@ -9,14 +9,13 @@ import java.sql.SQLException;
 
 import javax.servlet.ServletContext;
 
-import com.formation.project.computerDatabase.dao.JdbcConnectionFactory;
-
+import com.formation.project.computerDatabase.dao.DaoFactory;
 
 public final class DBInit {
 
 	public static void initDatabase(ServletContext context) throws SQLException  
 	{  
-		Connection conn	  = JdbcConnectionFactory.getConn();
+		Connection conn	  = DaoFactory.getInstance().getConn();
 		DBScriptRunner sr = new DBScriptRunner(conn,false,false);
 
 
@@ -27,7 +26,7 @@ public final class DBInit {
 		} catch (IOException e) {
 			System.out.println("Error in conf.DBInit: " + e.getMessage());
 		} finally {
-			JdbcConnectionFactory.closeConn(conn);
+			DaoFactory.closeConn(conn);
 		}
 
 

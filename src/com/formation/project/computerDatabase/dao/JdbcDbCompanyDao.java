@@ -1,6 +1,5 @@
 package com.formation.project.computerDatabase.dao;
 
-import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -11,12 +10,18 @@ import com.formation.project.computerDatabase.base.Company;
 
 public class JdbcDbCompanyDao implements ICompanyDao {
 	
+	private DaoFactory daoFactory = null;
+	
 	public JdbcDbCompanyDao() {
+	}
+	
+	public JdbcDbCompanyDao(DaoFactory daoFactory) {
+		this.daoFactory = daoFactory;
 	}
 
 	@Override
 	public HashMap<Integer,Company> getCompanies(String name) {
-		Connection conn 				= JdbcConnectionFactory.getConn();
+		Connection conn 				= daoFactory.getConn();
 		PreparedStatement ps 			= null;
 		ResultSet rs 					= null;
 		HashMap<Integer,Company> companies 	= null;
@@ -34,7 +39,7 @@ public class JdbcDbCompanyDao implements ICompanyDao {
 			} catch (SQLException e) {
 				System.out.println("Error in getCompanies:" +e.getMessage());
 			} finally {
-				JdbcConnectionFactory.closeConn(conn);	
+				DaoFactory.closeConn(conn);	
 			}
 
 		return companies;
@@ -42,7 +47,7 @@ public class JdbcDbCompanyDao implements ICompanyDao {
 
 	@Override
 	public Company getCompany(Integer companyId) {
-		Connection conn 				= JdbcConnectionFactory.getConn();
+		Connection conn 				= daoFactory.getConn();
 		PreparedStatement ps 			= null;
 		ResultSet rs 					= null;
 		Company company					= null;
@@ -58,7 +63,7 @@ public class JdbcDbCompanyDao implements ICompanyDao {
 			} catch (SQLException e) {
 				System.out.println("Error in getCompany:" +e.getMessage());
 			} finally {
-				JdbcConnectionFactory.closeConn(conn);	
+				DaoFactory.closeConn(conn);	
 			}
 
 		return company;
