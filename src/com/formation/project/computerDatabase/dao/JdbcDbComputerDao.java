@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -24,15 +25,14 @@ public class JdbcDbComputerDao implements IComputerDao {
 	}
 
 	@Override
-	public void addComputer(Computer computer) {
+	public Integer addComputer(Connection conn, Computer computer) {
 		StringBuilder query	 = new StringBuilder();
-		Connection conn 	 = daoFactory.getConn();
 		PreparedStatement ps = null;
 		
 		try {
 			query.append("INSERT INTO computer(name, introduced, discontinued, id_company) ");
 			query.append("VALUES(?,?,?,?);");
-			ps = conn.prepareStatement(query.toString());
+			ps = conn.prepareStatement(query.toString(),Statement.RETURN_GENERATED_KEYS);
 			ps.setString(1, computer.getName());
 			ps.setTimestamp(2, new Timestamp(computer.getIntroduced().getTime()));
 			if(computer.getDiscontinued() == null)
@@ -41,18 +41,20 @@ public class JdbcDbComputerDao implements IComputerDao {
 				ps.setTimestamp(3, new Timestamp(computer.getDiscontinued().getTime()));
 			ps.setInt(4, computer.getCompany().getId());
 			ps.execute();
+			ResultSet rs = ps.getGeneratedKeys();
+			while(rs.next()) {
+				return rs.getInt(1);
+			}
 				
 		} catch (SQLException e) {
 			System.out.println("Error in addComputer:" +e.getMessage());
-		} finally {
-			DaoFactory.closeConn(conn);	
 		}
+		return 0;
 	}
 
 	@Override
-	public void updateComputer(Computer computer) {
+	public void updateComputer(Connection conn, Computer computer) {
 		StringBuilder query	 = new StringBuilder();
-		Connection conn 	 = daoFactory.getConn();
 		PreparedStatement ps = null;
 		
 		try {
@@ -72,15 +74,12 @@ public class JdbcDbComputerDao implements IComputerDao {
 				
 		} catch (SQLException e) {
 			System.out.println("Error in updateComputer:" +e.getMessage());
-		} finally {
-			DaoFactory.closeConn(conn);	
 		}
 	}
 
 	@Override
-	public void deleteComputer(Integer computerId) {
+	public void deleteComputer(Connection conn, Integer computerId) {
 		StringBuilder query	 = new StringBuilder();
-		Connection conn 	 = daoFactory.getConn();
 		PreparedStatement ps = null;
 		
 		try {
@@ -92,8 +91,6 @@ public class JdbcDbComputerDao implements IComputerDao {
 			ps.executeUpdate();				
 		} catch (SQLException e) {
 			System.out.println("Error in deleteComputer:" +e.getMessage());
-		} finally {
-			DaoFactory.closeConn(conn);	
 		}
 	}
 
@@ -223,7 +220,7 @@ public class JdbcDbComputerDao implements IComputerDao {
 		ResultSet rs 						= null;
 		Integer lastInsertId				= null;
 		try {
-				ps = conn.prepareStatement("SELECT LAST_INSERT_ID() AS id FROM computer;");
+				ps = conn.prepareStatement("SELECT LAST_INSERT_ID() AS id;");
 				rs = ps.executeQuery();
 				while(rs.next())
 				{

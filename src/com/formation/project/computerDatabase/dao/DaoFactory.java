@@ -8,8 +8,8 @@ import java.sql.SQLException;
 import java.util.Properties;
 
 import com.formation.project.computerDatabase.exception.DAOConfigurationException;
-import com.jolbox.bonecp.BoneCP;
 import com.jolbox.bonecp.BoneCPConfig;
+import com.jolbox.bonecp.BoneCPDataSource;
 
 public class DaoFactory {
     private static final String FICHIER_PROPERTIES       = "com/formation/project/computerDatabase/dao/dao.properties";
@@ -19,10 +19,10 @@ public class DaoFactory {
     private static final String PROPERTY_NOM_UTILISATEUR = "user";
     private static final String PROPERTY_MOT_DE_PASSE    = "password";
 	
-	protected BoneCP connectionPool 				 	 = null;
+	protected BoneCPDataSource ds	 				 	 = null;
 	
-	public DaoFactory(BoneCP connectionPool) {
-		this.connectionPool = connectionPool;
+	public DaoFactory(BoneCPDataSource ds) {
+		this.ds = ds;
 	}
 	
 	public ICompanyDao getCompanyDao() {
@@ -43,7 +43,7 @@ public class DaoFactory {
         String driver;
         String nomUtilisateur;
         String motDePasse;
-        BoneCP connectionPool = null;
+        BoneCPDataSource ds = null;
  
         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
         InputStream fichierProperties = classLoader.getResourceAsStream( FICHIER_PROPERTIES );
@@ -70,28 +70,24 @@ public class DaoFactory {
             throw new DAOConfigurationException( "Cannot find driver in classpath", e );
         }
  
-        try {
-            BoneCPConfig config = new BoneCPConfig();
-            config.setJdbcUrl( url );
-            config.setUsername( nomUtilisateur );
-            config.setPassword( motDePasse );
-            config.setMinConnectionsPerPartition( 5 );
-            config.setMaxConnectionsPerPartition( 10 );
-            config.setPartitionCount( 2 );
-            
-            connectionPool = new BoneCP( config );
-            
-        } catch ( SQLException e ) {
-            e.printStackTrace();
-            throw new DAOConfigurationException( "Configuration error in Connection Pool", e );
-        }
-        DaoFactory instance = new DaoFactory( connectionPool );
+        
+        BoneCPConfig config = new BoneCPConfig();
+        config.setJdbcUrl( url );
+        config.setUsername( nomUtilisateur );
+        config.setPassword( motDePasse );
+        config.setMinConnectionsPerPartition( 5 );
+        config.setMaxConnectionsPerPartition( 10 );
+        config.setPartitionCount( 2 );
+        
+        ds = new BoneCPDataSource( config );            
+       
+        DaoFactory instance = new DaoFactory( ds );
         return instance;
 	}
 	
 	public Connection getConn() {
         try {
-			return connectionPool.getConnection();
+			return ds.getConnection();
 		} catch (SQLException e) {
 			System.err.println("Error in DaoFactory.getConn: " + e.getMessage());
 		}
