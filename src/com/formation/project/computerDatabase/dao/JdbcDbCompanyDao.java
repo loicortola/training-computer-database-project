@@ -40,24 +40,6 @@ public class JdbcDbCompanyDao implements ICompanyDao {
 	}
 
 	@Override
-	public void addCompany(Company company) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void updateCompany(Company company) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void deleteCompany(Integer companyId) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
 	public Company getCompany(Integer companyId) {
 		Connection conn 				= JdbcConnectionFactory.getConn();
 		CallableStatement cs 			= null;

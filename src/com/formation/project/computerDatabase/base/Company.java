@@ -1,8 +1,5 @@
 package com.formation.project.computerDatabase.base;
 
-import com.formation.project.computerDatabase.dao.DaoFactory;
-
-
 public class Company {
 
     public Company(Integer id, String name) {

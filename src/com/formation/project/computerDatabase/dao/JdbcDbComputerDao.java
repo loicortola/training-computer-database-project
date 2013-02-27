@@ -19,8 +19,8 @@ public class JdbcDbComputerDao implements IComputerDao {
 
 	@Override
 	public void addComputer(Computer computer) {
-		Connection conn 					= JdbcConnectionFactory.getConn();
-		CallableStatement cs 				= null;
+		Connection conn 	 = JdbcConnectionFactory.getConn();
+		CallableStatement cs = null;
 		
 		try {
 			cs = conn.prepareCall("{CALL addComputer(?,?,?,?)}");
@@ -42,8 +42,8 @@ public class JdbcDbComputerDao implements IComputerDao {
 
 	@Override
 	public void updateComputer(Computer computer) {
-		Connection conn 					= JdbcConnectionFactory.getConn();
-		CallableStatement cs 				= null;
+		Connection conn 	 = JdbcConnectionFactory.getConn();
+		CallableStatement cs = null;
 		
 		try {
 			cs = conn.prepareCall("{CALL updateComputer(?,?,?,?,?)}");
@@ -62,19 +62,17 @@ public class JdbcDbComputerDao implements IComputerDao {
 		} finally {
 			JdbcConnectionFactory.closeConn(conn);	
 		}
-		
 	}
 
 	@Override
 	public void deleteComputer(Integer computerId) {
-		Connection conn 					= JdbcConnectionFactory.getConn();
-		CallableStatement cs 				= null;
+		Connection conn 	 = JdbcConnectionFactory.getConn();
+		CallableStatement cs = null;
 		
 		try {
 			cs = conn.prepareCall("{CALL deleteComputer(?)}");
 			cs.setInt("p_id", computerId);
-			cs.executeQuery();
-				
+			cs.executeQuery();				
 		} catch (SQLException e) {
 			System.out.println("Error in deleteComputer:" +e.getMessage());
 		} finally {
@@ -88,15 +86,13 @@ public class JdbcDbComputerDao implements IComputerDao {
 		CallableStatement cs 				= null;
 		ResultSet rs 						= null;
 		Computer computer			 		= null;
-		ICompanyDao companyDao				= DaoFactory.getCompanyDao();
-		
+		ICompanyDao companyDao				= DaoFactory.getCompanyDao();		
 		HashMap<Integer,Company> companies	= companyDao.getCompanies("");
 		
 		try {
 				cs = conn.prepareCall("{CALL getComputer(?)}");
 				cs.setInt("p_id", computerId);
-				rs = cs.executeQuery();
-				
+				rs = cs.executeQuery();				
 				while(rs.next())
 				{
 					computer = new ComputerBuilder()
@@ -147,7 +143,6 @@ public class JdbcDbComputerDao implements IComputerDao {
 				cs.setInt("p_offset",(currentPage-1)*resultsPerPage);
 				cs.setInt("p_results_per_page",resultsPerPage);
 				cs.setString("p_sort_by", sortBy);
-				System.out.println("order by " + sortBy);
 				cs.setString("p_name", name);
 				rs = cs.executeQuery();
 				computers = new ArrayList<Computer>();
@@ -174,8 +169,7 @@ public class JdbcDbComputerDao implements IComputerDao {
 		try {
 				cs = conn.prepareCall("{CALL getComputerCount(?)}");
 				cs.setString("p_name", name);
-				rs = cs.executeQuery();		
-
+				rs = cs.executeQuery();
 				while(rs.next())
 				{
 					count = rs.getInt("count");
