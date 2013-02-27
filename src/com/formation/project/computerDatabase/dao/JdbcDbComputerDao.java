@@ -1,7 +1,7 @@
 package com.formation.project.computerDatabase.dao;
 
-import java.sql.CallableStatement;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
@@ -19,19 +19,22 @@ public class JdbcDbComputerDao implements IComputerDao {
 
 	@Override
 	public void addComputer(Computer computer) {
+		StringBuilder query	 = new StringBuilder();
 		Connection conn 	 = JdbcConnectionFactory.getConn();
-		CallableStatement cs = null;
+		PreparedStatement ps = null;
 		
 		try {
-			cs = conn.prepareCall("{CALL addComputer(?,?,?,?)}");
-			cs.setString("p_name", computer.getName());
-			cs.setTimestamp("p_introduced", new Timestamp(computer.getIntroduced().getTime()));
+			query.append("INSERT INTO computer(name, introduced, discontinued, id_company) ");
+			query.append("VALUES(?,?,?,?);");
+			ps = conn.prepareCall(query.toString());
+			ps.setString(1, computer.getName());
+			ps.setTimestamp(2, new Timestamp(computer.getIntroduced().getTime()));
 			if(computer.getDiscontinued() == null)
-				cs.setTimestamp("p_discontinued", null);
+				ps.setTimestamp(3, null);
 			else
-				cs.setTimestamp("p_discontinued", new Timestamp(computer.getDiscontinued().getTime()));
-			cs.setInt("p_id_company", computer.getCompany().getId());
-			cs.executeQuery();
+				ps.setTimestamp(3, new Timestamp(computer.getDiscontinued().getTime()));
+			ps.setInt(4, computer.getCompany().getId());
+			ps.execute();
 				
 		} catch (SQLException e) {
 			System.out.println("Error in addComputer:" +e.getMessage());
@@ -42,20 +45,24 @@ public class JdbcDbComputerDao implements IComputerDao {
 
 	@Override
 	public void updateComputer(Computer computer) {
+		StringBuilder query	 = new StringBuilder();
 		Connection conn 	 = JdbcConnectionFactory.getConn();
-		CallableStatement cs = null;
+		PreparedStatement ps = null;
 		
 		try {
-			cs = conn.prepareCall("{CALL updateComputer(?,?,?,?,?)}");
-			cs.setInt("p_id_computer", computer.getId());
-			cs.setString("p_name", computer.getName());
-			cs.setTimestamp("p_introduced", new Timestamp(computer.getIntroduced().getTime()));
+			query.append("UPDATE computer ");
+			query.append("SET name = ?, introduced = ?, discontinued = ?, id_company = ? ");
+			query.append("WHERE id_computer = ?;");
+			ps = conn.prepareCall(query.toString());
+			ps.setString(1, computer.getName());
+			ps.setTimestamp(2, new Timestamp(computer.getIntroduced().getTime()));
 			if(computer.getDiscontinued() == null)
-				cs.setTimestamp("p_discontinued", null);
+				ps.setTimestamp(3, null);
 			else
-				cs.setTimestamp("p_discontinued", new Timestamp(computer.getDiscontinued().getTime()));
-			cs.setInt("p_id_company", computer.getCompany().getId());
-			cs.executeQuery();
+				ps.setTimestamp(3, new Timestamp(computer.getDiscontinued().getTime()));
+			ps.setInt(4, computer.getCompany().getId());
+			ps.setInt(5, computer.getId());
+			ps.executeUpdate();
 				
 		} catch (SQLException e) {
 			System.out.println("Error in updateComputer:" +e.getMessage());
@@ -67,12 +74,12 @@ public class JdbcDbComputerDao implements IComputerDao {
 	@Override
 	public void deleteComputer(Integer computerId) {
 		Connection conn 	 = JdbcConnectionFactory.getConn();
-		CallableStatement cs = null;
+		PreparedStatement ps = null;
 		
 		try {
-			cs = conn.prepareCall("{CALL deleteComputer(?)}");
-			cs.setInt("p_id", computerId);
-			cs.executeQuery();				
+			ps = conn.prepareCall("DELETE FROM computer WHERE id_computer = ?;");
+			ps.setInt(1, computerId);
+			ps.executeUpdate();				
 		} catch (SQLException e) {
 			System.out.println("Error in deleteComputer:" +e.getMessage());
 		} finally {
@@ -83,16 +90,16 @@ public class JdbcDbComputerDao implements IComputerDao {
 	@Override
 	public Computer getComputer(Integer computerId) {
 		Connection conn 					= JdbcConnectionFactory.getConn();
-		CallableStatement cs 				= null;
+		PreparedStatement ps 				= null;
 		ResultSet rs 						= null;
 		Computer computer			 		= null;
 		ICompanyDao companyDao				= DaoFactory.getCompanyDao();		
 		HashMap<Integer,Company> companies	= companyDao.getCompanies("");
 		
 		try {
-				cs = conn.prepareCall("{CALL getComputer(?)}");
-				cs.setInt("p_id", computerId);
-				rs = cs.executeQuery();				
+				ps = conn.prepareCall(" SELECT * FROM computer WHERE id_computer = ?;");
+				ps.setInt(1, computerId);
+				rs = ps.executeQuery();				
 				while(rs.next())
 				{
 					computer = new ComputerBuilder()
@@ -114,12 +121,12 @@ public class JdbcDbComputerDao implements IComputerDao {
 
 	@Override
 	public ArrayList<Computer> getComputers(Integer currentPage, Integer resultsPerPage, String sortBy, String name) {
+		StringBuilder query					= new StringBuilder();
 		Connection conn 					= JdbcConnectionFactory.getConn();
-		CallableStatement cs 				= null;
+		PreparedStatement ps 				= null;
 		ResultSet rs 						= null;
 		ArrayList<Computer> computers 		= null;
-		ICompanyDao companyDao				= DaoFactory.getCompanyDao();
-		
+		ICompanyDao companyDao				= DaoFactory.getCompanyDao();		
 		HashMap<Integer,Company> companies	= companyDao.getCompanies("");
 		
 		if(sortBy.equals("name1"))
@@ -138,13 +145,22 @@ public class JdbcDbComputerDao implements IComputerDao {
 			sortBy = "company.name";
 		else if(sortBy.equals("company0"))
 			sortBy = "company.name DESC";
+		
+		query.append("SELECT computer.* FROM computer");
+		query.append("INNER JOIN company ON computer.id_company = company.id_company");
+		query.append("WHERE LOWER(computer.name) LIKE CONCAT('%',?,'%') OR ? = '' ");
+		query.append(" ORDER BY ");
+		query.append(sortBy);
+		query.append(" LIMIT ?,?;");
 		try {
-				cs = conn.prepareCall("{CALL getComputers(?,?,?,?)}");
-				cs.setInt("p_offset",(currentPage-1)*resultsPerPage);
-				cs.setInt("p_results_per_page",resultsPerPage);
-				cs.setString("p_sort_by", sortBy);
-				cs.setString("p_name", name);
-				rs = cs.executeQuery();
+				ps = conn.prepareCall(query.toString());
+				ps.setString(1, name);
+				ps.setString(2, name);
+				ps.setInt(3,(currentPage-1)*resultsPerPage);
+				ps.setInt(4,resultsPerPage);
+				
+				
+				rs = ps.executeQuery();
 				computers = new ArrayList<Computer>();
 
 				while(rs.next())
@@ -162,14 +178,18 @@ public class JdbcDbComputerDao implements IComputerDao {
 
 	@Override
 	public Integer getComputerCount(String name) {
+		StringBuilder query					= new StringBuilder();
 		Connection conn 					= JdbcConnectionFactory.getConn();
-		CallableStatement cs 				= null;
+		PreparedStatement ps 				= null;
 		ResultSet rs 						= null;
 		Integer count						= null;
 		try {
-				cs = conn.prepareCall("{CALL getComputerCount(?)}");
-				cs.setString("p_name", name);
-				rs = cs.executeQuery();
+				query.append("SELECT COUNT(*) AS count FROM computer ");
+				query.append("WHERE LOWER(name) LIKE LOWER(CONCAT('%',?,'%')) OR ? = '';");
+				ps = conn.prepareCall(query.toString());
+				ps.setString(1, name);
+				ps.setString(2, name);
+				rs = ps.executeQuery();
 				while(rs.next())
 				{
 					count = rs.getInt("count");

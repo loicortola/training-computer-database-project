@@ -21,9 +21,9 @@ public final class DBInit {
 
 
 		try {			
-			sr.runScript(new FileReader(new File(context.getRealPath("WEB-INF/sql/initDBStructure.sql"))));
-			sr.runScript(new FileReader(new File(context.getRealPath("WEB-INF/sql/initStoredProcedures.sql"))));			
+			sr.runScript(new FileReader(new File(context.getRealPath("WEB-INF/sql/initDBStructure.sql"))));	
 			sr.runScript(new FileReader(new File(context.getRealPath("WEB-INF/sql/initDefaultEntries.sql"))));
+			
 		} catch (IOException e) {
 			System.out.println("Error in conf.DBInit: " + e.getMessage());
 		} finally {

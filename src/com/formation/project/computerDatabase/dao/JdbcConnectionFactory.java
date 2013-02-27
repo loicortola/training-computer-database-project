@@ -13,11 +13,11 @@ public abstract class JdbcConnectionFactory{
 
 	public JdbcConnectionFactory()
 	{
-		
+
 	}
-	
+
 	private static void initConnectionFactory() {
-		
+
 		_connectionProps = new Properties();
 	    _connectionProps.put("user", "root");
 	    _connectionProps.put("password", "password");

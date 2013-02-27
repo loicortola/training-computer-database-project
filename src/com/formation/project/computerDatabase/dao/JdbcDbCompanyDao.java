@@ -2,6 +2,7 @@ package com.formation.project.computerDatabase.dao;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
@@ -16,14 +17,14 @@ public class JdbcDbCompanyDao implements ICompanyDao {
 	@Override
 	public HashMap<Integer,Company> getCompanies(String name) {
 		Connection conn 				= JdbcConnectionFactory.getConn();
-		CallableStatement cs 			= null;
+		PreparedStatement ps 			= null;
 		ResultSet rs 					= null;
 		HashMap<Integer,Company> companies 	= null;
 		
 		try {
-				cs = conn.prepareCall("{CALL getCompanies(?)}");
-				cs.setString("p_name", name);
-				rs = cs.executeQuery();
+				ps = conn.prepareStatement("SELECT * FROM company WHERE ? = (name OR '');");
+				ps.setString(1, name);
+				rs = ps.executeQuery();
 				companies = new HashMap<Integer,Company>();
 
 				while(rs.next())
@@ -42,13 +43,13 @@ public class JdbcDbCompanyDao implements ICompanyDao {
 	@Override
 	public Company getCompany(Integer companyId) {
 		Connection conn 				= JdbcConnectionFactory.getConn();
-		CallableStatement cs 			= null;
+		PreparedStatement ps 			= null;
 		ResultSet rs 					= null;
 		Company company					= null;
 		try {
-				cs = conn.prepareCall("{CALL getCompany(?)}");
-				cs.setInt("p_id", companyId);
-				rs = cs.executeQuery();
+				ps = conn.prepareCall("SELECT * FROM company WHERE id_company = ?;");
+				ps.setInt(1, companyId);
+				rs = ps.executeQuery();
 
 				while(rs.next())
 				{

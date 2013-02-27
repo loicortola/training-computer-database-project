@@ -103,7 +103,7 @@
 	            <li class="next ">
 	               	<a href="<%= actionPrefix %>&page=<%= currentPage+1 %>">Next &rarr;</a>
 	            </li>
-	        <% } %> 
+	        <% } %>
                 
             </ul>
         </div>
