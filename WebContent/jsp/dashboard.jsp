@@ -10,10 +10,13 @@
 	Integer resultsPerPage			= (Integer) request.getAttribute("resultsPerPage");
 	
 	String actionPrefix				= "?";
+	String newSortActionPrefix		= "?";
 	if(sortBy != null)
 		actionPrefix += "&sortBy=" + sortBy;
-	if(searchName != null && !searchName.equals(""))
+	if(searchName != null && !searchName.equals("")) {
 		actionPrefix += "&searchName=" + searchName;
+		newSortActionPrefix += "&searchName=" + searchName;
+	}
 	
 	String newSortByName 			= "1";
 	String newSortByIntroduced 		= "1";
@@ -51,10 +54,10 @@
         <table class="computers zebra-striped">
             <thead>
             	<tr>                	
-                	<th class="col2 header <% if(sortBy.contains("name")) { if(newSortByName.equals("1")) out.print("headerSortDown"); else out.print("headerSortUp");} %>"><a href="<%= actionPrefix %>&newSortBy=name<%= newSortByName %>">Computer name</a></th>
-					<th class="col3 header <% if(sortBy.contains("introduced")) { if(newSortByIntroduced.equals("1")) out.print("headerSortDown"); else out.print("headerSortUp");} %>"><a href="<%= actionPrefix %>&newSortBy=introduced<%= newSortByIntroduced %>">Introduced</a></th>
-					<th class="col4 header <% if(sortBy.contains("discontinued")) { if(newSortByDiscontinued.equals("1")) out.print("headerSortDown"); else out.print("headerSortUp");} %>"><a href="<%= actionPrefix %>&newSortBy=discontinued<%= newSortByDiscontinued %>">Discontinued</a></th>
-					<th class="col5 header <% if(sortBy.contains("company")) { if(newSortByCompany.equals("1")) out.print("headerSortDown"); else out.print("headerSortUp");} %>"><a href="<%= actionPrefix %>&newSortBy=company<%= newSortByCompany %>">Company</a></th>
+                	<th class="col2 header <% if(sortBy.contains("name")) { if(newSortByName.equals("1")) out.print("headerSortDown"); else out.print("headerSortUp");} %>"><a href="<%= newSortActionPrefix %>&sortBy=name<%= newSortByName %>">Computer name</a></th>
+					<th class="col3 header <% if(sortBy.contains("introduced")) { if(newSortByIntroduced.equals("1")) out.print("headerSortDown"); else out.print("headerSortUp");} %>"><a href="<%= newSortActionPrefix %>&sortBy=introduced<%= newSortByIntroduced %>">Introduced</a></th>
+					<th class="col4 header <% if(sortBy.contains("discontinued")) { if(newSortByDiscontinued.equals("1")) out.print("headerSortDown"); else out.print("headerSortUp");} %>"><a href="<%= newSortActionPrefix %>&sortBy=discontinued<%= newSortByDiscontinued %>">Discontinued</a></th>
+					<th class="col5 header <% if(sortBy.contains("company")) { if(newSortByCompany.equals("1")) out.print("headerSortDown"); else out.print("headerSortUp");} %>"><a href="<%= newSortActionPrefix %>&sortBy=company<%= newSortByCompany %>">Company</a></th>
 				</tr>
             </thead>
             <tbody>

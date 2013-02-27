@@ -45,14 +45,11 @@ public class DashboardServlet extends HttpServlet {
 	private void dashboard(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		String searchName = req.getParameter("searchName");
 		String sortBy = req.getParameter("sortBy");
-		String newSortBy = req.getParameter("newSortBy");
 		
 		if(searchName == null)
 			searchName = "";
 		if(sortBy == null)
 			sortBy = "name1";
-		if(newSortBy != null)
-			sortBy = newSortBy;
 		
 		Integer computerCount = cs.getComputerCount(searchName);
 		Integer resultsPerPage = 10;
