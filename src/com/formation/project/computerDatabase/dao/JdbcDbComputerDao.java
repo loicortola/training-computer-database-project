@@ -97,7 +97,7 @@ public class JdbcDbComputerDao implements IComputerDao {
 		HashMap<Integer,Company> companies	= companyDao.getCompanies("");
 		
 		try {
-				ps = conn.prepareCall(" SELECT * FROM computer WHERE id_computer = ?;");
+				ps = conn.prepareCall("SELECT * FROM computer WHERE id_computer = ?;");
 				ps.setInt(1, computerId);
 				rs = ps.executeQuery();				
 				while(rs.next())
@@ -146,8 +146,8 @@ public class JdbcDbComputerDao implements IComputerDao {
 		else if(sortBy.equals("company0"))
 			sortBy = "company.name DESC";
 		
-		query.append("SELECT computer.* FROM computer");
-		query.append("INNER JOIN company ON computer.id_company = company.id_company");
+		query.append("SELECT computer.* FROM computer ");
+		query.append("INNER JOIN company ON computer.id_company = company.id_company ");
 		query.append("WHERE LOWER(computer.name) LIKE CONCAT('%',?,'%') OR ? = '' ");
 		query.append(" ORDER BY ");
 		query.append(sortBy);
