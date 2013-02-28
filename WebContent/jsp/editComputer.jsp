@@ -1,71 +1,112 @@
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ page import="java.util.*"%>
 <%@ page import="com.formation.project.computerDatabase.base.*"%>
-<%
-	ArrayList<Company> companies 	= (ArrayList<Company>) request.getAttribute("companies");
-	Computer computer				= (Computer) request.getAttribute("computer");
-	
-	String nameError				= (String) request.getAttribute("nameError");
-	String introducedError			= (String) request.getAttribute("introducedError");
-	String discontinuedError		= (String) request.getAttribute("discontinuedError");
-	String companyError				= (String) request.getAttribute("companyError");
-%>
 
 <h1>Edit a computer</h1>
 
-<form action="?action=submitEditComputer&id=<%= computer.getId() %>" method="POST">
+<form action="?action=submitEditComputer&id=${computer.id}" method="POST">
 	<fieldset>
-		<div class="clearfix <% if(nameError != null) out.println("error"); %>">
+		<c:choose>
+			<c:when test="${empty nameError}">
+				<div class="clearfix">
+			</c:when>
+			<c:otherwise>
+				<div class="clearfix error">
+			</c:otherwise>
+		</c:choose>
 			<label for="name">Computer name</label>
 			<div class="input">
 
 				<input type="text" id="name" name="name"
-					value="<% if(computer.getName() != null) out.print(computer.getName()); %>">
+					value="${computer.name}">
 
 				<span class="help-inline">Required</span>
 			</div>
 		</div>
 
-		<div class="clearfix <% if(introducedError != null) out.println("error"); %>">
+		<c:choose>
+			<c:when test="${empty introducedError}">
+				<div class="clearfix">
+			</c:when>
+			<c:otherwise>
+				<div class="clearfix error">
+			</c:otherwise>
+		</c:choose>
 			<label for="introduced">Introduced date</label>
 			<div class="input">
 
-				<input type="text" id="introduced" name="introduced"
-					value="<% if(computer.getIntroduced() != null) out.print(computer.getFormatedIntroduced()); %>">
-
+				<c:choose>
+					<c:when test="${!empty computer.introduced }">
+						<input type="text" id="introduced" name="introduced" value="${computer.getFormatedIntroduced()}">
+					</c:when>
+					<c:otherwise>
+						<input type="text" id="introduced" name="introduced">
+					</c:otherwise>
+				</c:choose>
+				
 				<span class="help-inline">Date (&#x27;yyyy-MM-dd&#x27;)</span>
 			</div>
 		</div>
-		<div class="clearfix <% if(discontinuedError != null) out.println("error"); %>">
+		<c:choose>
+			<c:when test="${empty discontinuedError}">
+				<div class="clearfix">
+			</c:when>
+			<c:otherwise>
+				<div class="clearfix error">
+			</c:otherwise>
+		</c:choose>
 			<label for="discontinued">Discontinued date</label>
 			<div class="input">
 
-				<input type="text" id="discontinued" name="discontinued"
-					value="<% if(computer.getDiscontinued() != null) out.print(computer.getFormatedDiscontinued()); %>">
-
+				<c:choose>
+					<c:when test="${!empty computer.discontinued }">
+						<input type="text" id="discontinued" name="discontinued" value="${computer.getFormatedDiscontinued()}">
+					</c:when>
+					<c:otherwise>
+						<input type="text" id="discontinued" name="discontinued">
+					</c:otherwise>
+				</c:choose>
+				
 				<span class="help-inline">Date (&#x27;yyyy-MM-dd&#x27;)</span>
 			</div>
 		</div>
-		<div class="clearfix <% if(companyError != null) out.println("error"); %>">
+		<c:choose>
+			<c:when test="${empty companyError}">
+				<div class="clearfix">
+			</c:when>
+			<c:otherwise>
+				<div class="clearfix error">
+			</c:otherwise>
+		</c:choose>
 			<label for="company">Company</label>
 			<div class="input">
 
-				<% if(companies == null) { %>
-					<select id="company" name="company" disabled="true"> </select>				
-				<% } else { %>
-					<select id="company" name="company">
-					<% 
-						for(Company company : companies) {
-					%>
-						<option value="<%= company.getId() %>" <% if(computer.getCompany().getId() != null && company.getId().toString().equals(computer.getCompany().getId())) out.print("selected"); %>>
-							<%= company.getName() %>
-						</option>
-					<%
-						}
-					%>
-					</select><span class="help-inline"></span>
-				<%
-					}
-				%>
+				<c:choose>
+					<c:when test="${!empty companies}">
+						<select id="company" name="company">
+							<c:forEach var="company" items="${companies}">
+								<c:choose>
+									<c:when test="${computer.company.id == company.id}">
+										
+												<option value="${company.id}" selected>
+													${company.getName()}
+												</option>
+									</c:when>
+									<c:otherwise>
+										<option value="${company.id}">
+											${company.name}
+										</option>
+									</c:otherwise>
+								</c:choose>
+							</c:forEach>
+						</select>
+					</c:when>
+					<c:otherwise>
+						<select id="company" name="company" disabled="true"> </select>
+					</c:otherwise>
+				</c:choose> 
+				
 			</div>
 		</div>
 
@@ -76,7 +117,7 @@
 	</div>
 </form>
 
-<form action="?action=submitDeleteComputer&id=<%= computer.getId() %>" method="POST" class="topRight">
+<form action="?action=submitDeleteComputer&id=${computer.id}" method="POST" class="topRight">
 
 	<input type="button" value="Delete this computer" class="btn danger" onclick="if(confirm('Are you sure you want to delete that computer?')){this.form.submit();}">
 

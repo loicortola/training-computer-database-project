@@ -85,6 +85,11 @@ public enum DataSourceFactory {
     }
     
     public ThreadLocal<Connection> getConnThread() {
+    	try {
+			threadLocalConn.set(ds.getConnection());
+		} catch (SQLException e) {
+			System.err.println("Error in DataSourceFactory.getConnThread: " + e.getMessage());
+		}
 		return threadLocalConn;
     }
 	
