@@ -1,9 +1,17 @@
 package com.formation.project.computerDatabase.service;
 
-public abstract class ServiceFactory {
-	private static IComputerDatabaseService service = new ComputerDatabaseServiceImpl();
 
-	public static IComputerDatabaseService getService() {
+public enum ServiceFactory {
+	
+	INSTANCE;
+	
+	private IComputerDatabaseService service;
+
+	private ServiceFactory() {
+		service =  new ComputerDatabaseServiceImpl();
+	}
+	
+	public IComputerDatabaseService getService() {
 		return service;
 	}
 }

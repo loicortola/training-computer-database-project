@@ -8,15 +8,11 @@ import java.util.HashMap;
 
 import com.formation.project.computerDatabase.base.Company;
 
-public class JdbcDbCompanyDao implements ICompanyDao {
+public enum JdbcDbCompanyDao implements ICompanyDao {
 	
-	private DaoFactory daoFactory = null;
+	INSTANCE;
 	
-	public JdbcDbCompanyDao() {
-	}
-	
-	public JdbcDbCompanyDao(DaoFactory daoFactory) {
-		this.daoFactory = daoFactory;
+	private JdbcDbCompanyDao() {
 	}
 
 	@Override
@@ -68,5 +64,4 @@ public class JdbcDbCompanyDao implements ICompanyDao {
 
 		return company;
 	}
-
 }

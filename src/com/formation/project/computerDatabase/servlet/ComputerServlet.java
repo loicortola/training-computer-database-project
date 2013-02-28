@@ -77,7 +77,7 @@ public class ComputerServlet extends HttpServlet {
 	private void initParams(HttpServletRequest req) {
 		
 		session = req.getSession(true);
-		cs		= ServiceFactory.getService();
+		cs		= ServiceFactory.INSTANCE.getService();
 		
 		//Getting the routerBean from the user's session
 		ar 	= (Router) session.getAttribute("routerBean");

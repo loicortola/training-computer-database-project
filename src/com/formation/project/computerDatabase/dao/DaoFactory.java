@@ -8,21 +8,21 @@ public enum DaoFactory {
 	private IComputerDao computerDao;
 	private IStatsDao statsDao;
 	
+	private DaoFactory() {
+		companyDao 	= JdbcDbCompanyDao.INSTANCE;
+		computerDao = JdbcDbComputerDao.INSTANCE;
+		statsDao 	= JdbcDbStatsDao.INSTANCE;
+	}
+	
 	public ICompanyDao getCompanyDao() {
-		if(companyDao == null)
-			companyDao = new JdbcDbCompanyDao();
 		return companyDao;
 	}
 
 	public IComputerDao getComputerDao() {
-		if(computerDao == null)
-			computerDao = new JdbcDbComputerDao();
 		return computerDao;
 	}
 	
 	public IStatsDao getStatsDao() {
-		if(statsDao == null)
-			statsDao = new JdbcDbStatsDao();
 		return statsDao;
 	}
 }

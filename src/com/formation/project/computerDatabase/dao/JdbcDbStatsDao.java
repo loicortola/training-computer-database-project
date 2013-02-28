@@ -4,10 +4,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-public class JdbcDbStatsDao implements IStatsDao {
+public enum JdbcDbStatsDao implements IStatsDao {
 	
-	public JdbcDbStatsDao() {
-	}
+	INSTANCE;
 	
 	@Override
 	public void logOperation(Integer computerId, String statType) {

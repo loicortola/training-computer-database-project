@@ -24,6 +24,10 @@ public enum DataSourceFactory {
 	
 	protected BoneCPDataSource ds	 				 	 = null;
 
+	private DataSourceFactory() {
+		initialize();
+	}
+	
     public synchronized void  initialize() {
     	if(ds == null) {
 	    	Properties properties = new Properties();
@@ -71,9 +75,6 @@ public enum DataSourceFactory {
     }
     
     public Connection getConn() {
-    	if(ds == null)
-    		initialize();
-    	
     	try {
 			return ds.getConnection();
 		} catch (SQLException e) {

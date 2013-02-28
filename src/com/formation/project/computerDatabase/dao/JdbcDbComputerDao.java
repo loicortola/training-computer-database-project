@@ -13,17 +13,9 @@ import com.formation.project.computerDatabase.base.Company;
 import com.formation.project.computerDatabase.base.Computer;
 import com.formation.project.computerDatabase.base.ComputerBuilder;
 
-public class JdbcDbComputerDao implements IComputerDao {
+public enum JdbcDbComputerDao implements IComputerDao {
+	INSTANCE;
 	
-	private DaoFactory daoFactory = null;
-	
-	public JdbcDbComputerDao() {
-	}
-	
-	public JdbcDbComputerDao(DaoFactory daoFactory) {
-		this.daoFactory = daoFactory;
-	}
-
 	@Override
 	public Integer addComputer(Connection conn, Computer computer) {
 		StringBuilder query	 = new StringBuilder();
@@ -100,7 +92,7 @@ public class JdbcDbComputerDao implements IComputerDao {
 		PreparedStatement ps 				= null;
 		ResultSet rs 						= null;
 		Computer computer			 		= null;
-		ICompanyDao companyDao				= daoFactory.getCompanyDao();		
+		ICompanyDao companyDao				= DaoFactory.INSTANCE.getCompanyDao();		
 		HashMap<Integer,Company> companies	= companyDao.getCompanies("");
 		
 		try {
