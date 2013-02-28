@@ -5,18 +5,14 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 public class JdbcDbStatsDao implements IStatsDao {
-	DaoFactory daoFactory = null;
 	
 	public JdbcDbStatsDao() {
 	}
 	
-	public JdbcDbStatsDao(DaoFactory daoFactory) {
-		this.daoFactory = daoFactory;
-	}
 	@Override
 	public void logOperation(Integer computerId, String statType) {
 		StringBuilder query	 = new StringBuilder();
-		Connection conn 	 = daoFactory.getConn();
+		Connection conn 	 = DataSourceFactory.INSTANCE.getConn();
 		PreparedStatement ps = null;
 		
 		try {
@@ -30,7 +26,7 @@ public class JdbcDbStatsDao implements IStatsDao {
 		} catch (SQLException e) {
 			System.out.println("Error in logOperation:" +e.getMessage());
 		} finally {
-			DaoFactory.closeConn(conn);
+			DataSourceFactory.closeConn(conn);
 		}
 	}
 

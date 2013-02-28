@@ -21,7 +21,7 @@ public class JdbcDbCompanyDao implements ICompanyDao {
 
 	@Override
 	public HashMap<Integer,Company> getCompanies(String name) {
-		Connection conn 				= daoFactory.getConn();
+		Connection conn 				= DataSourceFactory.INSTANCE.getConn();
 		PreparedStatement ps 			= null;
 		ResultSet rs 					= null;
 		HashMap<Integer,Company> companies 	= null;
@@ -39,7 +39,7 @@ public class JdbcDbCompanyDao implements ICompanyDao {
 			} catch (SQLException e) {
 				System.out.println("Error in getCompanies:" +e.getMessage());
 			} finally {
-				DaoFactory.closeConn(conn);	
+				DataSourceFactory.closeConn(conn);	
 			}
 
 		return companies;
@@ -47,7 +47,7 @@ public class JdbcDbCompanyDao implements ICompanyDao {
 
 	@Override
 	public Company getCompany(Integer companyId) {
-		Connection conn 				= daoFactory.getConn();
+		Connection conn 				= DataSourceFactory.INSTANCE.getConn();
 		PreparedStatement ps 			= null;
 		ResultSet rs 					= null;
 		Company company					= null;
@@ -63,7 +63,7 @@ public class JdbcDbCompanyDao implements ICompanyDao {
 			} catch (SQLException e) {
 				System.out.println("Error in getCompany:" +e.getMessage());
 			} finally {
-				DaoFactory.closeConn(conn);	
+				DataSourceFactory.closeConn(conn);	
 			}
 
 		return company;

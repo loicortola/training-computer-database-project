@@ -96,7 +96,7 @@ public class JdbcDbComputerDao implements IComputerDao {
 
 	@Override
 	public Computer getComputer(Integer computerId) {
-		Connection conn 					= daoFactory.getConn();
+		Connection conn 					= DataSourceFactory.INSTANCE.getConn();
 		PreparedStatement ps 				= null;
 		ResultSet rs 						= null;
 		Computer computer			 		= null;
@@ -120,7 +120,7 @@ public class JdbcDbComputerDao implements IComputerDao {
 			} catch (SQLException e) {
 				System.out.println("Error in getComputer:" +e.getMessage());
 			} finally {
-				DaoFactory.closeConn(conn);	
+				DataSourceFactory.closeConn(conn);	
 			}
 
 		return computer;
@@ -129,7 +129,7 @@ public class JdbcDbComputerDao implements IComputerDao {
 	@Override
 	public ArrayList<Computer> getComputers(Integer currentPage, Integer resultsPerPage, String sortBy, String name) {
 		StringBuilder query					= new StringBuilder();
-		Connection conn 					= daoFactory.getConn();
+		Connection conn 					= DataSourceFactory.INSTANCE.getConn();
 		PreparedStatement ps 				= null;
 		ResultSet rs 						= null;
 		ArrayList<Computer> computers 		= null;
@@ -178,7 +178,7 @@ public class JdbcDbComputerDao implements IComputerDao {
 			} catch (SQLException e) {
 				System.out.println("Error in getComputers:" +e.getMessage());
 			} finally {
-				DaoFactory.closeConn(conn);	
+				DataSourceFactory.closeConn(conn);	
 			}
 
 		return computers;
@@ -187,7 +187,7 @@ public class JdbcDbComputerDao implements IComputerDao {
 	@Override
 	public Integer getComputerCount(String name) {
 		StringBuilder query					= new StringBuilder();
-		Connection conn 					= daoFactory.getConn();
+		Connection conn 					= DataSourceFactory.INSTANCE.getConn();
 		PreparedStatement ps 				= null;
 		ResultSet rs 						= null;
 		Integer count						= null;
@@ -206,7 +206,7 @@ public class JdbcDbComputerDao implements IComputerDao {
 			} catch (SQLException e) {
 				System.out.println("Error in getComputerCount:" +e.getMessage());
 			} finally {
-				DaoFactory.closeConn(conn);	
+				DataSourceFactory.closeConn(conn);	
 			}
 
 		return count;
@@ -215,7 +215,7 @@ public class JdbcDbComputerDao implements IComputerDao {
 	@Override
 	public Integer getLastInsertId() {
 		
-		Connection conn 					= daoFactory.getConn();
+		Connection conn 					= DataSourceFactory.INSTANCE.getConn();
 		PreparedStatement ps 				= null;
 		ResultSet rs 						= null;
 		Integer lastInsertId				= null;
@@ -229,7 +229,7 @@ public class JdbcDbComputerDao implements IComputerDao {
 			} catch (SQLException e) {
 				System.out.println("Error in getLastInsertId:" +e.getMessage());
 			} finally {
-				DaoFactory.closeConn(conn);	
+				DataSourceFactory.closeConn(conn);	
 			}
 
 		return lastInsertId;

@@ -70,7 +70,7 @@ public enum DataSourceFactory {
 	    }
     }
     
-    public synchronized Connection getConn() {
+    public Connection getConn() {
     	try {
 			return ds.getConnection();
 		} catch (SQLException e) {
@@ -78,4 +78,12 @@ public enum DataSourceFactory {
 		}
     	return null;
     }
+	
+	public static void closeConn(Connection conn) {
+		try {
+			conn.close();
+		} catch (SQLException e) {
+			System.err.println("Error in DataSourceFactory.closeConn: " + e.getMessage());
+		}
+	}
 }
