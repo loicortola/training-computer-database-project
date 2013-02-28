@@ -26,11 +26,7 @@ public enum DataSourceFactory {
 	private ThreadLocal<Connection> threadLocalConn  = new ThreadLocal<Connection>();
 	
 	private DataSourceFactory() {
-		initialize();
-	}
-	
-    public synchronized void  initialize() {
-    	if(ds == null) {
+		if(ds == null) {
 	    	Properties properties = new Properties();
 	        String url;
 	        String driver;
@@ -72,7 +68,7 @@ public enum DataSourceFactory {
 	        config.setPartitionCount( 2 );
 	        
 	        ds = new BoneCPDataSource( config );
-	    }
+	    }	
     }
     
     public Connection getConn() {
