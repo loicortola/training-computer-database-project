@@ -17,9 +17,11 @@ public enum JdbcDbComputerDao implements IComputerDao {
 	INSTANCE;
 	
 	@Override
-	public Integer addComputer(Connection conn, Computer computer) {
+	public Integer addComputer(Computer computer) {
 		StringBuilder query	 = new StringBuilder();
 		PreparedStatement ps = null;
+		ThreadLocal<Connection> connThread = DataSourceFactory.INSTANCE.getConnThread();
+		Connection conn = connThread.get();
 		
 		try {
 			query.append("INSERT INTO computer(name, introduced, discontinued, id_company) ");
@@ -45,9 +47,11 @@ public enum JdbcDbComputerDao implements IComputerDao {
 	}
 
 	@Override
-	public void updateComputer(Connection conn, Computer computer) {
+	public void updateComputer(Computer computer) {
 		StringBuilder query	 = new StringBuilder();
 		PreparedStatement ps = null;
+		ThreadLocal<Connection> connThread = DataSourceFactory.INSTANCE.getConnThread();
+		Connection conn = connThread.get();
 		
 		try {
 			query.append("UPDATE computer ");
@@ -70,9 +74,11 @@ public enum JdbcDbComputerDao implements IComputerDao {
 	}
 
 	@Override
-	public void deleteComputer(Connection conn, Integer computerId) {
+	public void deleteComputer(Integer computerId) {
 		StringBuilder query	 = new StringBuilder();
 		PreparedStatement ps = null;
+		ThreadLocal<Connection> connThread = DataSourceFactory.INSTANCE.getConnThread();
+		Connection conn = connThread.get();
 		
 		try {
 			query.append("UPDATE computer ");

@@ -31,16 +31,16 @@ public class ComputerDatabaseServiceImpl implements IComputerDatabaseService {
 		if (computer.getName() == null || computer.getIntroduced() == null
 				|| computer.getCompany() == null)
 			throw new IllegalArgumentException();
-		Connection conn = DataSourceFactory.INSTANCE.getConn();
+		ThreadLocal<Connection> connThread = DataSourceFactory.INSTANCE.getConnThread();
 		try {
-			conn.setAutoCommit(false);			
-			Integer lastInsertId = computerDao.addComputer(conn,computer);
+			connThread.get().setAutoCommit(false);			
+			Integer lastInsertId = computerDao.addComputer(computer);
 			statsDao.logOperation(lastInsertId, "add");
-			conn.commit();
+			connThread.get().commit();
 		} catch (SQLException e) {
 			System.err.println("Error in ComputerDatabaseService.addComputer: " + e.getMessage());
 		} finally {
-			DataSourceFactory.closeConn(conn);
+			DataSourceFactory.closeConn(connThread);
 		}
 		
 	}
@@ -50,31 +50,31 @@ public class ComputerDatabaseServiceImpl implements IComputerDatabaseService {
 		if (computer.getName() == null || computer.getIntroduced() == null
 				|| computer.getCompany() == null)
 			throw new IllegalArgumentException();
-		Connection conn = DataSourceFactory.INSTANCE.getConn();
+		ThreadLocal<Connection> connThread = DataSourceFactory.INSTANCE.getConnThread();
 		try {
-			conn.setAutoCommit(false);	
-			computerDao.updateComputer(conn, computer);
+			connThread.get().setAutoCommit(false);	
+			computerDao.updateComputer(computer);
 			statsDao.logOperation(computer.getId(), "update");
-			conn.commit();
+			connThread.get().commit();
 		} catch (SQLException e) {
 			System.err.println("Error in ComputerDatabaseService.updateComputer: " + e.getMessage());
 		} finally {
-			DataSourceFactory.closeConn(conn);
+			DataSourceFactory.closeConn(connThread);
 		}
 	}
 
 	@Override
 	public void deleteComputer(Integer computerId) {
-		Connection conn = DataSourceFactory.INSTANCE.getConn();
+		ThreadLocal<Connection> connThread = DataSourceFactory.INSTANCE.getConnThread();
 		try {
-			conn.setAutoCommit(false);	
-			computerDao.deleteComputer(conn, computerId);
+			connThread.get().setAutoCommit(false);	
+			computerDao.deleteComputer(computerId);
 			statsDao.logOperation(computerId, "delete");
-			conn.commit();
+			connThread.get().commit();
 		} catch (SQLException e) {
 			System.err.println("Error in ComputerDatabaseService.deleteComputer: " + e.getMessage());
 		} finally {
-			DataSourceFactory.closeConn(conn);
+			DataSourceFactory.closeConn(connThread);
 		}
 	}
 

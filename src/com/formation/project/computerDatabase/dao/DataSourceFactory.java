@@ -22,8 +22,9 @@ public enum DataSourceFactory {
     private static final String PROPERTY_NOM_UTILISATEUR = "user";
     private static final String PROPERTY_MOT_DE_PASSE    = "password";
 	
-	protected BoneCPDataSource ds	 				 	 = null;
-
+	private BoneCPDataSource ds	 				 	 = null;
+	private ThreadLocal<Connection> threadLocalConn  = new ThreadLocal<Connection>();
+	
 	private DataSourceFactory() {
 		initialize();
 	}
@@ -82,10 +83,23 @@ public enum DataSourceFactory {
 		}
     	return null;
     }
+    
+    public ThreadLocal<Connection> getConnThread() {
+		return threadLocalConn;
+    }
 	
 	public static void closeConn(Connection conn) {
 		try {
 			conn.close();
+		} catch (SQLException e) {
+			System.err.println("Error in DataSourceFactory.closeConn: " + e.getMessage());
+		}
+	}
+	
+	public static void closeConn(ThreadLocal<Connection> connThread) {
+		try {
+			connThread.get().close();
+			connThread.remove();
 		} catch (SQLException e) {
 			System.err.println("Error in DataSourceFactory.closeConn: " + e.getMessage());
 		}
