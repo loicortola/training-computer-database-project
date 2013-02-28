@@ -71,6 +71,9 @@ public enum DataSourceFactory {
     }
     
     public Connection getConn() {
+    	if(ds == null)
+    		initialize();
+    	
     	try {
 			return ds.getConnection();
 		} catch (SQLException e) {

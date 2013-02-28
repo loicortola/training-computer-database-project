@@ -133,7 +133,7 @@ public class JdbcDbComputerDao implements IComputerDao {
 		PreparedStatement ps 				= null;
 		ResultSet rs 						= null;
 		ArrayList<Computer> computers 		= null;
-		ICompanyDao companyDao				= daoFactory.getCompanyDao();		
+		ICompanyDao companyDao				= DaoFactory.INSTANCE.getCompanyDao();		
 		HashMap<Integer,Company> companies	= companyDao.getCompanies("");
 		
 		if(sortBy.equals("name1"))
