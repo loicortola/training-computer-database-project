@@ -8,23 +8,22 @@ import java.util.List;
 
 import com.formation.project.computerDatabase.base.Company;
 import com.formation.project.computerDatabase.base.Computer;
+import com.formation.project.computerDatabase.dao.DataSourceFactory;
 import com.formation.project.computerDatabase.dao.ICompanyDao;
 import com.formation.project.computerDatabase.dao.IComputerDao;
 import com.formation.project.computerDatabase.dao.DaoFactory;
 import com.formation.project.computerDatabase.dao.IStatsDao;
 
 public class ComputerDatabaseServiceImpl implements IComputerDatabaseService {
-	private DaoFactory daoFactory = null;
 	private IComputerDao computerDao = null;
 	private ICompanyDao companyDao = null;
 	private IStatsDao statsDao = null;
 
 	public ComputerDatabaseServiceImpl() {
-		daoFactory = DaoFactory.getInstance();
-
-		computerDao = daoFactory.getComputerDao();
-		companyDao = daoFactory.getCompanyDao();
-		statsDao = daoFactory.getStatsDao();
+		
+		computerDao = DaoFactory.INSTANCE.getComputerDao();
+		companyDao 	= DaoFactory.INSTANCE.getCompanyDao();
+		statsDao 	= DaoFactory.INSTANCE.getStatsDao();
 	}
 
 	@Override
@@ -32,7 +31,7 @@ public class ComputerDatabaseServiceImpl implements IComputerDatabaseService {
 		if (computer.getName() == null || computer.getIntroduced() == null
 				|| computer.getCompany() == null)
 			throw new IllegalArgumentException();
-		Connection conn = daoFactory.getConn();
+		Connection conn = DataSourceFactory.INSTANCE.getConn();
 		try {
 			conn.setAutoCommit(false);			
 			Integer lastInsertId = computerDao.addComputer(conn,computer);
@@ -41,7 +40,7 @@ public class ComputerDatabaseServiceImpl implements IComputerDatabaseService {
 		} catch (SQLException e) {
 			System.err.println("Error in ComputerDatabaseService.addComputer: " + e.getMessage());
 		} finally {
-			DaoFactory.closeConn(conn);
+			DataSourceFactory.closeConn(conn);
 		}
 		
 	}
@@ -51,7 +50,7 @@ public class ComputerDatabaseServiceImpl implements IComputerDatabaseService {
 		if (computer.getName() == null || computer.getIntroduced() == null
 				|| computer.getCompany() == null)
 			throw new IllegalArgumentException();
-		Connection conn = daoFactory.getConn();
+		Connection conn = DataSourceFactory.INSTANCE.getConn();
 		try {
 			conn.setAutoCommit(false);	
 			computerDao.updateComputer(conn, computer);
@@ -60,13 +59,13 @@ public class ComputerDatabaseServiceImpl implements IComputerDatabaseService {
 		} catch (SQLException e) {
 			System.err.println("Error in ComputerDatabaseService.updateComputer: " + e.getMessage());
 		} finally {
-			DaoFactory.closeConn(conn);
+			DataSourceFactory.closeConn(conn);
 		}
 	}
 
 	@Override
 	public void deleteComputer(Integer computerId) {
-		Connection conn = daoFactory.getConn();
+		Connection conn = DataSourceFactory.INSTANCE.getConn();
 		try {
 			conn.setAutoCommit(false);	
 			computerDao.deleteComputer(conn, computerId);
@@ -75,7 +74,7 @@ public class ComputerDatabaseServiceImpl implements IComputerDatabaseService {
 		} catch (SQLException e) {
 			System.err.println("Error in ComputerDatabaseService.deleteComputer: " + e.getMessage());
 		} finally {
-			DaoFactory.closeConn(conn);
+			DataSourceFactory.closeConn(conn);
 		}
 	}
 
