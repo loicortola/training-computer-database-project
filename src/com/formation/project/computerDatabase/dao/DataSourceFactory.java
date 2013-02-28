@@ -3,6 +3,8 @@ package com.formation.project.computerDatabase.dao;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.Properties;
 
 import com.formation.project.computerDatabase.exception.DAOConfigurationException;
@@ -66,5 +68,14 @@ public enum DataSourceFactory {
 	        
 	        ds = new BoneCPDataSource( config );
 	    }
+    }
+    
+    public synchronized Connection getConn() {
+    	try {
+			return ds.getConnection();
+		} catch (SQLException e) {
+			System.err.println("Error in DataSourceFactory.getConn:" + e.getMessage());
+		}
+    	return null;
     }
 }
