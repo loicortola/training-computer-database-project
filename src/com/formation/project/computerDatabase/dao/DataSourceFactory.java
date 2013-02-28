@@ -7,7 +7,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Properties;
 
-import com.formation.project.computerDatabase.exception.DAOConfigurationException;
+import com.formation.project.computerDatabase.exception.DaoConfigurationException;
 import com.jolbox.bonecp.BoneCPConfig;
 import com.jolbox.bonecp.BoneCPDataSource;
 
@@ -41,7 +41,7 @@ public enum DataSourceFactory {
 	        InputStream fichierProperties = classLoader.getResourceAsStream( FICHIER_PROPERTIES );
 
 	        if ( fichierProperties == null ) {
-	            throw new DAOConfigurationException( "Cannot find properties file " + FICHIER_PROPERTIES );
+	            throw new DaoConfigurationException( "Cannot find properties file " + FICHIER_PROPERTIES );
 	        }
 
 	        try {
@@ -51,15 +51,15 @@ public enum DataSourceFactory {
 	            nomUtilisateur = properties.getProperty( PROPERTY_NOM_UTILISATEUR );
 	            motDePasse = properties.getProperty( PROPERTY_MOT_DE_PASSE );
 	        } catch ( FileNotFoundException e ) {
-	        	throw new DAOConfigurationException( "Cannot find properties file " + FICHIER_PROPERTIES , e);
+	        	throw new DaoConfigurationException( "Cannot find properties file " + FICHIER_PROPERTIES , e);
 	        } catch ( IOException e ) {
-	            throw new DAOConfigurationException( "Cannot load properties file " + FICHIER_PROPERTIES, e );
+	            throw new DaoConfigurationException( "Cannot load properties file " + FICHIER_PROPERTIES, e );
 	        }
 
 	        try {
 	            Class.forName( driver );
 	        } catch ( ClassNotFoundException e ) {
-	            throw new DAOConfigurationException( "Cannot find driver in classpath", e );
+	            throw new DaoConfigurationException( "Cannot find driver in classpath", e );
 	        }
 
 	        
