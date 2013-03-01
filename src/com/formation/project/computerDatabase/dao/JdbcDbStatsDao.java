@@ -25,7 +25,7 @@ public enum JdbcDbStatsDao implements IStatsDao {
 		} catch (SQLException e) {
 			System.out.println("Error in logOperation:" +e.getMessage());
 		} finally {
-			DataSourceFactory.closeConn(conn);
+			DataSourceFactory.INSTANCE.closeConn();
 		}
 	}
 

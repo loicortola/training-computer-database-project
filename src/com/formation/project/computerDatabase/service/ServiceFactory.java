@@ -8,7 +8,7 @@ public enum ServiceFactory {
 	private IComputerDatabaseService service;
 
 	private ServiceFactory() {
-		service =  new ComputerDatabaseServiceImpl();
+		service =  ComputerDatabaseServiceImpl.INSTANCE;
 	}
 	
 	public IComputerDatabaseService getService() {

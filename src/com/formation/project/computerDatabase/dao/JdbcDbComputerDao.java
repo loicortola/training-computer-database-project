@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.List;
 
 import com.formation.project.computerDatabase.base.Company;
 import com.formation.project.computerDatabase.base.Computer;
@@ -20,8 +20,7 @@ public enum JdbcDbComputerDao implements IComputerDao {
 	public Integer addComputer(Computer computer) {
 		StringBuilder query	 = new StringBuilder();
 		PreparedStatement ps = null;
-		ThreadLocal<Connection> connThread = DataSourceFactory.INSTANCE.getConnThread();
-		Connection conn = connThread.get();
+		Connection conn = DataSourceFactory.INSTANCE.getConn();
 		
 		try {
 			query.append("INSERT INTO computer(name, introduced, discontinued, id_company) ");
@@ -50,8 +49,7 @@ public enum JdbcDbComputerDao implements IComputerDao {
 	public void updateComputer(Computer computer) {
 		StringBuilder query	 = new StringBuilder();
 		PreparedStatement ps = null;
-		ThreadLocal<Connection> connThread = DataSourceFactory.INSTANCE.getConnThread();
-		Connection conn = connThread.get();
+		Connection conn = DataSourceFactory.INSTANCE.getConn();
 		
 		try {
 			query.append("UPDATE computer ");
@@ -77,8 +75,8 @@ public enum JdbcDbComputerDao implements IComputerDao {
 	public void deleteComputer(Integer computerId) {
 		StringBuilder query	 = new StringBuilder();
 		PreparedStatement ps = null;
-		ThreadLocal<Connection> connThread = DataSourceFactory.INSTANCE.getConnThread();
-		Connection conn = connThread.get();
+		
+		Connection conn = DataSourceFactory.INSTANCE.getConn();
 		
 		try {
 			query.append("UPDATE computer ");
@@ -98,60 +96,37 @@ public enum JdbcDbComputerDao implements IComputerDao {
 		PreparedStatement ps 				= null;
 		ResultSet rs 						= null;
 		Computer computer			 		= null;
-		ICompanyDao companyDao				= DaoFactory.INSTANCE.getCompanyDao();		
-		HashMap<Integer,Company> companies	= companyDao.getCompanies("");
 		
 		try {
-				ps = conn.prepareStatement("SELECT * FROM computer WHERE id_computer = ?;");
+				ps = conn.prepareStatement("SELECT computer.*, company.* FROM computer INNER JOIN company on computer.id_company = company.id_company WHERE id_computer = ?;");
 				ps.setInt(1, computerId);
 				rs = ps.executeQuery();				
 				while(rs.next())
 				{
 					computer = new ComputerBuilder()
 									.id(rs.getInt("id_computer"))
-									.name(rs.getString("name"))
+									.name(rs.getString("computer.name"))
 									.introduced(rs.getTimestamp("introduced"))
 									.discontinued(rs.getTimestamp("discontinued"))
-									.company(companies.get(rs.getInt("id_company")))
+									.company(new Company(rs.getInt("company.id_company"),rs.getString("company.name")))
 									.build();
 				}
 			} catch (SQLException e) {
 				System.out.println("Error in getComputer:" +e.getMessage());
-			} finally {
-				DataSourceFactory.closeConn(conn);	
 			}
 
 		return computer;
 	}
 
 	@Override
-	public ArrayList<Computer> getComputers(Integer currentPage, Integer resultsPerPage, String sortBy, String name) {
+	public List<Computer> getComputers(Integer currentPage, Integer resultsPerPage, String sortBy, String name) {
 		StringBuilder query					= new StringBuilder();
 		Connection conn 					= DataSourceFactory.INSTANCE.getConn();
 		PreparedStatement ps 				= null;
 		ResultSet rs 						= null;
 		ArrayList<Computer> computers 		= null;
-		ICompanyDao companyDao				= DaoFactory.INSTANCE.getCompanyDao();		
-		HashMap<Integer,Company> companies	= companyDao.getCompanies("");
 		
-		if(sortBy.equals("name1"))
-			sortBy = "computer.name";
-		else if(sortBy.equals("name0"))
-			sortBy = "computer.name DESC";
-		else if(sortBy.equals("introduced1"))
-			sortBy = "introduced";
-		else if(sortBy.equals("introduced0"))
-			sortBy = "introduced DESC";
-		else if(sortBy.equals("discontinued1"))
-			sortBy = "discontinued";
-		else if(sortBy.equals("discontinued0"))
-			sortBy = "discontinued DESC";
-		else if(sortBy.equals("company1"))
-			sortBy = "company.name";
-		else if(sortBy.equals("company0"))
-			sortBy = "company.name DESC";
-		
-		query.append("SELECT computer.* FROM computer ");
+		query.append("SELECT computer.id_computer, computer.name as name, computer.introduced, computer.discontinued, company.id_company, company.name as company FROM computer ");
 		query.append("INNER JOIN company ON computer.id_company = company.id_company ");
 		query.append("WHERE (LOWER(computer.name) LIKE CONCAT('%',?,'%') OR ? = '') ");
 		query.append("AND is_visible = 1 ");		
@@ -171,12 +146,10 @@ public enum JdbcDbComputerDao implements IComputerDao {
 
 				while(rs.next())
 				{
-					computers.add(new Computer(rs.getInt("id_computer"),rs.getString("name"),rs.getTimestamp("introduced"),rs.getTimestamp("discontinued"),companies.get(rs.getInt("id_company"))));
+					computers.add(new Computer(rs.getInt("computer.id_computer"),rs.getString("computer.name"),rs.getTimestamp("computer.introduced"),rs.getTimestamp("computer.discontinued"),new Company(rs.getInt("company.id_company"),rs.getString("company"))));
 				}
 			} catch (SQLException e) {
 				System.out.println("Error in getComputers:" +e.getMessage());
-			} finally {
-				DataSourceFactory.closeConn(conn);	
 			}
 
 		return computers;
@@ -203,8 +176,6 @@ public enum JdbcDbComputerDao implements IComputerDao {
 				}
 			} catch (SQLException e) {
 				System.out.println("Error in getComputerCount:" +e.getMessage());
-			} finally {
-				DataSourceFactory.closeConn(conn);	
 			}
 
 		return count;
@@ -226,8 +197,6 @@ public enum JdbcDbComputerDao implements IComputerDao {
 				}
 			} catch (SQLException e) {
 				System.out.println("Error in getLastInsertId:" +e.getMessage());
-			} finally {
-				DataSourceFactory.closeConn(conn);	
 			}
 
 		return lastInsertId;

@@ -34,8 +34,6 @@ public enum JdbcDbCompanyDao implements ICompanyDao {
 				}
 			} catch (SQLException e) {
 				System.out.println("Error in getCompanies:" +e.getMessage());
-			} finally {
-				DataSourceFactory.closeConn(conn);	
 			}
 
 		return companies;
@@ -58,8 +56,6 @@ public enum JdbcDbCompanyDao implements ICompanyDao {
 				}
 			} catch (SQLException e) {
 				System.out.println("Error in getCompany:" +e.getMessage());
-			} finally {
-				DataSourceFactory.closeConn(conn);	
 			}
 
 		return company;

@@ -27,7 +27,7 @@ public final class DBInit {
 		} catch (IOException e) {
 			System.out.println("Error in conf.DBInit: " + e.getMessage());
 		} finally {
-			DataSourceFactory.closeConn(conn);
+			DataSourceFactory.INSTANCE.closeConn();
 		}
 
 

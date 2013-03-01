@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.formation.project.computerDatabase.base.Router;
+import com.formation.project.computerDatabase.base.TableSort;
 import com.formation.project.computerDatabase.service.IComputerDatabaseService;
 import com.formation.project.computerDatabase.service.ServiceFactory;
 
@@ -44,12 +45,15 @@ public class DashboardServlet extends HttpServlet {
 	
 	private void dashboard(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		String searchName = req.getParameter("searchName");
-		String sortBy = req.getParameter("sortBy");
+		
+		TableSort sortBy = null;
 		
 		if(searchName == null)
 			searchName = "";
+		if(req.getParameter("sortBy") != null)
+			sortBy = TableSort.fromInteger(Integer.parseInt(req.getParameter("sortBy")));
 		if(sortBy == null)
-			sortBy = "name1";
+			sortBy = TableSort.NAME_ASC;
 		
 		Integer computerCount = cs.getComputerCount(searchName);
 		Integer resultsPerPage = 10;

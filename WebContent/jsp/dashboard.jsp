@@ -4,7 +4,7 @@
 <%@ page import="com.formation.project.computerDatabase.base.*" %>
 
 
-<c:set var="actionPrefix" value="?&sortBy=${sortBy}&searchName=${searchName}" scope="page" />
+<c:set var="actionPrefix" value="?&sortBy=${sortBy.ordinal()}&searchName=${searchName}" scope="page" />
 <c:set var="sortActionPrefix" value="?&searchName=${searchName}" scope="page" />
 
 <h1 id="homeTitle">Hey Baby! Wanna get a look at those computers? We have ${computerCount}</h1>
@@ -29,37 +29,41 @@
             		<!-- Table header for Computer Name -->             	
                 	<jsp:include page="include/dashboard_th.jsp">
 						<jsp:param value='2' name='colId'/>
-						<jsp:param value='${sortBy.contains("name")}' name='selected'/>
-						<jsp:param value='${sortBy.contains("0")}' name='orderAsc'/>
+						<jsp:param value='${sortBy.ordinal()==0 || sortBy.ordinal()==1}' name='selected'/>
+						<jsp:param value='${sortBy.ordinal()==0}' name='orderAsc'/>
 						<jsp:param value='${sortActionPrefix}' name='sortActionPrefix'/>
-						<jsp:param value='name' name="thField"/>
+						<jsp:param value='0' name="thFieldA"/>
+						<jsp:param value='1' name="thFieldD"/>
 						<jsp:param value='Computer name' name="thLabel"/>
 					</jsp:include>
 					<!-- Table header for Introduced Date -->
                 	<jsp:include page="include/dashboard_th.jsp">
 						<jsp:param value='3' name='colId'/>
-						<jsp:param value='${sortBy.contains("introduced")}' name='selected'/>
-						<jsp:param value='${sortBy.contains("0")}' name='orderAsc'/>
+						<jsp:param value='${sortBy.ordinal()==2 || sortBy.ordinal()==3}' name='selected'/>
+						<jsp:param value='${sortBy.ordinal()==2}' name='orderAsc'/>
 						<jsp:param value='${sortActionPrefix}' name='sortActionPrefix'/>
-						<jsp:param value='introduced' name="thField"/>
+						<jsp:param value='2' name="thFieldA"/>
+						<jsp:param value='3' name="thFieldD"/>
 						<jsp:param value='Introduction date' name="thLabel"/>
 					</jsp:include>
 					<!-- Table header for Discontinued Date -->
 					<jsp:include page="include/dashboard_th.jsp">
 						<jsp:param value='4' name='colId'/>
-						<jsp:param value='${sortBy.contains("discontinued")}' name='selected'/>
-						<jsp:param value='${sortBy.contains("0")}' name='orderAsc'/>
+						<jsp:param value='${sortBy.ordinal()==4 || sortBy.ordinal()==5}' name='selected'/>
+						<jsp:param value='${sortBy.ordinal()==4}' name='orderAsc'/>
 						<jsp:param value='${sortActionPrefix}' name='sortActionPrefix'/>
-						<jsp:param value='discontinued' name="thField"/>
+						<jsp:param value='4' name="thFieldA"/>
+						<jsp:param value='5' name="thFieldD"/>
 						<jsp:param value='Discontinued date' name="thLabel"/>
 					</jsp:include>
 					<!-- Table header for Company -->
 					<jsp:include page="include/dashboard_th.jsp">
 						<jsp:param value='5' name='colId'/>
-						<jsp:param value='${sortBy.contains("company")}' name='selected'/>
-						<jsp:param value='${sortBy.contains("0")}' name='orderAsc'/>
+						<jsp:param value='${sortBy.ordinal()==6 || sortBy.ordinal()==7}' name='selected'/>
+						<jsp:param value='${sortBy.ordinal()==6}' name='orderAsc'/>
 						<jsp:param value='${sortActionPrefix}' name='sortActionPrefix'/>
-						<jsp:param value='company' name="thField"/>
+						<jsp:param value='6' name="thFieldA"/>
+						<jsp:param value='7' name="thFieldD"/>
 						<jsp:param value='Company' name="thLabel"/>
 					</jsp:include>	
 					
@@ -67,7 +71,7 @@
             </thead>
             <tbody>
 
-			<c:forEach var="computer" items="${computers}">
+			<c:forEach var="computer" items="${computers.list()}">
 			    <tr>
 			        <td><a href="?action=editComputer&id=${computer.id}">${computer.name}</a></td>
 			        <td>${computer.getFormatedIntroduced()}</td>
