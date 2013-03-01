@@ -66,11 +66,9 @@ public class DashboardServlet extends HttpServlet {
 		}
 		
 		req.setAttribute("computers", cs.getComputers(currentPage, resultsPerPage, sortBy, searchName));
-		req.setAttribute("computerCount", computerCount);
 		req.setAttribute("pageCount", pageCount);
 		req.setAttribute("currentPage", currentPage);
 		req.setAttribute("resultsPerPage", resultsPerPage);
-		req.setAttribute("sortBy", sortBy);
 		ar.setUrl("dashboard.jsp");
 		
 		rd = req.getRequestDispatcher("jsp/index.jsp");

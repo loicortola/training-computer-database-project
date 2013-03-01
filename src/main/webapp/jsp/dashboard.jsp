@@ -4,10 +4,10 @@
 <%@ page import="com.formation.project.computerDatabase.base.*" %>
 
 
-<c:set var="actionPrefix" value="?&sortBy=${sortBy.ordinal()}&searchName=${searchName}" scope="page" />
+<c:set var="actionPrefix" value="?&sortBy=${computers.tableSort.ordinal()}&searchName=${searchName}" scope="page" />
 <c:set var="sortActionPrefix" value="?&searchName=${searchName}" scope="page" />
 
-<h1 id="homeTitle">Hey Baby! Wanna get a look at those computers? We have ${computerCount}</h1>
+<h1 id="homeTitle">Hey Baby! Wanna get a look at those computers? We have ${computers.computerCount}</h1>
 
     <div id="actions">
         <form action="" method="GET">
@@ -29,8 +29,8 @@
             		<!-- Table header for Computer Name -->             	
                 	<jsp:include page="include/dashboard_th.jsp">
 						<jsp:param value='2' name='colId'/>
-						<jsp:param value='${sortBy.ordinal()==0 || sortBy.ordinal()==1}' name='selected'/>
-						<jsp:param value='${sortBy.ordinal()==0}' name='orderAsc'/>
+						<jsp:param value='${computers.tableSort.ordinal()==0 || computers.tableSort.ordinal()==1}' name='selected'/>
+						<jsp:param value='${computers.tableSort.ordinal()==0}' name='orderAsc'/>
 						<jsp:param value='${sortActionPrefix}' name='sortActionPrefix'/>
 						<jsp:param value='0' name="thFieldA"/>
 						<jsp:param value='1' name="thFieldD"/>
@@ -39,8 +39,8 @@
 					<!-- Table header for Introduced Date -->
                 	<jsp:include page="include/dashboard_th.jsp">
 						<jsp:param value='3' name='colId'/>
-						<jsp:param value='${sortBy.ordinal()==2 || sortBy.ordinal()==3}' name='selected'/>
-						<jsp:param value='${sortBy.ordinal()==2}' name='orderAsc'/>
+						<jsp:param value='${computers.tableSort.ordinal()==2 || computers.tableSort.ordinal()==3}' name='selected'/>
+						<jsp:param value='${computers.tableSort.ordinal()==2}' name='orderAsc'/>
 						<jsp:param value='${sortActionPrefix}' name='sortActionPrefix'/>
 						<jsp:param value='2' name="thFieldA"/>
 						<jsp:param value='3' name="thFieldD"/>
@@ -49,8 +49,8 @@
 					<!-- Table header for Discontinued Date -->
 					<jsp:include page="include/dashboard_th.jsp">
 						<jsp:param value='4' name='colId'/>
-						<jsp:param value='${sortBy.ordinal()==4 || sortBy.ordinal()==5}' name='selected'/>
-						<jsp:param value='${sortBy.ordinal()==4}' name='orderAsc'/>
+						<jsp:param value='${computers.tableSort.ordinal()==4 || computers.tableSort.ordinal()==5}' name='selected'/>
+						<jsp:param value='${computers.tableSort.ordinal()==4}' name='orderAsc'/>
 						<jsp:param value='${sortActionPrefix}' name='sortActionPrefix'/>
 						<jsp:param value='4' name="thFieldA"/>
 						<jsp:param value='5' name="thFieldD"/>
@@ -59,8 +59,8 @@
 					<!-- Table header for Company -->
 					<jsp:include page="include/dashboard_th.jsp">
 						<jsp:param value='5' name='colId'/>
-						<jsp:param value='${sortBy.ordinal()==6 || sortBy.ordinal()==7}' name='selected'/>
-						<jsp:param value='${sortBy.ordinal()==6}' name='orderAsc'/>
+						<jsp:param value='${computers.tableSort.ordinal()==6 || computers.tableSort.ordinal()==7}' name='selected'/>
+						<jsp:param value='${computers.tableSort.ordinal()==6}' name='orderAsc'/>
 						<jsp:param value='${sortActionPrefix}' name='sortActionPrefix'/>
 						<jsp:param value='6' name="thFieldA"/>
 						<jsp:param value='7' name="thFieldD"/>
@@ -97,7 +97,7 @@
 	        </c:if>
 	             
                 <li class="current">
-                    <a>Displaying ${(currentPage-1)*resultsPerPage+1} to ${(currentPage)*resultsPerPage} of ${computerCount}</a>
+                    <a>Displaying ${(currentPage-1)*resultsPerPage+1} to ${(currentPage)*resultsPerPage} of ${computers.computerCount}</a>
                 </li>
                 
             <c:if test="${ currentPage == pageCount }">
