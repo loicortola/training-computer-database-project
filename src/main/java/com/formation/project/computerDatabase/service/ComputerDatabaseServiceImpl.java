@@ -5,6 +5,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.formation.project.computerDatabase.base.Company;
 import com.formation.project.computerDatabase.base.Computer;
 import com.formation.project.computerDatabase.base.Computers;
@@ -12,22 +15,17 @@ import com.formation.project.computerDatabase.base.TableSort;
 import com.formation.project.computerDatabase.dao.DataSourceFactory;
 import com.formation.project.computerDatabase.dao.ICompanyDao;
 import com.formation.project.computerDatabase.dao.IComputerDao;
-import com.formation.project.computerDatabase.dao.DaoFactory;
 import com.formation.project.computerDatabase.dao.IStatsDao;
 
-public enum ComputerDatabaseServiceImpl implements IComputerDatabaseService {
-	INSTANCE;
+@Service
+public class ComputerDatabaseServiceImpl implements IComputerDatabaseService {
 	
-	private IComputerDao computerDao = null;
-	private ICompanyDao companyDao = null;
-	private IStatsDao statsDao = null;
-
-	private ComputerDatabaseServiceImpl() {
-		
-		computerDao = DaoFactory.INSTANCE.getComputerDao();
-		companyDao 	= DaoFactory.INSTANCE.getCompanyDao();
-		statsDao 	= DaoFactory.INSTANCE.getStatsDao();
-	}
+	@Autowired
+	private IComputerDao computerDao;
+	@Autowired
+	private ICompanyDao companyDao;
+	@Autowired
+	private IStatsDao statsDao;
 
 	@Override
 	public void addComputer(Computer computer) {
@@ -36,6 +34,7 @@ public enum ComputerDatabaseServiceImpl implements IComputerDatabaseService {
 			throw new IllegalArgumentException();
 		try {
 			DataSourceFactory.INSTANCE.getConn().setAutoCommit(false);
+			
 			Integer lastInsertId = computerDao.addComputer(computer);
 			statsDao.logOperation(lastInsertId, "add");
 			DataSourceFactory.INSTANCE.getConn().commit();
@@ -44,7 +43,6 @@ public enum ComputerDatabaseServiceImpl implements IComputerDatabaseService {
 		} finally {
 			DataSourceFactory.INSTANCE.closeConn();
 		}
-		
 	}
 
 	@Override
@@ -81,22 +79,44 @@ public enum ComputerDatabaseServiceImpl implements IComputerDatabaseService {
 
 	@Override
 	public Computer getComputer(Integer computerId) {
-		Computer computer = computerDao.getComputer(computerId);
-		DataSourceFactory.INSTANCE.closeConn();
+		
+		Computer computer = null;
+		
+		try {
+			computer = computerDao.getComputer(computerId);
+		} catch (Exception e) {
+			System.out.println("Error in getComputers: " + e.getMessage());
+		} finally {
+			DataSourceFactory.INSTANCE.closeConn();
+		}	
 		return computer;
 	}
 
 	@Override
 	public Map<Integer, Company> getCompanies() {
-		Map<Integer, Company> companies = companyDao.getCompanies("");
-		DataSourceFactory.INSTANCE.closeConn();
+		Map<Integer, Company> companies = null;
+		try {
+			companies = companyDao.getCompanies("");
+		} catch (Exception e) {
+			System.out.println("Error in getCompanies: " + e.getMessage());
+		} finally {
+			DataSourceFactory.INSTANCE.closeConn();
+		}	
 		return companies;
 	}
 
 	@Override
 	public List<Company> getCompaniesList() {
-		List<Company> companies = new ArrayList<Company>(companyDao.getCompanies("").values());
-		DataSourceFactory.INSTANCE.closeConn();
+		
+		List<Company> companies = null;
+		
+		try {
+			companies = new ArrayList<Company>(companyDao.getCompanies("").values());
+		} catch (Exception e) {
+			System.out.println("Error in getCompaniesList: " + e.getMessage());
+		} finally {
+			DataSourceFactory.INSTANCE.closeConn();
+		}	
 		return companies;
 	}
 
@@ -105,28 +125,46 @@ public enum ComputerDatabaseServiceImpl implements IComputerDatabaseService {
 			Integer resultsPerPage, TableSort sortBy, String name) {
 		Computers computers = null;
 		
-		List<Computer> computersList = computerDao.getComputers(currentPage, resultsPerPage, sortBy.getSortString(),name);
-		DataSourceFactory.INSTANCE.closeConn();
-		Integer computerCount 		 = computerDao.getComputerCount(name);
-		DataSourceFactory.INSTANCE.closeConn();
+		try {
+			List<Computer> computersList = computerDao.getComputers(currentPage, resultsPerPage, sortBy.getSortString(),name);
+			Integer computerCount 		 = computerDao.getComputerCount(name);
 		
-		computers = new Computers(computersList,computerCount,sortBy);
+			computers = new Computers(computersList,computerCount,sortBy);
+		} catch (Exception e) {
+			System.out.println("Error in getComputers: " + e.getMessage());
+		} finally {
+			DataSourceFactory.INSTANCE.closeConn();
+		}
 		
 		return computers;
 	}
 
 	@Override
 	public Company getCompany(Integer companyId) {
-		Company company = companyDao.getCompany(companyId);
-		DataSourceFactory.INSTANCE.closeConn();
+		Company company = null;
+		try {
+			company = companyDao.getCompany(companyId);
+		} catch (Exception e) {
+			System.out.println("Error in getCompany: " + e.getMessage());
+		} finally {
+			DataSourceFactory.INSTANCE.closeConn();
+		}
+		
 		return company;
 		
 	}
 
 	@Override
 	public Integer getComputerCount(String name) {
-		Integer count = computerDao.getComputerCount(name);
-		DataSourceFactory.INSTANCE.closeConn();
+		Integer count = null;
+		try {
+			count = computerDao.getComputerCount(name);		
+		} catch (Exception e) {
+			System.out.println("Error in getComputerCount: " + e.getMessage());
+		} finally {
+			DataSourceFactory.INSTANCE.closeConn();
+		}	
+		
 		return count;
 	}
 

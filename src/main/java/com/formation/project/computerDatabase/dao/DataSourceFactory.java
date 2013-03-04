@@ -71,16 +71,21 @@ public enum DataSourceFactory {
     }	
         
     public Connection getConn() {
-    	try {
-			threadLocalConn.set(ds.getConnection());
-		} catch (SQLException e) {
-			System.err.println("Error in DataSourceFactory.getConnThread: " + e.getMessage());
-		}
+    	if(threadLocalConn.get() == null) {
+    		//System.out.println("DSF: ds.getConn set in local Thread " + Thread.currentThread().getId());
+	    	try {
+				threadLocalConn.set(ds.getConnection());
+			} catch (SQLException e) {
+				System.err.println("Error in DataSourceFactory.getConnThread: " + e.getMessage());
+			}
+    	}
+    	//System.out.println("DSF: getConn in Thread " + Thread.currentThread().getId());
 		return threadLocalConn.get();
     }
 	
 	public void closeConn() {
 		try {
+			//System.out.println("DSF: Closing conn in Thread " + Thread.currentThread().getId());
 			threadLocalConn.get().close();
 			threadLocalConn.remove();
 		} catch (SQLException e) {

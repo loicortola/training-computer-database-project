@@ -3,7 +3,9 @@
 <%@ page import="java.util.*" %>
 <%@ page import="com.formation.project.computerDatabase.base.*" %>
 
-
+<jsp:include page="include/header.jsp" />
+<section id="main">
+  	
 <c:set var="actionPrefix" value="?&sortBy=${computers.tableSort.ordinal()}&searchName=${searchName}" scope="page" />
 <c:set var="sortActionPrefix" value="?&searchName=${searchName}" scope="page" />
 
@@ -14,7 +16,7 @@
             <input type="search" id="searchbox" name="searchName" value="${param.searchName}" placeholder="Filter by computer name...">
             <input type="submit" id="searchsubmit" value="Filter by name" class="btn primary">
         </form>
-        <a class="btn success" id="add" href="?action=addComputer">Add a new computer</a>
+        <a class="btn success" id="add" href="addComputer.html">Add a new computer</a>
     </div>
     
     <c:if test="${ computers.size() == 0 }">    
@@ -73,7 +75,7 @@
 
 			<c:forEach var="computer" items="${computers.list()}">
 			    <tr>
-			        <td><a href="?action=editComputer&id=${computer.id}">${computer.name}</a></td>
+			        <td><a href="editComputer.html?id=${computer.id}">${computer.name}</a></td>
 			        <td>${computer.getFormatedIntroduced()}</td>
 			        <td>${computer.getFormatedDiscontinued()}</td>
 			        <td>${computer.company.name}</td>
@@ -113,3 +115,7 @@
                 
             </ul>
         </div>
+</section>
+
+<jsp:include page="include/footer.jsp" />
+        

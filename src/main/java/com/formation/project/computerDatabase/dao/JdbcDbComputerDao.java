@@ -9,18 +9,24 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.stereotype.Repository;
+
 import com.formation.project.computerDatabase.base.Company;
 import com.formation.project.computerDatabase.base.Computer;
 import com.formation.project.computerDatabase.base.ComputerBuilder;
 
-public enum JdbcDbComputerDao implements IComputerDao {
-	INSTANCE;
+@Repository
+public class JdbcDbComputerDao implements IComputerDao {
+	
+	public JdbcDbComputerDao() {
+		
+	}
 	
 	@Override
 	public Integer addComputer(Computer computer) {
-		StringBuilder query	 = new StringBuilder();
-		PreparedStatement ps = null;
-		Connection conn = DataSourceFactory.INSTANCE.getConn();
+		StringBuilder query	 	= new StringBuilder();
+		PreparedStatement ps 	= null;
+		Connection conn 		= DataSourceFactory.INSTANCE.getConn();
 		
 		try {
 			query.append("INSERT INTO computer(name, introduced, discontinued, id_company) ");
@@ -32,15 +38,19 @@ public enum JdbcDbComputerDao implements IComputerDao {
 				ps.setTimestamp(3, null);
 			else
 				ps.setTimestamp(3, new Timestamp(computer.getDiscontinued().getTime()));
-			ps.setInt(4, computer.getCompany().getId());
-			ps.execute();
+			ps.setInt(4, computer.getCompany().getId());			
+			ps.executeUpdate();
 			ResultSet rs = ps.getGeneratedKeys();
 			while(rs.next()) {
 				return rs.getInt(1);
 			}
-				
+			rs.close();	
+			ps.close();
+			
 		} catch (SQLException e) {
-			System.out.println("Error in addComputer:" +e.getMessage());
+			System.err.println("Error in addComputer:" +e.getMessage());
+		} finally {
+			
 		}
 		return 0;
 	}
@@ -65,7 +75,7 @@ public enum JdbcDbComputerDao implements IComputerDao {
 			ps.setInt(4, computer.getCompany().getId());
 			ps.setInt(5, computer.getId());
 			ps.executeUpdate();
-				
+			ps.close();
 		} catch (SQLException e) {
 			System.out.println("Error in updateComputer:" +e.getMessage());
 		}
@@ -84,7 +94,8 @@ public enum JdbcDbComputerDao implements IComputerDao {
 			query.append("WHERE id_computer = ?;");
 			ps = conn.prepareStatement(query.toString());
 			ps.setInt(1, computerId);
-			ps.executeUpdate();				
+			ps.executeUpdate();
+			ps.close();
 		} catch (SQLException e) {
 			System.out.println("Error in deleteComputer:" +e.getMessage());
 		}
@@ -111,7 +122,11 @@ public enum JdbcDbComputerDao implements IComputerDao {
 									.company(new Company(rs.getInt("company.id_company"),rs.getString("company.name")))
 									.build();
 				}
+				rs.close();
+				ps.close();
 			} catch (SQLException e) {
+				System.out.println("Error in getComputer:" +e.getMessage());
+			} catch (NullPointerException e) {
 				System.out.println("Error in getComputer:" +e.getMessage());
 			}
 
@@ -148,6 +163,8 @@ public enum JdbcDbComputerDao implements IComputerDao {
 				{
 					computers.add(new Computer(rs.getInt("computer.id_computer"),rs.getString("computer.name"),rs.getTimestamp("computer.introduced"),rs.getTimestamp("computer.discontinued"),new Company(rs.getInt("company.id_company"),rs.getString("company"))));
 				}
+				rs.close();
+				ps.close();
 			} catch (SQLException e) {
 				System.out.println("Error in getComputers:" +e.getMessage());
 			}
@@ -174,6 +191,8 @@ public enum JdbcDbComputerDao implements IComputerDao {
 				{
 					count = rs.getInt("count");
 				}
+				rs.close();
+				ps.close();
 			} catch (SQLException e) {
 				System.out.println("Error in getComputerCount:" +e.getMessage());
 			}
@@ -195,6 +214,8 @@ public enum JdbcDbComputerDao implements IComputerDao {
 				{
 					lastInsertId = rs.getInt("id");
 				}
+				rs.close();
+				ps.close();
 			} catch (SQLException e) {
 				System.out.println("Error in getLastInsertId:" +e.getMessage());
 			}

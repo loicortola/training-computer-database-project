@@ -6,13 +6,14 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
 
+import org.springframework.stereotype.Repository;
+
 import com.formation.project.computerDatabase.base.Company;
 
-public enum JdbcDbCompanyDao implements ICompanyDao {
+@Repository
+public class JdbcDbCompanyDao implements ICompanyDao {
 	
-	INSTANCE;
-	
-	private JdbcDbCompanyDao() {
+	public JdbcDbCompanyDao() {
 	}
 
 	@Override
@@ -32,6 +33,7 @@ public enum JdbcDbCompanyDao implements ICompanyDao {
 				{
 					companies.put(rs.getInt("id_company"),new Company(rs.getInt("id_company"),rs.getString("name")));					
 				}
+				rs.close();
 			} catch (SQLException e) {
 				System.out.println("Error in getCompanies:" +e.getMessage());
 			}
@@ -54,6 +56,7 @@ public enum JdbcDbCompanyDao implements ICompanyDao {
 				{
 					company = new Company(rs.getInt("id_company"),rs.getString("name"));					
 				}
+				rs.close();
 			} catch (SQLException e) {
 				System.out.println("Error in getCompany:" +e.getMessage());
 			}

@@ -1,4 +1,1 @@
-<%
-    String redirectURL = "/computerDatabaseProject/CoreServlet";
-    response.sendRedirect(redirectURL);
-%>
+<%pageContext.forward("dashboard.html");%>

@@ -10,22 +10,22 @@ import com.formation.project.computerDatabase.base.TableSort;
 
 public interface IComputerDatabaseService {
 
-	public abstract void addComputer(Computer computer);
+	void addComputer(Computer computer);
 
-	public abstract void updateComputer(Computer computer);
+	void updateComputer(Computer computer);
 
-	public abstract void deleteComputer(Integer computerId);
+	void deleteComputer(Integer computerId);
 
-	public abstract Computer getComputer(Integer computerId);
+	Computer getComputer(Integer computerId);
 	
-	public abstract Integer getComputerCount(String name);	
+	Integer getComputerCount(String name);	
 	
-	public abstract Company getCompany(Integer companyId);
+	Company getCompany(Integer companyId);
 
-	public abstract Map<Integer, Company> getCompanies();
+	Map<Integer, Company> getCompanies();
 
-	public abstract List<Company> getCompaniesList();
+	List<Company> getCompaniesList();
 
-	public abstract Computers getComputers(Integer currentPage, Integer resultsPerPage, TableSort sortBy, String name);
+	Computers getComputers(Integer currentPage, Integer resultsPerPage, TableSort sortBy, String name);
 
 }

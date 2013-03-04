@@ -4,9 +4,14 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-public enum JdbcDbStatsDao implements IStatsDao {
+import org.springframework.stereotype.Repository;
+
+@Repository
+public class JdbcDbStatsDao implements IStatsDao {
 	
-	INSTANCE;
+	public JdbcDbStatsDao() {
+		
+	}
 	
 	@Override
 	public void logOperation(Integer computerId, String statType) {
@@ -21,11 +26,10 @@ public enum JdbcDbStatsDao implements IStatsDao {
 			ps.setInt(1, computerId);
 			ps.setString(2, statType);
 			ps.execute();
-				
+			ps.close();
 		} catch (SQLException e) {
 			System.out.println("Error in logOperation:" +e.getMessage());
-		} finally {
-			DataSourceFactory.INSTANCE.closeConn();
+			
 		}
 	}
 

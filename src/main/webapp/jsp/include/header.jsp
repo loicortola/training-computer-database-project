@@ -12,11 +12,3 @@
     <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
     <link href="css/main.css" rel="stylesheet" media="screen">
   </head>
-  <body>
-  	<section id="main">
-		<c:if test="${!empty routerBean.getUrl()}">
-			<jsp:include page="${routerBean.getUrl()}" />
-		</c:if>
-  	</section>
-  </body>
-</html>

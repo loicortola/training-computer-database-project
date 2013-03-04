@@ -40,7 +40,6 @@ public class ComputerBuilder {
     }
     
     public Computer build() {
-    	System.out.println("name " + name + " introduced " + introduced + " disc " + discontinued + "company" + company);
 
     	Computer computer = new Computer();
     	computer.setId(id);
