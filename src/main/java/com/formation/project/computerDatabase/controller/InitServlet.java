@@ -3,6 +3,7 @@ package com.formation.project.computerDatabase.controller;
 import java.sql.SQLException;
 
 import javax.servlet.ServletContext;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
@@ -19,6 +20,7 @@ public class InitServlet implements ServletContextAware {
 	ServletContext sc;
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
+	
 	
 	@RequestMapping("/init")
 	protected ModelAndView doGet() {

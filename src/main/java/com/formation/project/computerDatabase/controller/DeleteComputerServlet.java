@@ -19,13 +19,13 @@ public class DeleteComputerServlet {
        }
 
     @RequestMapping(method = RequestMethod.GET)
-   	public String deleteComputer(Integer id) {
+   	public String deleteComputer(Long id) {
     	System.out.println("Warning in DeleteComputerServlet:GET : shouldn't be here!");
     	return "redirect:/dashboard.html";
        }
 	
     @RequestMapping(method = RequestMethod.POST)
-	private ModelAndView submitDeleteComputer(Integer id) {
+	private ModelAndView submitDeleteComputer(Long id) {
     	System.out.println("Entering DeleteComputerServlet:POST");
     	
 		ModelAndView mav = new ModelAndView("redirect:/dashboard.html");

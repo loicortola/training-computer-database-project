@@ -3,19 +3,25 @@ package com.formation.project.computerDatabase.base;
 public enum TableSort {
 	
 	
-	NAME_ASC("computer_name ASC"),NAME_DESC("computer_name DESC"),
-	INTRODUCED_ASC("introduced ASC"),INTRODUCED_DESC("introduced DESC"),
-	DISCONTINUED_ASC("discontinued ASC"),DISCONTINUED_DESC("discontinued DESC"),
-	COMPANY_ASC("company_name ASC"),COMPANY_DESC("company_name DESC");
+	NAME_ASC("computer.name",true),NAME_DESC("computer.name",false),
+	INTRODUCED_ASC("computer.introduced",true),INTRODUCED_DESC("computer.introduced",false),
+	DISCONTINUED_ASC("computer.discontinued",true),DISCONTINUED_DESC("computer.discontinued",false),
+	COMPANY_ASC("company.name",true),COMPANY_DESC("company.name",false);
 	
 	private String sortString;
+	private Boolean isAsc;
 	
-	private TableSort(String sortString) {
+	private TableSort(String sortString,Boolean isAsc) {
 		this.sortString = sortString;
+		this.isAsc = isAsc;
 	}
 	
 	public String getSortString() {
 		return sortString;
+	}
+	
+	public Boolean isAsc() {
+		return isAsc;
 	}
 	
 	public static TableSort fromInteger(int x) {

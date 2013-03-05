@@ -28,7 +28,7 @@ public class EditComputerServlet {
        }
 
     @RequestMapping(method = RequestMethod.GET)
-   	public ModelAndView editComputer(Integer id) {
+   	public ModelAndView editComputer(Long id) {
     	System.out.println("Entering EditComputerServlet:GET");
 
        	ModelAndView mav  = new ModelAndView("editComputer");
@@ -46,9 +46,9 @@ public class EditComputerServlet {
        }
 	
     @RequestMapping(method = RequestMethod.POST)
-	private ModelAndView submitEditComputer(Integer id, 
+	private ModelAndView submitEditComputer(Long id, 
 											String name, 
-											@RequestParam(value="company") Integer idCompany, 
+											@RequestParam(value="company") Long idCompany, 
 											@RequestParam(value="introduced") String introducedStr, 
 											@RequestParam(value="discontinued") String discontinuedStr) {
     	System.out.println("Entering EditComputerServlet:POST");

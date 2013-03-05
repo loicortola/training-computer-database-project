@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class ComputerBuilder {
 
-	private Integer id=null;
+	private Long id=null;
     
     private String name=null;
     
@@ -14,7 +14,7 @@ public class ComputerBuilder {
     
     private Company company=null;
     
-    public ComputerBuilder id(Integer id) {
+    public ComputerBuilder id(Long id) {
     	this.id = id;
     	return this;
     }
@@ -47,6 +47,7 @@ public class ComputerBuilder {
     	computer.setIntroduced(introduced);
     	computer.setDiscontinued(discontinued);
     	computer.setCompany(company);
+    	computer.setIsVisible(true);
     	return computer;
     }
     

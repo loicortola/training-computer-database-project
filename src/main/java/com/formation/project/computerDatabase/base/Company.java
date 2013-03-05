@@ -1,21 +1,36 @@
 package com.formation.project.computerDatabase.base;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="company")
 public class Company {
 
-    public Company(Integer id, String name) {
+    public Company(Long id, String name) {
 		super();
 		this.id = id;
 		this.name = name;
 	}
-
-	private Integer id;
+    @Id
+   	@GeneratedValue
+   	@Column(name="id_company")
+	private Long id;
     
+    @Column(name="name",nullable=false)
     private String name;
     
     public Company() {}    
 
-	public Integer getId() {
+	public Long getId() {
 		return id;
+	}
+	
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 	@Override

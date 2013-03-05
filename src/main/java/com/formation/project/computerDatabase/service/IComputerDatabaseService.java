@@ -1,7 +1,6 @@
 package com.formation.project.computerDatabase.service;
 
 import java.util.List;
-import java.util.Map;
 
 import com.formation.project.computerDatabase.base.Company;
 import com.formation.project.computerDatabase.base.Computer;
@@ -14,15 +13,13 @@ public interface IComputerDatabaseService {
 
 	void updateComputer(Computer computer);
 
-	void deleteComputer(Integer computerId);
+	void deleteComputer(Long computerId);
 
-	Computer getComputer(Integer computerId);
+	Computer getComputer(Long computerId);
 	
 	Integer getComputerCount(String name);	
 	
-	Company getCompany(Integer companyId);
-
-	Map<Integer, Company> getCompanies();
+	Company getCompany(Long companyId);
 
 	List<Company> getCompaniesList();
 

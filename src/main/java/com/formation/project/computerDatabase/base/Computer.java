@@ -4,10 +4,19 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
+@Entity
+@Table(name="computer")
 public class Computer {
 
-    public Computer(Integer id, String name, Date introduced, Date discontinued,
+    public Computer(Long id, String name, Date introduced, Date discontinued,
 			Company company) {
 		super();
 		this.id = id;
@@ -15,19 +24,40 @@ public class Computer {
 		this.introduced = introduced;
 		this.discontinued = discontinued;
 		this.company = company;
+		this.isVisible = true;
 	}
-
-	private Integer id;
     
+    @Id
+	@GeneratedValue
+	@Column(name="id_computer")
+	private Long id;
+    
+    @Column(name="name",nullable=false)
     private String name;
     
+    @Column(name="introduced",nullable=false)
     private Date introduced;
     
+    @Column(name="discontinued",nullable=true)
     private Date discontinued;
     
+    @OneToOne
+    @JoinColumn(name = "id_company")
     private Company company;
     
-    public Computer() {}
+    @Column(name="is_visible")
+    private Boolean isVisible;
+    
+    public Boolean isVisible() {
+		return isVisible;
+	}
+
+
+	public void setIsVisible(Boolean isVisible) {
+		this.isVisible = isVisible;
+	}
+
+	public Computer() {}
     
     
 	@Override
@@ -88,11 +118,11 @@ public class Computer {
 
 
 
-	public Integer getId() {
+	public Long getId() {
 		return id;
 	}
 	
-	protected void setId(Integer id) {
+	protected void setId(Long id) {
 		if(id != null)
 			this.id = id;
 	}

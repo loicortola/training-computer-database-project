@@ -41,7 +41,7 @@ public class AddComputerServlet {
     }
     
     @RequestMapping(method = RequestMethod.POST)
-	public ModelAndView submitAddComputer(String name, Integer company, String introduced, String discontinued) {
+	public ModelAndView submitAddComputer(String name, Long company, String introduced, String discontinued) {
     	System.out.println("Entering AddComputerServlet:POST");
     	Computer computer 		= null;
 		DateFormat dateFormat	= new SimpleDateFormat("yyyy-MM-dd");

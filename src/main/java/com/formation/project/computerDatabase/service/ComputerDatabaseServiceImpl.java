@@ -1,8 +1,6 @@
 package com.formation.project.computerDatabase.service;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,6 +15,7 @@ import com.formation.project.computerDatabase.dao.IComputerDao;
 import com.formation.project.computerDatabase.dao.IStatsDao;
 
 @Service
+@Transactional(readOnly=true)
 public class ComputerDatabaseServiceImpl implements IComputerDatabaseService {
 	
 	@Autowired
@@ -27,18 +26,18 @@ public class ComputerDatabaseServiceImpl implements IComputerDatabaseService {
 	private IStatsDao statsDao;
 
 	@Override
-	@Transactional
+	@Transactional(readOnly=false)
 	public void addComputer(Computer computer) {
 		if (computer.getName() == null || computer.getIntroduced() == null
 				|| computer.getCompany() == null)
 			throw new IllegalArgumentException();
-		Integer lastInsertId = computerDao.addComputer(computer);
+		Long lastInsertId = computerDao.addComputer(computer);
 		statsDao.logOperation(lastInsertId, "add");
 		
 	}
 
 	@Override
-	@Transactional
+	@Transactional(readOnly=false)
 	public void updateComputer(Computer computer) {
 		if (computer.getName() == null || computer.getIntroduced() == null
 				|| computer.getCompany() == null)
@@ -48,35 +47,29 @@ public class ComputerDatabaseServiceImpl implements IComputerDatabaseService {
 	}
 
 	@Override
-	@Transactional
-	public void deleteComputer(Integer computerId) {
+	@Transactional(readOnly=false)
+	public void deleteComputer(Long computerId) {
 		computerDao.deleteComputer(computerId);
 		statsDao.logOperation(computerId, "delete");
 	}
 
 	@Override
-	public Computer getComputer(Integer computerId) {
+	public Computer getComputer(Long computerId) {
 		
 		return computerDao.getComputer(computerId);
 	}
 
 	@Override
-	public Map<Integer, Company> getCompanies() {
-		
-		return companyDao.getCompanies("");
-	}
-
-	@Override
 	public List<Company> getCompaniesList() {
 		
-		return new ArrayList<Company>(companyDao.getCompanies("").values());
+		return companyDao.getCompanies();
 	}
 
 	@Override
 	public Computers getComputers(Integer currentPage, Integer resultsPerPage, TableSort sortBy, String name) {
 		Computers computers = null;
 		
-		List<Computer> computersList = computerDao.getComputers(currentPage, resultsPerPage, sortBy.getSortString(),name);
+		List<Computer> computersList = computerDao.getComputers(currentPage, resultsPerPage, sortBy,name);
 		Integer computerCount 		 = computerDao.getComputerCount(name);
 		computers = new Computers(computersList,computerCount,sortBy);
 		
@@ -84,7 +77,7 @@ public class ComputerDatabaseServiceImpl implements IComputerDatabaseService {
 	}
 
 	@Override
-	public Company getCompany(Integer companyId) {
+	public Company getCompany(Long companyId) {
 		
 		return companyDao.getCompany(companyId);
 	}
