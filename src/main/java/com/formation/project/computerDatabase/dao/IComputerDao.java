@@ -6,7 +6,6 @@ import com.formation.project.computerDatabase.base.Computer;
 
 public interface IComputerDao {
 	public Integer addComputer(Computer computer);
-	public Integer getLastInsertId();
 	public void updateComputer(Computer computer);
 	public void deleteComputer(Integer computerId);
 	public Computer getComputer(Integer computerId);
