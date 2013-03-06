@@ -5,7 +5,7 @@ import java.util.List;
 
 public class Computers {
 	private List<Computer> computers = null;
-	private Integer computerCount = null;
+	private Long computerCount = null;
 	private TableSort tableSort = null;
 	
 	
@@ -15,11 +15,19 @@ public class Computers {
 	}
 	
 	
-	public Computers(List<Computer> computers, Integer computerCount,
+	public Computers(List<Computer> computers, Long computerCount,
 			TableSort tableSort) {
 		super();
 		this.computers = computers;
 		this.computerCount = computerCount;
+		this.tableSort = tableSort;
+	}
+	
+	public Computers(List<Computer> computers, Integer computerCount,
+			TableSort tableSort) {
+		super();
+		this.computers = computers;
+		this.computerCount = computerCount.longValue();
 		this.tableSort = tableSort;
 	}
 
@@ -37,10 +45,10 @@ public class Computers {
 	public void setComputers(ArrayList<Computer> computers) {
 		this.computers = computers;
 	}
-	public Integer getComputerCount() {
+	public Long getComputerCount() {
 		return computerCount;
 	}
-	public void setComputerCount(Integer computerCount) {
+	public void setComputerCount(Long computerCount) {
 		this.computerCount = computerCount;
 	}
 	public TableSort getTableSort() {

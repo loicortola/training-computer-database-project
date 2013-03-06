@@ -17,8 +17,6 @@ public interface IComputerDatabaseService {
 
 	Computer getComputer(Long computerId);
 	
-	Integer getComputerCount(String name);	
-	
 	Company getCompany(Long companyId);
 
 	List<Company> getCompaniesList();

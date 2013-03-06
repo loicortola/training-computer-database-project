@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.formation.project.computerDatabase.base.Computers;
 import com.formation.project.computerDatabase.base.TableSort;
 import com.formation.project.computerDatabase.service.IComputerDatabaseService;
 
@@ -33,18 +34,20 @@ public class DashboardServlet {
 			sortByEnum = TableSort.NAME_ASC;
 		if(cs == null)
 			System.out.println("cs null");
-		Integer computerCount = cs.getComputerCount(searchName);
+		
 		Integer resultsPerPage = 10;
-		Integer pageCount = ((Integer) computerCount/resultsPerPage) + 1;
 		Integer currentPage = 1;
 		if(page != null) {
 			currentPage = Integer.parseInt(page);
-			if(currentPage < 1 || currentPage > pageCount)
+			if(currentPage < 1)
 				currentPage = 1;
 		}
 		
+		Computers computers = cs.getComputers(currentPage, resultsPerPage, sortByEnum, searchName);
 		ModelAndView mav = new ModelAndView("dashboard");
-    	mav.addObject("computers", cs.getComputers(currentPage, resultsPerPage, sortByEnum, searchName));
+    	mav.addObject("computers", computers);
+    	
+    	Long pageCount = ((Long) computers.getComputerCount()/resultsPerPage) + 1;
     	mav.addObject("pageCount", pageCount);
     	mav.addObject("currentPage", currentPage);
     	mav.addObject("resultsPerPage", resultsPerPage);

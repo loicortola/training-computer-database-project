@@ -1,6 +1,8 @@
 package com.formation.project.computerDatabase.dao;
 
+import com.formation.project.computerDatabase.base.Stat;
+
 public interface IStatsDao {
-	void logOperation(Long computerId, String statType);
+	void save(Stat stat);
 	
 }

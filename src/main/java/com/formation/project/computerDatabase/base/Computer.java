@@ -9,7 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -32,30 +32,23 @@ public class Computer {
 	@Column(name="id_computer")
 	private Long id;
     
-    @Column(name="name",nullable=false)
+    @Column(nullable=false)
     private String name;
     
-    @Column(name="introduced",nullable=false)
+    @Column(nullable=false)
     private Date introduced;
     
-    @Column(name="discontinued",nullable=true)
+    @Column(nullable=true)
     private Date discontinued;
     
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "id_company")
     private Company company;
     
     @Column(name="is_visible")
     private Boolean isVisible;
     
-    public Boolean isVisible() {
-		return isVisible;
-	}
-
-
-	public void setIsVisible(Boolean isVisible) {
-		this.isVisible = isVisible;
-	}
+   
 
 	public Computer() {}
     
@@ -173,5 +166,11 @@ public class Computer {
 		this.company = company;
 	}
     
-    
+	public Boolean isVisible() {
+			return isVisible;
+	}
+
+	public void setIsVisible(Boolean isVisible) {
+			this.isVisible = isVisible;
+	}
 }

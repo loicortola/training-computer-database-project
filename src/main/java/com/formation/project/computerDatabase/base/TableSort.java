@@ -3,9 +3,9 @@ package com.formation.project.computerDatabase.base;
 public enum TableSort {
 	
 	
-	NAME_ASC("computer.name",true),NAME_DESC("computer.name",false),
-	INTRODUCED_ASC("computer.introduced",true),INTRODUCED_DESC("computer.introduced",false),
-	DISCONTINUED_ASC("computer.discontinued",true),DISCONTINUED_DESC("computer.discontinued",false),
+	NAME_ASC("name",true),NAME_DESC("name",false),
+	INTRODUCED_ASC("introduced",true),INTRODUCED_DESC("introduced",false),
+	DISCONTINUED_ASC("discontinued",true),DISCONTINUED_DESC("discontinued",false),
 	COMPANY_ASC("company.name",true),COMPANY_DESC("company.name",false);
 	
 	private String sortString;
