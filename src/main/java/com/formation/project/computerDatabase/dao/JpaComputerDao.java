@@ -37,9 +37,10 @@ public class JpaComputerDao implements IComputerDao {
 
 	@Override
 	public boolean saveOrUpdate(Computer computer) {
-		boolean inserted = computer.getId() <= 0;
 		repo.save(computer);
-		return inserted;
+		if(computer.getId() == null)
+			return false;
+		return true;
 	}
 
 	@Override
