@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.formation.project.computerDatabase.base.Computers;
@@ -12,45 +13,41 @@ import com.formation.project.computerDatabase.service.IComputerDatabaseService;
 
 @Controller
 @RequestMapping("/dashboard")
-public class DashboardServlet {
+public class DashboardController {
 	
 	@Autowired
 	private IComputerDatabaseService cs;
-
-	public DashboardServlet() {
+	private static final Integer RESULTS_PER_PAGE = 10;
+	
+	public DashboardController() {
         super();
        }	
 	
 	@RequestMapping(method = RequestMethod.GET)
-	private ModelAndView dashboard(String searchName, String sortBy, String page) {
-		System.out.println("Entering DashboardServlet");
+	private ModelAndView dashboard(
+									@RequestParam(value="searchName", defaultValue="") String searchName,
+									@RequestParam(value="sortBy", defaultValue="0") String sortBy,
+									@RequestParam(value="page", defaultValue="1") String page) {
+		
+		System.out.println("Entering DashboardController");
+		
 		TableSort sortByEnum = null;
+		Integer currentPage  = null;
+		Long pageCount 		 = null;
 		
-		if(searchName == null)
-			searchName = "";
-		if(sortBy != null)
-			sortByEnum = TableSort.fromInteger(Integer.parseInt(sortBy));
-		if(sortBy == null)
-			sortByEnum = TableSort.NAME_ASC;
-		if(cs == null)
-			System.out.println("cs null");
+		sortByEnum  = TableSort.fromInteger(Integer.parseInt(sortBy));
+		currentPage = Integer.parseInt(page);
+					
+		Computers computers = cs.getComputers(currentPage, RESULTS_PER_PAGE, sortByEnum, searchName);
 		
-		Integer resultsPerPage = 10;
-		Integer currentPage = 1;
-		if(page != null) {
-			currentPage = Integer.parseInt(page);
-			if(currentPage < 1)
-				currentPage = 1;
-		}
+		pageCount 	= ((Long) computers.getComputerCount()/RESULTS_PER_PAGE) + 1;
 		
-		Computers computers = cs.getComputers(currentPage, resultsPerPage, sortByEnum, searchName);
+		
 		ModelAndView mav = new ModelAndView("dashboard");
     	mav.addObject("computers", computers);
-    	
-    	Long pageCount = ((Long) computers.getComputerCount()/resultsPerPage) + 1;
     	mav.addObject("pageCount", pageCount);
     	mav.addObject("currentPage", currentPage);
-    	mav.addObject("resultsPerPage", resultsPerPage);
+    	mav.addObject("resultsPerPage", RESULTS_PER_PAGE);
 		
     	return mav;
 	}

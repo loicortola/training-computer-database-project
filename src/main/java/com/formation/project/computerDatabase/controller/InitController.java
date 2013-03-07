@@ -14,7 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.formation.project.computerDatabase.conf.DBInit;
 
 @Controller
-public class InitServlet implements ServletContextAware {
+public class InitController implements ServletContextAware {
 
 	@Autowired
 	ServletContext sc;
@@ -27,7 +27,7 @@ public class InitServlet implements ServletContextAware {
 		 try {
 			DBInit.initDatabase(sc,jdbcTemplate.getDataSource().getConnection());
 		} catch (SQLException e) {
-			System.err.println("error in InitServlet while initiating database: " + e.getMessage());
+			System.err.println("error in InitController while initiating database: " + e.getMessage());
 		}
 		
 		return new ModelAndView("redirect:/dashboard.html");

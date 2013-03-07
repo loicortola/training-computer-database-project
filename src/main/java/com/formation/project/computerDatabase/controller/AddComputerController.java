@@ -19,42 +19,42 @@ import com.formation.project.computerDatabase.service.IComputerDatabaseService;
 
 @Controller
 @RequestMapping("/addComputer")
-public class AddComputerServlet {
+public class AddComputerController {
 	
 	@Autowired
-    private IComputerDatabaseService	cs 	= null;
+    private IComputerDatabaseService cs	= null;
     
-    public AddComputerServlet() {
-        super();
-       }
-
-    
+    public AddComputerController() {
+    	super();
+    }
     
     @RequestMapping(method = RequestMethod.GET)
 	public ModelAndView addComputer() {
-    	System.out.println("Entering AddComputerServlet:GET");
+    	System.out.println("Entering AddComputerController:GET");
 		
     	ModelAndView mav = new ModelAndView("addComputer");
     	mav.addObject("computer", new Computer());
-    	mav.addObject("companies", cs.getCompaniesList());       
+    	mav.addObject("companies", cs.getCompaniesList());
         return mav;
     }
     
     @RequestMapping(method = RequestMethod.POST)
 	public ModelAndView submitAddComputer(String name, Long company, String introduced, String discontinued) {
-    	System.out.println("Entering AddComputerServlet:POST");
+    	
+    	System.out.println("Entering AddComputerController:POST");
+    	
     	Computer computer 		= null;
-		DateFormat dateFormat	= new SimpleDateFormat("yyyy-MM-dd");
+    	Date introducedDate 	= null;
+		Date discontinuedDate 	= null;
+		
+    	DateFormat dateFormat	= new SimpleDateFormat("yyyy-MM-dd");
 		Boolean error			= false;
 		
-		Date introducedDate 	= null;
-		Date discontinuedDate 	= null;
+		
 		Company finalCompany	= cs.getCompany(company);
 		
 		ModelAndView mav = new ModelAndView("addComputer");
-    
-		
-		
+    	
 		if(name == null || name == "") 
 			mav.addObject("nameError", "Name field is required");
 

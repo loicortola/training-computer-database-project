@@ -19,23 +19,23 @@ import com.formation.project.computerDatabase.service.IComputerDatabaseService;
 
 @Controller
 @RequestMapping("/editComputer")
-public class EditComputerServlet {
+public class EditComputerController {
 	@Autowired
     private IComputerDatabaseService	cs 	= null;
     
-    public EditComputerServlet() {
+    public EditComputerController() {
         super();
        }
 
     @RequestMapping(method = RequestMethod.GET)
    	public ModelAndView editComputer(Long id) {
-    	System.out.println("Entering EditComputerServlet:GET");
+    	System.out.println("Entering EditComputerController:GET");
 
        	ModelAndView mav  = new ModelAndView("editComputer");
        	Computer computer = cs.getComputer(id);
 		
 		if(computer == null) {
-			System.err.println("Warning: Computer id was not right in EditComputerServlet.GET");
+			System.err.println("Warning: Computer id was not right in EditComputerController.GET");
 			mav.setViewName("redirect:/dashboard.html");
 		}
 		else {
@@ -51,7 +51,7 @@ public class EditComputerServlet {
 											@RequestParam(value="company") Long idCompany, 
 											@RequestParam(value="introduced") String introducedStr, 
 											@RequestParam(value="discontinued") String discontinuedStr) {
-    	System.out.println("Entering EditComputerServlet:POST");
+    	System.out.println("Entering EditComputerController:POST");
     	Computer computer 		= null;
 		DateFormat dateFormat	= new SimpleDateFormat("yyyy-MM-dd");
 		Boolean error			= false;
@@ -63,7 +63,7 @@ public class EditComputerServlet {
 		Company company	= cs.getCompany(idCompany);
 		
 		if(id == null) {
-			System.err.println("Warning: Computer id was not right in EditComputerServlet.POST");
+			System.err.println("Warning: Computer id was not right in EditComputerController.POST");
 		}
 		
 		else {
