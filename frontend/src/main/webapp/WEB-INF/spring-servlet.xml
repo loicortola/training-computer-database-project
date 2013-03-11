@@ -41,7 +41,7 @@ http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 		class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
 			<property name="paramName" value="ln" />
 		</bean>
-	</mvc:interceptors>	
+	</mvc:interceptors>
 	
 	
 </beans>

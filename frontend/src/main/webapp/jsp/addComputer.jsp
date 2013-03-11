@@ -11,7 +11,7 @@
 	<form:form method="POST" commandName="computerForm">
 		<fieldset>
 			<c:choose>
-				<c:when test="${empty nameError}">
+				<c:when test="${empty result.getFieldError('name')}">
 					<div class="clearfix">
 				</c:when>
 				<c:otherwise>
@@ -28,7 +28,7 @@
 			</div>
 	
 			<c:choose>
-				<c:when test="${empty introducedError}">
+				<c:when test="${empty result.getFieldError('introduced')}">
 					<div class="clearfix">
 				</c:when>
 				<c:otherwise>
@@ -42,7 +42,7 @@
 				</div>
 			</div>
 			<c:choose>
-				<c:when test="${empty discontinuedError}">
+				<c:when test="${empty result.getFieldError('discontinued')}">
 					<div class="clearfix">
 				</c:when>
 				<c:otherwise>
@@ -58,7 +58,7 @@
 				</div>
 			</div>
 			<c:choose>
-				<c:when test="${empty companyError}">
+				<c:when test="${empty result.getFieldError('company')}">
 					<div class="clearfix">
 				</c:when>
 				<c:otherwise>
@@ -68,7 +68,7 @@
 				<label for="company"><lbl:message code="form.company.name"/></label>
 				<div class="input">
 					<form:select path="company">
-						<form:option value="" label="Select" />
+						<form:option value="" label="--" />
 						<c:forEach var="cy" items="${companies}">
 							<form:option value="${cy.id}" label="${cy.name}" />
 						</c:forEach>

@@ -1,14 +1,11 @@
 package com.formation.project.computerDatabase.controller;
 
 import java.beans.PropertyEditorSupport;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 import javax.validation.Valid;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
@@ -36,10 +33,6 @@ public class AddComputerController {
     
     @InitBinder
     public void initBinder(WebDataBinder binder) throws Exception {
-    	SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-    	
-    	//What we do with a date field in a form
-    	binder.registerCustomEditor(Date.class, null, new CustomDateEditor(dateFormat, true));
     	
     	//What we do with a company field in a form
     	binder.registerCustomEditor(Company.class, null, new PropertyEditorSupport() {
@@ -76,14 +69,9 @@ public class AddComputerController {
 		
 		Computer computer = computerForm.toComputer();
 		
-		if(result.hasFieldErrors("name")) 
-			mav.addObject("nameError", true);
-		if(result.hasFieldErrors("introduced")) 
-			mav.addObject("introducedError", true);
-		if(result.hasFieldErrors("discontinued")) 
-			mav.addObject("discontinuedError", true);
 		
 		if(result.hasErrors()) {
+			mav.addObject("result",result);
 			mav.addObject("computerForm", computerForm);
 			mav.addObject("companies", cs.getCompaniesList());
 		}

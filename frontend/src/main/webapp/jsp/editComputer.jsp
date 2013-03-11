@@ -12,7 +12,7 @@
 		<form:hidden path="id" />
 		<fieldset>
 			<c:choose>
-				<c:when test="${empty nameError}">
+				<c:when test="${empty result.getFieldError('name')}">
 					<div class="clearfix">
 				</c:when>
 				<c:otherwise>
@@ -29,7 +29,7 @@
 			</div>
 	
 			<c:choose>
-				<c:when test="${empty introducedError}">
+				<c:when test="${empty result.getFieldError('introduced')}">
 					<div class="clearfix">
 				</c:when>
 				<c:otherwise>
@@ -43,28 +43,28 @@
 				</div>
 			</div>
 			<c:choose>
-				<c:when test="${empty discontinuedError}">
+				<c:when test="${empty result.getFieldError('discontinued')}">
 					<div class="clearfix">
 				</c:when>
 				<c:otherwise>
 					<div class="clearfix error">
 				</c:otherwise>
 			</c:choose>
-				<label for="discontinued">Discontinued date</label>
+				<label for="discontinued"><lbl:message code="form.computer.discontinued"/></label>
 				<div class="input">
 					<form:input path="discontinued" />
 					<span class="help-inline"><lbl:message code="form.help.dateFormat"/></span>
 				</div>
 			</div>
 			<c:choose>
-				<c:when test="${empty companyError}">
+				<c:when test="${empty result.getFieldError('company')}">
 					<div class="clearfix">
 				</c:when>
 				<c:otherwise>
 					<div class="clearfix error">
 				</c:otherwise>
 			</c:choose>
-				<label for="company">Company</label>
+				<label for="company"><lbl:message code="form.company.name"/></label>
 				<div class="input">
 					<form:select path="company">
 						<form:option value="" label="Select" />			
@@ -82,7 +82,7 @@
 	
 	<form action="deleteComputer.html?id=${computerForm.id}" method="POST" class="topRight">
 	
-		<input type="button" value="<lbl:message code="form.submit.deleteComputer"/>" class="btn danger" onclick="if(confirm('Are you sure you want to delete that computer?')){this.form.submit();}">
+		<input type="button" value="<lbl:message code="form.submit.deleteComputer"/>" class="btn danger" onclick="if(confirm('<lbl:message code="form.help.submitDelete"/>')){this.form.submit();}">
 	
 	</form>
 <jsp:include page="include/footer.jsp" />
