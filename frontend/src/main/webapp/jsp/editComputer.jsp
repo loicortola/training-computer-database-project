@@ -80,7 +80,7 @@
 		</div>
 	</form:form>
 	
-	<form action="deleteComputer.html?id=${computer.id}" method="POST" class="topRight">
+	<form action="deleteComputer.html?id=${computerForm.id}" method="POST" class="topRight">
 	
 		<input type="button" value="<lbl:message code="form.submit.deleteComputer"/>" class="btn danger" onclick="if(confirm('Are you sure you want to delete that computer?')){this.form.submit();}">
 	

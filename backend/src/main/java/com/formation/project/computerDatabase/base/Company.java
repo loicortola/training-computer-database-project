@@ -24,7 +24,7 @@ public class Company {
     private String name;
     
     public Company() {}    
-
+    
 	public Long getId() {
 		return id;
 	}

@@ -10,25 +10,42 @@ import javax.persistence.Table;
 @Table(name="stats")
 public class Stat {
 
-    public Stat(Long id, String statType) {
+	public Stat() {}
+	
+    public Stat(Long idComputer, String statType) {
 		super();
-		this.id = id;
+		this.idComputer = idComputer;
 		this.statType = statType;
 	}
-    @Id
+    
+   	@Id
    	@GeneratedValue
-   	@Column(name="id_computer")
+	@Column(name="id_stats")
 	private Long id;
     
-    @Column(name="stat_type",nullable=false)
-    private String statType;
+   	@Column(name="id_computer")
+	private Long idComputer;
     
-    public Stat() {}    
+    @Column(name="stat_type",nullable=false)
+    private String statType;   
 
-	public Long getId() {
+    public Long getId() {
 		return id;
 	}
 
+	public void setId(Long id) {
+		this.id = id;
+	}
+    
+    
+	public Long getIdComputer() {
+		return idComputer;
+	}
+
+	public void setIdComputer(Long idComputer) {
+		this.idComputer = idComputer;
+	}
+	
 	public String getStatType() {
 		return statType;
 	}
@@ -37,8 +54,5 @@ public class Stat {
 		this.statType = statType;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
-	}
     
 }

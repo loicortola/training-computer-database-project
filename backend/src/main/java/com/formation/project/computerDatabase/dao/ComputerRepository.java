@@ -13,6 +13,6 @@ public interface ComputerRepository extends CrudRepository<Computer, Long> {
 
 	Page<Computer> findAll(Pageable pageable);
 	List<Computer> findAllByNameLikeIgnoreCase(String name);
-	Page<Computer> findAllByNameLikeIgnoreCase(String name, Pageable pageable);
+	Page<Computer> findAllByNameContainsIgnoreCase(String name, Pageable pageable);
 
 }

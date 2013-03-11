@@ -4,6 +4,9 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -12,63 +15,74 @@ import com.formation.project.computerDatabase.base.Computer;
 import com.formation.project.computerDatabase.base.Computers;
 import com.formation.project.computerDatabase.base.Stat;
 import com.formation.project.computerDatabase.base.TableSort;
-import com.formation.project.computerDatabase.dao.ICompanyDao;
-import com.formation.project.computerDatabase.dao.IComputerDao;
-import com.formation.project.computerDatabase.dao.IStatsDao;
+import com.formation.project.computerDatabase.dao.CompanyRepository;
+import com.formation.project.computerDatabase.dao.ComputerRepository;
+import com.formation.project.computerDatabase.dao.StatRepository;
 
 @Service
 @Transactional(readOnly=true)
 public class ComputerDatabaseServiceImpl implements IComputerDatabaseService {
 	
 	@Autowired
-	private IComputerDao computerDao;
+	private ComputerRepository computerRepo;
 	@Autowired
-	private ICompanyDao companyDao;
+	private CompanyRepository companyRepo;
 	@Autowired
-	private IStatsDao statsDao;
-
+	private StatRepository statRepo;
+	
+	private Sort getSort(TableSort sortBy) {
+		return new Sort(sortBy.isAsc() 
+				? Sort.Direction.ASC
+				: Sort.Direction.DESC, 
+				sortBy.getSortString());
+	}
+	
 	@Override
 	@Transactional(readOnly=false)
-	public void addComputer(Computer computer) {
-		
-		computerDao.saveOrUpdate(computer);
+	public void addComputer(Computer computer) {		
+		computerRepo.save(computer);
+		System.out.println(computer.getId());
 		Stat stat = new Stat(computer.getId(),"add");
-		statsDao.save(stat);
-		
+		statRepo.save(stat);
 	}
 
 	@Override
 	@Transactional(readOnly=false)
 	public void updateComputer(Computer computer) {
-		computerDao.saveOrUpdate(computer);
+		computerRepo.save(computer);
 		Stat stat = new Stat(computer.getId(),"update");
-		statsDao.save(stat);
+		statRepo.save(stat);
 	}
 
 	@Override
 	@Transactional(readOnly=false)
 	public void deleteComputer(Long computerId) {
-		computerDao.delete(computerId);
+		Computer c = getComputer(computerId);
+		computerRepo.delete(c);
+		System.out.println(computerId);
 		Stat stat = new Stat(computerId, "delete");
-		statsDao.save(stat);
+		statRepo.save(stat);
 	}
 
 	@Override
 	public Computer getComputer(Long computerId) {		
-		return computerDao.getComputer(computerId);
+		return computerRepo.findOne(computerId);
 	}
 
 	@Override
 	public List<Company> getCompaniesList() {
 		
-		return companyDao.getCompanies();
+		Sort sort = new Sort(Sort.Direction.ASC, "name");
+		return companyRepo.findAll(sort);
 	}
 
 	@Override
 	public Computers getComputers(Integer currentPage, Integer resultsPerPage, TableSort sortBy, String name) {
 		Computers computers = null;
+		Pageable pageable = new PageRequest(currentPage-1, resultsPerPage, getSort(sortBy));
+		Page<Computer> computersPage = computerRepo.findAllByNameContainsIgnoreCase(name, pageable);
 		
-		Page<Computer> computersPage = computerDao.getComputers(currentPage, resultsPerPage, sortBy,name);
+		
 		computers = new Computers(computersPage.getContent(),computersPage.getTotalElements(),sortBy);
 		
 		return computers;
@@ -77,8 +91,8 @@ public class ComputerDatabaseServiceImpl implements IComputerDatabaseService {
 	@Override
 	public Company getCompany(Long companyId) {
 		if(companyId == null)
-			return null;
-		return companyDao.getCompany(companyId);
+			return null;		
+		return companyRepo.findOne(companyId);
 	}
 
 }
