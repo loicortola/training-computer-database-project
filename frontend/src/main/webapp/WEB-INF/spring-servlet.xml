@@ -35,18 +35,13 @@ http://www.springframework.org/schema/context/spring-context-3.0.xsd">
     	<property name="defaultLocale" value="fr_FR"/>
     </bean>
     
-    <!--  To change the language -->
-	<bean id="localeChangeInterceptor"
+    <!--  To change the language -->	
+	<mvc:interceptors>  
+        <bean id="localeChangeInterceptor"
 		class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
-		<property name="paramName" value="lang" />
-	</bean>
-	<!--  To change the language -->
-	<bean id="handlerMapping"
-		class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping">
-		<property name="interceptors">
-		<ref bean="localeChangeInterceptor" />
-		</property>
-	</bean>
+			<property name="paramName" value="ln" />
+		</bean>
+	</mvc:interceptors>	
 	
 	
 </beans>

@@ -9,8 +9,6 @@
 <c:set var="actionPrefix" value="?&sortBy=${computers.tableSort.ordinal()}&searchName=${searchName}" scope="page" />
 <c:set var="sortActionPrefix" value="?&searchName=${searchName}" scope="page" />
 
-<a href="#" onclick='window.location.href="?ln=fr_FR"'>fr</a>
-<a href="#" onclick='window.location.href="?ln=en_EN"'>en</a>
 <div style="position:absolute;top:0px;right:20px;"> Ln: <a href="?ln=fr_FR">FR</a> / <a href="?ln=en_EN">EN</a></div>
 
 <h1 id="homeTitle">
