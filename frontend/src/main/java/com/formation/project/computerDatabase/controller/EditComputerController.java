@@ -95,13 +95,14 @@ public class EditComputerController {
 				mav.addObject("computerForm", computerForm);
 				mav.addObject("companies", cs.getCompaniesList());
 			}
-			
-			try {				
-				cs.updateComputer(computerForm.toComputer());
-			} catch (IllegalArgumentException e) {
-				System.err.println("Error in CoreServlet.submitEditComputer iae: " + e.getMessage());
+			else {			
+				try {				
+					cs.updateComputer(computerForm.toComputer());
+				} catch (IllegalArgumentException e) {
+					System.err.println("Error in CoreServlet.submitEditComputer iae: " + e.getMessage());
+				}
+				mav.setViewName("redirect:/dashboard.html");
 			}
-			mav.setViewName("redirect:/dashboard.html");
 		}
 		
 		return mav;		
