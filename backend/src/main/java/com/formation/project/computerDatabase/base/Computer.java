@@ -115,7 +115,7 @@ public class Computer {
 		return id;
 	}
 	
-	protected void setId(Long id) {
+	public void setId(Long id) {
 		if(id != null)
 			this.id = id;
 	}

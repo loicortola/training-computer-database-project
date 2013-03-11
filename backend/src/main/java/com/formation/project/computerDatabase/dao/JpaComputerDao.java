@@ -9,7 +9,6 @@ import org.springframework.stereotype.Repository;
 
 import com.formation.project.computerDatabase.base.Computer;
 import com.formation.project.computerDatabase.base.TableSort;
-import com.formation.project.computerDatabase.repositories.ComputerRepository;
 
 @Repository
 public class JpaComputerDao implements IComputerDao {

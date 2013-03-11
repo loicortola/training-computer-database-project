@@ -68,7 +68,7 @@
 		<property name="entityManagerFactory" ref="entityManagerFactory" />
 	</bean>
 	<!-- Spring configuration for JPA -->
-	<jpa:repositories base-package="com.formation.project.computerDatabase.repositories" />
+	<jpa:repositories base-package="com.formation.project.computerDatabase.dao" />
 	
 	<!-- Spring configuration for hibernate or JPA--> 	
 	<tx:annotation-driven transaction-manager="transactionManager" />

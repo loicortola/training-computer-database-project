@@ -2,9 +2,12 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:mvc="http://www.springframework.org/schema/mvc"
     xmlns:context="http://www.springframework.org/schema/context"
     xsi:schemaLocation="http://www.springframework.org/schema/beans
 http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+http://www.springframework.org/schema/mvc 
+http://www.springframework.org/schema/mvc/spring-mvc.xsd
 http://www.springframework.org/schema/context
 http://www.springframework.org/schema/context/spring-context-3.0.xsd">
  	
@@ -16,6 +19,34 @@ http://www.springframework.org/schema/context/spring-context-3.0.xsd">
         <property name="prefix" value="/jsp/" />
         <property name="suffix" value=".jsp" />
     </bean>
-    <context:component-scan base-package="com.formation.project.computerDatabase.controller" />         
+    <context:component-scan base-package="com.formation.project.computerDatabase.controller" />
+	
+	<!-- Spring configuration for form validation --> 	
+	<mvc:annotation-driven/>
+	
+	<!-- Beans à déclarer pour la gestion du multilingue -->
+    <!--  To parse the language files. Ici message_XXXXXXXX.properties -->
+    <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
+          <property name="basename" value="message" />
+	</bean>
+	<!-- To set the default language -->
+    <bean id="localeResolver"
+    class="org.springframework.web.servlet.i18n.CookieLocaleResolver">
+    	<property name="defaultLocale" value="fr_FR"/>
+    </bean>
+    
+    <!--  To change the language -->
+	<bean id="localeChangeInterceptor"
+		class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
+		<property name="paramName" value="lang" />
+	</bean>
+	<!--  To change the language -->
+	<bean id="handlerMapping"
+		class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping">
+		<property name="interceptors">
+		<ref bean="localeChangeInterceptor" />
+		</property>
+	</bean>
+	
 	
 </beans>

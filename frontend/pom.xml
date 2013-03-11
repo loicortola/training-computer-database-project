@@ -66,6 +66,11 @@
 			<artifactId>servlet-api</artifactId>
 			<scope>provided</scope>
 		</dependency>
+	<!-- Form validator dependencies -->
+			<dependency>
+	            <groupId>org.hibernate</groupId>
+	            <artifactId>hibernate-validator</artifactId>
+	        </dependency>
 	</dependencies>
 	<build>
 		<finalName>computerDatabaseProject</finalName>

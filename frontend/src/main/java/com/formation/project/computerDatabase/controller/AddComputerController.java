@@ -1,21 +1,27 @@
 package com.formation.project.computerDatabase.controller;
 
-import java.text.DateFormat;
-import java.text.ParseException;
+import java.beans.PropertyEditorSupport;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import javax.validation.Valid;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.formation.project.computerDatabase.base.Company;
 import com.formation.project.computerDatabase.base.Computer;
-import com.formation.project.computerDatabase.base.ComputerBuilder;
 import com.formation.project.computerDatabase.service.IComputerDatabaseService;
+import com.formation.project.computerDatabase.validator.ComputerForm;
 
 @Controller
 @RequestMapping("/addComputer")
@@ -28,70 +34,65 @@ public class AddComputerController {
     	super();
     }
     
+    @InitBinder
+    public void initBinder(WebDataBinder binder) throws Exception {
+    	SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+    	
+    	//What we do with a date field in a form
+    	binder.registerCustomEditor(Date.class, null, new CustomDateEditor(dateFormat, true));
+    	
+    	//What we do with a company field in a form
+    	binder.registerCustomEditor(Company.class, null, new PropertyEditorSupport() {
+    	    public void setAsText(String value) {
+    	    	if(value == null || value == "")
+    	    		setValue(null);
+    	    	else
+    	            setValue(cs.getCompany(Long.parseLong(value)));
+    	    }
+    	    public String getAsText() {
+    	    	if(getValue() == null)
+    	    		return null;
+    	        return ((Company) getValue()).getId().toString();
+    	    }
+    	});
+    }
+    
     @RequestMapping(method = RequestMethod.GET)
 	public ModelAndView addComputer() {
     	System.out.println("Entering AddComputerController:GET");
 		
     	ModelAndView mav = new ModelAndView("addComputer");
-    	mav.addObject("computer", new Computer());
+    	mav.addObject("computerForm", new ComputerForm());
     	mav.addObject("companies", cs.getCompaniesList());
         return mav;
     }
     
     @RequestMapping(method = RequestMethod.POST)
-	public ModelAndView submitAddComputer(String name, Long company, String introduced, String discontinued) {
+	public ModelAndView submitAddComputer(@Valid @ModelAttribute("computerForm") ComputerForm computerForm, BindingResult result) {
     	
     	System.out.println("Entering AddComputerController:POST");
     	
-    	Computer computer 		= null;
-    	Date introducedDate 	= null;
-		Date discontinuedDate 	= null;
-		
-    	DateFormat dateFormat	= new SimpleDateFormat("yyyy-MM-dd");
-		Boolean error			= false;
-		
-		
-		Company finalCompany	= cs.getCompany(company);
-		
 		ModelAndView mav = new ModelAndView("addComputer");
-    	
-		if(name == null || name == "") 
-			mav.addObject("nameError", "Name field is required");
-
-		if(company == null)
-			mav.addObject("companyError", "Please select a company");
 		
-	    try {
-			introducedDate = dateFormat.parse(introduced);	
-		} catch (ParseException e) {
-			System.err.println("Error in CoreServlet.submitAddComputer pe: " + e.getMessage());
-			mav.addObject("introducedError", "Introduced date is not valid");
-		}
+		Computer computer = computerForm.toComputer();
 		
-		try {
-			discontinuedDate = dateFormat.parse(discontinued);	
-		} catch (ParseException e1) {
-			System.out.println("Warning in CoreServlet.submitAddComputer: No discontinued date specified");
-		}
+		if(result.hasFieldErrors("name")) 
+			mav.addObject("nameError", true);
+		if(result.hasFieldErrors("introduced")) 
+			mav.addObject("introducedError", true);
+		if(result.hasFieldErrors("discontinued")) 
+			mav.addObject("discontinuedError", true);
 		
-		computer = new ComputerBuilder()
-		.name(name)
-		.introduced(introducedDate)
-		.discontinued(discontinuedDate)
-		.company(finalCompany)
-		.build();
-		
-		try {			
-			cs.addComputer(computer);	
-		} catch (IllegalArgumentException e) {
-			System.err.println("Error in CoreServlet.submitAddComputer iae: " + e.getMessage());
-			error = true;
-		}
-		if(error) {
-			mav.addObject("computer", computer);
+		if(result.hasErrors()) {
+			mav.addObject("computerForm", computerForm);
 			mav.addObject("companies", cs.getCompaniesList());
 		}
 		else {
+			try {
+				cs.addComputer(computer);	
+			} catch (IllegalArgumentException e) {
+				System.err.println("Error in CoreServlet.submitAddComputer iae: " + e.getMessage());
+			}
 			mav.setViewName("redirect:/dashboard.html");
 		}
 		

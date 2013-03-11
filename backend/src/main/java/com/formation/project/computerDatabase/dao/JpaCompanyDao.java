@@ -7,7 +7,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
 
 import com.formation.project.computerDatabase.base.Company;
-import com.formation.project.computerDatabase.repositories.CompanyRepository;
 
 @Repository
 public class JpaCompanyDao implements ICompanyDao {

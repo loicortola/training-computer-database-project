@@ -1,12 +1,15 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+<%@ taglib uri="http://www.springframework.org/tags" prefix="lbl"%>
 <%@ page import="java.util.*"%>
 
 <jsp:include page="include/header.jsp" />
 	<section id="main">
-	<h1>Edit a computer</h1>
+	<h1><lbl:message code="page.editComputer.title"/></h1>
 	
-	<form action="editComputer.html?id=${computer.id}" method="POST">
+	<form:form method="POST" commandName="computerForm">
+		<form:hidden path="id" />
 		<fieldset>
 			<c:choose>
 				<c:when test="${empty nameError}">
@@ -16,13 +19,12 @@
 					<div class="clearfix error">
 				</c:otherwise>
 			</c:choose>
-				<label for="name">Computer name</label>
+				<label for="name"><lbl:message code="form.computer.name"/></label>
 				<div class="input">
 	
-					<input type="text" id="name" name="name"
-						value="${computer.name}">
+					<form:input path="name" />
 	
-					<span class="help-inline">Required</span>
+					<span class="help-inline"><lbl:message code="form.help.required"/></span>
 				</div>
 			</div>
 	
@@ -34,19 +36,10 @@
 					<div class="clearfix error">
 				</c:otherwise>
 			</c:choose>
-				<label for="introduced">Introduced date</label>
+				<label for="introduced"><lbl:message code="form.computer.introduced"/></label>
 				<div class="input">
-	
-					<c:choose>
-						<c:when test="${!empty computer.introduced }">
-							<input type="text" id="introduced" name="introduced" value="${computer.getFormatedIntroduced()}">
-						</c:when>
-						<c:otherwise>
-							<input type="text" id="introduced" name="introduced">
-						</c:otherwise>
-					</c:choose>
-					
-					<span class="help-inline">Date (&#x27;yyyy-MM-dd&#x27;)</span>
+					<form:input path="introduced" />
+					<span class="help-inline"><lbl:message code="form.help.dateFormat"/></span>
 				</div>
 			</div>
 			<c:choose>
@@ -59,17 +52,8 @@
 			</c:choose>
 				<label for="discontinued">Discontinued date</label>
 				<div class="input">
-	
-					<c:choose>
-						<c:when test="${!empty computer.discontinued }">
-							<input type="text" id="discontinued" name="discontinued" value="${computer.getFormatedDiscontinued()}">
-						</c:when>
-						<c:otherwise>
-							<input type="text" id="discontinued" name="discontinued">
-						</c:otherwise>
-					</c:choose>
-					
-					<span class="help-inline">Date (&#x27;yyyy-MM-dd&#x27;)</span>
+					<form:input path="discontinued" />
+					<span class="help-inline"><lbl:message code="form.help.dateFormat"/></span>
 				</div>
 			</div>
 			<c:choose>
@@ -82,45 +66,23 @@
 			</c:choose>
 				<label for="company">Company</label>
 				<div class="input">
-	
-					<c:choose>
-						<c:when test="${!empty companies}">
-							<select id="company" name="company">
-								<c:forEach var="company" items="${companies}">
-									<c:choose>
-										<c:when test="${computer.company.id == company.id}">
-											
-													<option value="${company.id}" selected>
-														${company.getName()}
-													</option>
-										</c:when>
-										<c:otherwise>
-											<option value="${company.id}">
-												${company.name}
-											</option>
-										</c:otherwise>
-									</c:choose>
-								</c:forEach>
-							</select>
-						</c:when>
-						<c:otherwise>
-							<select id="company" name="company" disabled="true"> </select>
-						</c:otherwise>
-					</c:choose> 
-					
+					<form:select path="company">
+						<form:option value="" label="Select" />			
+						<form:options items="${companies}" itemValue="id" itemLabel="name" />						
+					</form:select>
 				</div>
 			</div>
 	
 		</fieldset>
 		<div class="actions">
-			<input type="submit" value="Save modifications" class="btn primary">
-			or <a href="dashboard.html" class="btn">Cancel</a>
+			<input type="submit" value="<lbl:message code="form.submit.save"/>" class="btn primary">
+			or <a href="dashboard.html" class="btn"><lbl:message code="form.submit.cancel"/></a>
 		</div>
-	</form>
+	</form:form>
 	
 	<form action="deleteComputer.html?id=${computer.id}" method="POST" class="topRight">
 	
-		<input type="button" value="Delete this computer" class="btn danger" onclick="if(confirm('Are you sure you want to delete that computer?')){this.form.submit();}">
+		<input type="button" value="<lbl:message code="form.submit.deleteComputer"/>" class="btn danger" onclick="if(confirm('Are you sure you want to delete that computer?')){this.form.submit();}">
 	
 	</form>
 <jsp:include page="include/footer.jsp" />

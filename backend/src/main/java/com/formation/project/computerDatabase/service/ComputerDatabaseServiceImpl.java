@@ -76,6 +76,8 @@ public class ComputerDatabaseServiceImpl implements IComputerDatabaseService {
 
 	@Override
 	public Company getCompany(Long companyId) {
+		if(companyId == null)
+			return null;
 		return companyDao.getCompany(companyId);
 	}
 
