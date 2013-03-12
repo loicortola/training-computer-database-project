@@ -58,9 +58,8 @@ public class ComputerDatabaseServiceImpl implements IComputerDatabaseService {
 		Assert.notNull(computer.getId());
 		Assert.hasText(computer.getName().trim());
 		
-		Computer c = getComputer(computer.getId());
 		//Checking that the computer actually exists in the database
-		Assert.notNull(c);
+		Assert.isTrue(computerRepo.exists(computer.getId()));
 				
 		computerRepo.save(computer);
 		
@@ -118,7 +117,7 @@ public class ComputerDatabaseServiceImpl implements IComputerDatabaseService {
 
 	@Override
 	public Company getCompany(Long companyId) {
-		Assert.notNull(companyId);		
+		Assert.notNull(companyId);
 		return companyRepo.findOne(companyId);
 	}
 
