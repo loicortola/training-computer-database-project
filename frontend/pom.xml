@@ -59,6 +59,11 @@
 			<artifactId>logback-core</artifactId>
 			<scope>compile</scope>
 		</dependency>
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-access</artifactId>
+			<scope>compile</scope>
+		</dependency>
 		<!-- Joda Time dependencies -->
 		<dependency>
 			<groupId>joda-time</groupId>
