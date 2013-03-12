@@ -1,9 +1,5 @@
 package com.formation.project.computerDatabase.base;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -13,11 +9,16 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Type;
+import org.joda.time.LocalDate;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
+
 @Entity
 @Table(name="computer")
 public class Computer {
 
-    public Computer(Long id, String name, Date introduced, Date discontinued,
+    public Computer(Long id, String name, LocalDate introduced, LocalDate discontinued,
 			Company company) {
 		super();
 		this.id = id;
@@ -36,11 +37,13 @@ public class Computer {
     @Column(nullable=false)
     private String name;
     
-    @Column(nullable=false)
-    private Date introduced;
-    
+    @Type(type="org.jadira.usertype.dateandtime.joda.PersistentLocalDate")
     @Column(nullable=true)
-    private Date discontinued;
+    private LocalDate introduced;
+    
+    @Type(type="org.jadira.usertype.dateandtime.joda.PersistentLocalDate")
+    @Column(nullable=true)
+    private LocalDate discontinued;
     
     @ManyToOne
     @JoinColumn(name = "id_company")
@@ -129,33 +132,36 @@ public class Computer {
 		this.name = name;
 	}
 
-	public Date getIntroduced() {
+	public LocalDate getIntroduced() {
 		return introduced;
 	}
 	
 	public String getFormatedIntroduced() {
-		DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+		
+		DateTimeFormatter df = DateTimeFormat.forPattern("yyyy-MM-dd");
+		
 		if(introduced != null)
-			return df.format(introduced);
+			return introduced.toString(df);
 		return "N/A";
 	}
 
-	public void setIntroduced(Date introduced) {
+	public void setIntroduced(LocalDate introduced) {
 		this.introduced = introduced;
 	}
 
-	public Date getDiscontinued() {
+	public LocalDate getDiscontinued() {
 		return discontinued;
 	}
 	
 	public String getFormatedDiscontinued() {
-		DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+		DateTimeFormatter df = DateTimeFormat.forPattern("yyyy-MM-dd");
+		
 		if(discontinued != null)
-			return df.format(discontinued);
+			return discontinued.toString(df);
 		return "N/A";
 	}
 
-	public void setDiscontinued(Date discontinued) {
+	public void setDiscontinued(LocalDate discontinued) {
 		this.discontinued = discontinued;
 	}
 

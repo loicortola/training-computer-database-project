@@ -1,10 +1,9 @@
 package com.formation.project.computerDatabase.validator;
 
-import java.util.Date;
-
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotEmpty;
+import org.joda.time.LocalDate;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.formation.project.computerDatabase.base.Company;
@@ -17,9 +16,9 @@ public class ComputerForm {
     @NotEmpty
 	private String name;
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	private Date introduced;
+	private LocalDate introduced;
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	private Date discontinued;
+	private LocalDate discontinued;
 	private Company company;
 	
 	public ComputerForm(Computer computer) {
@@ -46,16 +45,16 @@ public class ComputerForm {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public Date getIntroduced() {
+	public LocalDate getIntroduced() {
 		return introduced;
 	}
-	public void setIntroduced(Date introduced) {
+	public void setIntroduced(LocalDate introduced) {
 		this.introduced = introduced;
 	}
-	public Date getDiscontinued() {
+	public LocalDate getDiscontinued() {
 		return discontinued;
 	}
-	public void setDiscontinued(Date discontinued) {
+	public void setDiscontinued(LocalDate discontinued) {
 		this.discontinued = discontinued;
 	}
 	

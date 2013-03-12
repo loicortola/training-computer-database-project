@@ -17,8 +17,9 @@
 		<jdbc-template.version>3.0.7.RELEASE</jdbc-template.version>
 		<javassist.version>3.12.1.GA</javassist.version>
 		<junit.version>3.8.1</junit.version>
-		<slf4j.version>1.7.2</slf4j.version>
 		<logback.version>1.0.9</logback.version>
+		<joda-time.version>2.1</joda-time.version>
+		<jadira-usertype.version>2.0.1</jadira-usertype.version>
 		<jstl.version>1.2</jstl.version>
 		<servlet-api.version>3.0-alpha-1</servlet-api.version>
 		<bonecp.version>0.8.0-rc1</bonecp.version>
@@ -111,17 +112,7 @@
 				<version>${junit.version}</version>
 				<scope>test</scope>
 			</dependency>
-			<!-- Slf4j dependencies -->
-			<dependency>
-				<groupId>org.slf4j</groupId>
-				<artifactId>slf4j-api</artifactId>
-				<version>${slf4j.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.slf4j</groupId>
-				<artifactId>jcl-over-slf4j</artifactId>
-				<version>${slf4j.version}</version>
-			</dependency>
+			<!-- Slf4j Logback dependencies -->
 			<dependency>
 				<groupId>ch.qos.logback</groupId>
 				<artifactId>logback-classic</artifactId>
@@ -131,6 +122,17 @@
 				<groupId>ch.qos.logback</groupId>
 				<artifactId>logback-core</artifactId>
 				<version>${logback.version}</version>
+			</dependency>
+			<!-- Joda Time dependencies -->
+			<dependency>
+				<groupId>joda-time</groupId>
+				<artifactId>joda-time</artifactId>
+				<version>${joda-time.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.jadira.usertype</groupId>
+				<artifactId>usertype.jodatime</artifactId>
+				<version>${jadira-usertype.version}</version>
 			</dependency>
 			<!-- JSTL lib dependencies -->
 			<dependency>

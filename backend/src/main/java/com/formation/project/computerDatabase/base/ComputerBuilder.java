@@ -1,6 +1,6 @@
 package com.formation.project.computerDatabase.base;
 
-import java.util.Date;
+import org.joda.time.LocalDate;
 
 public class ComputerBuilder {
 
@@ -8,9 +8,9 @@ public class ComputerBuilder {
     
     private String name=null;
     
-    private Date introduced=null;
+    private LocalDate introduced=null;
     
-    private Date discontinued=null;
+    private LocalDate discontinued=null;
     
     private Company company=null;
     
@@ -24,12 +24,12 @@ public class ComputerBuilder {
     	return this;
     }
 	
-    public ComputerBuilder introduced(Date introduced) {
+    public ComputerBuilder introduced(LocalDate introduced) {
     	this.introduced = introduced;
     	return this;
     }
     
-    public ComputerBuilder discontinued(Date discontinued) {
+    public ComputerBuilder discontinued(LocalDate discontinued) {
     	this.discontinued = discontinued;
     	return this;
     }

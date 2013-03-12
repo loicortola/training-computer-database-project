@@ -1,1 +1,0 @@
-<%pageContext.forward("dashboard.html");%>
