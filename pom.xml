@@ -18,6 +18,7 @@
 		<javassist.version>3.12.1.GA</javassist.version>
 		<junit.version>3.8.1</junit.version>
 		<slf4j.version>1.7.2</slf4j.version>
+		<logback.version>1.0.9</logback.version>
 		<jstl.version>1.2</jstl.version>
 		<servlet-api.version>3.0-alpha-1</servlet-api.version>
 		<bonecp.version>0.8.0-rc1</bonecp.version>
@@ -25,104 +26,92 @@
 	</properties>
 	<dependencyManagement>
 		<dependencies>
-		
-		<!-- Spring Framework dependencies -->
+
+			<!-- Spring Framework dependencies -->
 			<dependency>
 				<groupId>org.springframework</groupId>
 				<artifactId>spring-aop</artifactId>
 				<version>${spring.version}</version>
-				<scope>compile</scope>
 			</dependency>
 			<dependency>
 				<groupId>org.springframework</groupId>
 				<artifactId>spring-tx</artifactId>
 				<version>${spring.version}</version>
-				<scope>compile</scope>
 			</dependency>
 			<dependency>
 				<groupId>org.springframework</groupId>
 				<artifactId>spring-web</artifactId>
 				<version>${spring.version}</version>
-				<scope>compile</scope>
 			</dependency>
 			<dependency>
 				<groupId>org.springframework</groupId>
 				<artifactId>spring-webmvc</artifactId>
 				<version>${spring.version}</version>
-				<scope>compile</scope>
 			</dependency>
 			<dependency>
 				<groupId>org.springframework</groupId>
 				<artifactId>spring-context</artifactId>
 				<version>${spring.version}</version>
-				<scope>compile</scope>
 			</dependency>
 			<dependency>
 				<groupId>org.springframework</groupId>
 				<artifactId>spring-beans</artifactId>
 				<version>${spring.version}</version>
-				<scope>compile</scope>
 			</dependency>
 			<dependency>
 				<groupId>org.springframework</groupId>
 				<artifactId>spring-orm</artifactId>
 				<version>${spring.version}</version>
-				<scope>compile</scope>
 			</dependency>
-		<!-- CGLib, spring dependency for proxy creation -->
+			<!-- CGLib, spring dependency for proxy creation -->
 			<dependency>
 				<groupId>cglib</groupId>
 				<artifactId>cglib</artifactId>
 				<version>${cglib.version}</version>
-				<scope>compile</scope>
 			</dependency>
-		<!-- Javassist, spring dependency for proxy creation -->
+			<!-- Javassist, spring dependency for proxy creation -->
 			<dependency>
 				<groupId>javassist</groupId>
 				<artifactId>javassist</artifactId>
 				<version>${javassist.version}</version>
-				<scope>runtime</scope>
 			</dependency>
-		<!-- Spring Data JPA dependencies -->
+			<!-- Spring Data JPA dependencies -->
 			<dependency>
-	            <groupId>org.springframework.data</groupId>
-	            <artifactId>spring-data-jpa</artifactId>
-	            <version>${spring.data.jpa.version}</version>
-	            <scope>compile</scope>
-	        </dependency>
-	        <dependency>
-	            <groupId>javax.persistence</groupId>
-	            <artifactId>persistence-api</artifactId>
-	            <version>${javax.persistence-api.version}</version>
-	            <scope>compile</scope>
-	        </dependency>
-	    <!-- Mysql connector dependencies -->   
+				<groupId>org.springframework.data</groupId>
+				<artifactId>spring-data-jpa</artifactId>
+				<version>${spring.data.jpa.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>javax.persistence</groupId>
+				<artifactId>persistence-api</artifactId>
+				<version>${javax.persistence-api.version}</version>
+			</dependency>
+			<!-- Mysql connector dependencies -->
 			<dependency>
 				<groupId>mysql</groupId>
 				<artifactId>mysql-connector-java</artifactId>
 				<version>${mysql.version}</version>
-				<scope>compile</scope>
 			</dependency>
-		<!-- Hibernate dependencies -->
-		 	<dependency>
-	            <groupId>org.hibernate</groupId>
-	            <artifactId>hibernate-entitymanager</artifactId>
-	            <version>${hibernate.version}</version>
-	        </dependency>
-	    <!-- Spring JDBC template -->
+			<!-- Hibernate dependencies -->
+			<dependency>
+				<groupId>org.hibernate</groupId>
+				<artifactId>hibernate-entitymanager</artifactId>
+				<version>${hibernate.version}</version>
+			</dependency>
+			<!-- Spring JDBC template -->
 			<dependency>
 				<groupId>org.springframework</groupId>
 				<artifactId>spring-jdbc</artifactId>
 				<version>${jdbc-template.version}</version>
 			</dependency>
-		<!-- Junit dependencies -->
+			<!-- Junit dependencies -->
 			<dependency>
 				<groupId>junit</groupId>
 				<artifactId>junit</artifactId>
 				<version>${junit.version}</version>
 				<scope>test</scope>
 			</dependency>
-		<!-- Slf4j dependencies -->
+			<!-- Slf4j dependencies -->
 			<dependency>
 				<groupId>org.slf4j</groupId>
 				<artifactId>slf4j-api</artifactId>
@@ -130,37 +119,46 @@
 			</dependency>
 			<dependency>
 				<groupId>org.slf4j</groupId>
-				<artifactId>slf4j-simple</artifactId>
+				<artifactId>jcl-over-slf4j</artifactId>
 				<version>${slf4j.version}</version>
 			</dependency>
-		<!-- JSTL lib dependencies -->
+			<dependency>
+				<groupId>ch.qos.logback</groupId>
+				<artifactId>logback-classic</artifactId>
+				<version>${logback.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>ch.qos.logback</groupId>
+				<artifactId>logback-core</artifactId>
+				<version>${logback.version}</version>
+			</dependency>
+			<!-- JSTL lib dependencies -->
 			<dependency>
 				<groupId>javax.servlet</groupId>
 				<artifactId>jstl</artifactId>
 				<version>${jstl.version}</version>
 			</dependency>
-		<!-- Servlet API dependencies -->
+			<!-- Servlet API dependencies -->
 			<dependency>
 				<groupId>javax.servlet</groupId>
 				<artifactId>servlet-api</artifactId>
 				<version>${servlet-api.version}</version>
-				<scope>provided</scope>
-			</dependency>	
-		<!-- BoneCP conn pool dependencies -->	
+			</dependency>
+			<!-- BoneCP conn pool dependencies -->
 			<dependency>
 				<groupId>com.jolbox</groupId>
 				<artifactId>bonecp</artifactId>
 				<version>${bonecp.version}</version>
 			</dependency>
-		<!-- Form validator dependencies -->
+			<!-- Form validator dependencies -->
 			<dependency>
-	            <groupId>org.hibernate</groupId>
-	            <artifactId>hibernate-validator</artifactId>
-	            <version>${form.validator.version}</version>
-	        </dependency>
+				<groupId>org.hibernate</groupId>
+				<artifactId>hibernate-validator</artifactId>
+				<version>${form.validator.version}</version>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
-	
+
 	<build>
 		<finalName>computerDatabaseProject</finalName>
 		<resources>
