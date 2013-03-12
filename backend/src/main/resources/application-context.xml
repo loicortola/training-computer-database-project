@@ -43,8 +43,7 @@
 	
 	
 	<!-- Spring configuration for JPA -->
-	<!-- Adding scan of repositories package -->
-	<jpa:repositories base-package="com.formation.project.computerDatabase.repositories" />
+	<!-- Adding scan of repositories package -->	
 	<bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
     	<property name="dataSource" ref="computerDataSource" />
     	<property name="persistenceUnitName" value="jpaPU" />
