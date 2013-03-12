@@ -123,11 +123,6 @@
 				<artifactId>logback-core</artifactId>
 				<version>${logback.version}</version>
 			</dependency>
-			<dependency>
-				<groupId>ch.qos.logback</groupId>
-				<artifactId>logback-access</artifactId>
-				<version>${logback.version}</version>
-			</dependency>
 			<!-- Joda Time dependencies -->
 			<dependency>
 				<groupId>joda-time</groupId>
