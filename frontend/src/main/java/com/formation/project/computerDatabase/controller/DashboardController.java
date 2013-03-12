@@ -1,5 +1,7 @@
 package com.formation.project.computerDatabase.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,6 +20,8 @@ public class DashboardController {
 	@Autowired
 	private IComputerDatabaseService cs;
 	private static final Integer RESULTS_PER_PAGE = 10;
+	private final static Logger logger = LoggerFactory.getLogger(DashboardController.class);
+	
 	
 	public DashboardController() {
         super();
@@ -27,9 +31,10 @@ public class DashboardController {
 	private ModelAndView dashboard(
 									@RequestParam(value="searchName", defaultValue="") String searchName,
 									@RequestParam(value="sortBy", defaultValue="0") String sortBy,
-									@RequestParam(value="page", defaultValue="1") String page) {
+									@RequestParam(value="page", defaultValue="1") String page
+									) {
 		
-		System.out.println("Entering DashboardController");
+		logger.debug("Entering DashboardController");
 		
 		TableSort sortByEnum = null;
 		Integer currentPage  = null;

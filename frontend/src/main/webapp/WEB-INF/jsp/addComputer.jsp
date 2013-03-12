@@ -68,12 +68,9 @@
 				<label for="company"><lbl:message code="form.company.name"/></label>
 				<div class="input">
 					<form:select path="company">
-						<form:option value="" label="--" />
-						<c:forEach var="cy" items="${companies}">
-							<form:option value="${cy.id}" label="${cy.name}" />
-						</c:forEach>
+						<form:option value="" label="--" />			
+						<form:options items="${companies}" itemValue="id" itemLabel="name" />						
 					</form:select>
-					<span class="help-inline"></span>
 				</div>
 			</div>
 		</fieldset>

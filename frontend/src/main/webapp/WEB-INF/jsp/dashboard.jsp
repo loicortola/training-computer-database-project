@@ -1,5 +1,6 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@taglib uri="http://www.joda.org/joda/time/tags" prefix="joda" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="lbl"%>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="pag" %>
 <%@ page import="java.util.*"%>
@@ -8,9 +9,9 @@
 <section id="main">
 
 	<c:set var="actionPrefix"
-		value="?&sortBy=${computers.tableSort.ordinal()}&searchName=${searchName}"
+		value="?&sortBy=${computers.tableSort.ordinal()}&searchName=${param.searchName}"
 		scope="page" />
-	<c:set var="sortActionPrefix" value="?&searchName=${searchName}"
+	<c:set var="sortActionPrefix" value="?&searchName=${param.searchName}"
 		scope="page" />
 
 	<div style="position: absolute; top: 0px; right: 20px;">
@@ -21,6 +22,24 @@
 		<lbl:message code="page.dashboard.title"
 			arguments="${computers.computerCount}" />
 	</h1>
+	<c:if test="${!empty submitAction}">
+		<div class="alert-message warning">
+			<strong>BAM!</strong> 
+			<c:choose>
+				<c:when test="${submitAction eq 'add'}">
+					<lbl:message code="page.dashboard.confirmAdd" arguments="${computerName}" />				
+				</c:when>
+				<c:when test="${submitAction eq 'update'}">
+					<lbl:message code="page.dashboard.confirmUpdate" arguments="${computerName}" />				
+				</c:when>
+				<c:when test="${submitAction eq 'delete'}">
+					<lbl:message code="page.dashboard.confirmDelete" arguments="${computerName}" />				
+				</c:when>
+			</c:choose>
+			 
+		</div>
+	</c:if>	
+	
 
 	<div id="actions">
 		<form action="" method="GET">
@@ -77,8 +96,8 @@
 				<c:forEach var="computer" items="${computers.list()}">
 					<tr>
 						<td><a href="editComputer.html?editId=${computer.id}">${computer.name}</a></td>
-						<td>${computer.getFormatedIntroduced()}</td>
-						<td>${computer.getFormatedDiscontinued()}</td>
+						<td><joda:format value="${computer.introduced}" pattern="yyyy-MM-dd" /></td>
+						<td><joda:format value="${computer.discontinued}" pattern="yyyy-MM-dd" /></td>
 						<td>${computer.company.name}</td>
 					</tr>
 				</c:forEach>

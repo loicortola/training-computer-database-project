@@ -66,6 +66,11 @@
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
+				<groupId>joda-time</groupId>
+				<artifactId>joda-time-jsptags</artifactId>
+				<scope>runtime</scope>
+			</dependency>
+		<dependency>
 			<groupId>org.jadira.usertype</groupId>
 			<artifactId>usertype.jodatime</artifactId>
 			<scope>compile</scope>

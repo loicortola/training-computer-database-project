@@ -2,6 +2,8 @@ package com.formation.project.computerDatabase.service;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -31,6 +33,8 @@ public class ComputerDatabaseServiceImpl implements IComputerDatabaseService {
 	@Autowired
 	private StatRepository statRepo;
 	
+	private final static Logger logger = LoggerFactory.getLogger(ComputerDatabaseServiceImpl.class);
+	
 	private Sort getSort(TableSort sortBy) {
 		return new Sort(sortBy.isAsc() 
 				? Sort.Direction.ASC
@@ -41,51 +45,70 @@ public class ComputerDatabaseServiceImpl implements IComputerDatabaseService {
 	@Override
 	@Transactional(readOnly=false)
 	public void addComputer(Computer computer) {
-		Assert.notNull(computer);
-		Assert.hasText(computer.getName().trim());
-		
-		computerRepo.save(computer);
-		
-		Stat stat = new Stat(computer.getId(),"add");
-		
-		statRepo.save(stat);
+		logger.debug("Entering Service.addComputer");
+		try {
+			Assert.notNull(computer);
+			Assert.hasText(computer.getName().trim());
+			
+			computerRepo.save(computer);
+			
+			Stat stat = new Stat(computer.getId(),"add");
+			
+			statRepo.save(stat);
+		} catch (IllegalArgumentException e) {
+			logger.warn("WARNING: iae in Service.addComputer: " + e.getMessage());
+			throw new IllegalArgumentException();
+		}
 	}
 
 	@Override
 	@Transactional(readOnly=false)
 	public void updateComputer(Computer computer) {
-		Assert.notNull(computer);
-		Assert.notNull(computer.getId());
-		Assert.hasText(computer.getName().trim());
-		
-		//Checking that the computer actually exists in the database
-		Assert.isTrue(computerRepo.exists(computer.getId()));
-				
-		computerRepo.save(computer);
-		
-		Stat stat = new Stat(computer.getId(),"update");
-		
-		statRepo.save(stat);
+		logger.debug("Entering Service.updateComputer");
+		try {
+			Assert.notNull(computer);
+			Assert.notNull(computer.getId());
+			Assert.hasText(computer.getName().trim());
+			
+			//Checking that the computer actually exists in the database
+			Assert.isTrue(computerRepo.exists(computer.getId()));
+					
+			computerRepo.save(computer);
+			
+			Stat stat = new Stat(computer.getId(),"update");
+			
+			statRepo.save(stat);
+		} catch (IllegalArgumentException e) {
+			logger.warn("WARNING: iae in Service.updateComputer: " + e.getMessage());
+			throw new IllegalArgumentException();
+		}
 	}
 
 	@Override
 	@Transactional(readOnly=false)
 	public void deleteComputer(Long computerId) {
-		Assert.notNull(computerId);
-		
-		Computer c = getComputer(computerId);
-		//Checking that the computer actually exists in the database
-		Assert.notNull(c);
-		
-		computerRepo.delete(c);
-		
-		Stat stat = new Stat(computerId, "delete");
-		
-		statRepo.save(stat);
+		logger.debug("Entering Service.deleteComputer");
+		try {
+			Assert.notNull(computerId);
+			
+			Computer c = getComputer(computerId);
+			//Checking that the computer actually exists in the database
+			Assert.notNull(c);
+			
+			computerRepo.delete(c);
+			
+			Stat stat = new Stat(computerId, "delete");
+			
+			statRepo.save(stat);
+		} catch (IllegalArgumentException e){
+			logger.warn("WARNING: iae in Service.deleteComputer: " + e.getMessage());
+			throw new IllegalArgumentException();
+		}
 	}
 
 	@Override
 	public Computer getComputer(Long computerId) {
+		logger.debug("Entering Service.getComputer");		
 		Assert.notNull(computerId);
 		
 		return computerRepo.findOne(computerId);
@@ -93,13 +116,14 @@ public class ComputerDatabaseServiceImpl implements IComputerDatabaseService {
 
 	@Override
 	public List<Company> getCompaniesList() {
-		
+		logger.debug("Entering Service.getCompaniesList");
 		Sort sort = new Sort(Sort.Direction.ASC, "name");
 		return companyRepo.findAll(sort);
 	}
 
 	@Override
 	public Computers getComputers(Integer currentPage, Integer resultsPerPage, TableSort sortBy, String name) {
+		logger.debug("Entering Service.getComputers: currentPage=" + currentPage + " resultsPerPage=" + resultsPerPage + " sortBy=" + sortBy.getSortString() + " searchName=" + name);
 		Assert.notNull(currentPage);
 		Assert.notNull(resultsPerPage);
 		Assert.notNull(sortBy);
@@ -117,6 +141,7 @@ public class ComputerDatabaseServiceImpl implements IComputerDatabaseService {
 
 	@Override
 	public Company getCompany(Long companyId) {
+		logger.debug("Entering Service.getCompany");
 		Assert.notNull(companyId);
 		return companyRepo.findOne(companyId);
 	}

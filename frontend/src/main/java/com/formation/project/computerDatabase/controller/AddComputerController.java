@@ -5,6 +5,8 @@ import java.beans.PropertyEditorSupport;
 import javax.validation.Valid;
 
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.formation.project.computerDatabase.base.Company;
 import com.formation.project.computerDatabase.base.Computer;
@@ -27,6 +30,8 @@ public class AddComputerController {
 	@Autowired
     private IComputerDatabaseService cs	= null;
     
+	private final static Logger logger = LoggerFactory.getLogger(AddComputerController.class);
+		
     public AddComputerController() {
     	super();
     }
@@ -52,7 +57,7 @@ public class AddComputerController {
     
     @RequestMapping(method = RequestMethod.GET)
 	public ModelAndView addComputer() {
-    	System.out.println("Entering AddComputerController:GET");
+    	logger.debug("Entering AddComputerController:GET");
 		
     	ModelAndView mav = new ModelAndView("addComputer");
     	mav.addObject("computerForm", new ComputerForm());
@@ -61,9 +66,9 @@ public class AddComputerController {
     }
     
     @RequestMapping(method = RequestMethod.POST)
-	public ModelAndView submitAddComputer(@Valid @ModelAttribute("computerForm") ComputerForm computerForm, BindingResult result) {
+	public ModelAndView submitAddComputer(@Valid @ModelAttribute("computerForm") ComputerForm computerForm, BindingResult result, RedirectAttributes redirectAttributes) {
     	
-    	System.out.println("Entering AddComputerController:POST");
+		logger.debug("Entering AddComputerController:POST");
     	
 		ModelAndView mav = new ModelAndView("addComputer");
 		
@@ -77,9 +82,12 @@ public class AddComputerController {
 		}
 		else {
 			try {
-				cs.addComputer(computer);	
+				cs.addComputer(computer);
+				redirectAttributes.addFlashAttribute("submitAction","add");
+				redirectAttributes.addFlashAttribute("computerName",computer.getName());
+				
 			} catch (IllegalArgumentException e) {
-				System.err.println("Error in CoreServlet.submitAddComputer iae: " + e.getMessage());
+				logger.warn("WARNING in CoreServlet.submitAddComputer iae: " + e.getMessage());
 			}
 			mav.setViewName("redirect:/dashboard.html");
 		}

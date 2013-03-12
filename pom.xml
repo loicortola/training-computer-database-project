@@ -130,6 +130,11 @@
 				<version>${joda-time.version}</version>
 			</dependency>
 			<dependency>
+				<groupId>joda-time</groupId>
+				<artifactId>joda-time-jsptags</artifactId>
+				<version>1.1</version>
+			</dependency>
+			<dependency>
 				<groupId>org.jadira.usertype</groupId>
 				<artifactId>usertype.jodatime</artifactId>
 				<version>${jadira-usertype.version}</version>

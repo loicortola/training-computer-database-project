@@ -67,7 +67,7 @@
 				<label for="company"><lbl:message code="form.company.name"/></label>
 				<div class="input">
 					<form:select path="company">
-						<form:option value="" label="Select" />			
+						<form:option value="" label="--" />			
 						<form:options items="${companies}" itemValue="id" itemLabel="name" />						
 					</form:select>
 				</div>

@@ -8,11 +8,11 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.Type;
 import org.joda.time.LocalDate;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
 
 @Entity
 @Table(name="computer")
@@ -39,10 +39,12 @@ public class Computer {
     
     @Type(type="org.jadira.usertype.dateandtime.joda.PersistentLocalDate")
     @Column(nullable=true)
+    @Temporal(TemporalType.DATE)
     private LocalDate introduced;
     
     @Type(type="org.jadira.usertype.dateandtime.joda.PersistentLocalDate")
     @Column(nullable=true)
+    @Temporal(TemporalType.DATE)
     private LocalDate discontinued;
     
     @ManyToOne
@@ -135,15 +137,6 @@ public class Computer {
 	public LocalDate getIntroduced() {
 		return introduced;
 	}
-	
-	public String getFormatedIntroduced() {
-		
-		DateTimeFormatter df = DateTimeFormat.forPattern("yyyy-MM-dd");
-		
-		if(introduced != null)
-			return introduced.toString(df);
-		return "N/A";
-	}
 
 	public void setIntroduced(LocalDate introduced) {
 		this.introduced = introduced;
@@ -151,14 +144,6 @@ public class Computer {
 
 	public LocalDate getDiscontinued() {
 		return discontinued;
-	}
-	
-	public String getFormatedDiscontinued() {
-		DateTimeFormatter df = DateTimeFormat.forPattern("yyyy-MM-dd");
-		
-		if(discontinued != null)
-			return discontinued.toString(df);
-		return "N/A";
 	}
 
 	public void setDiscontinued(LocalDate discontinued) {
