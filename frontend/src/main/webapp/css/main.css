@@ -61,3 +61,13 @@ table.computers .header a {
 #pagination ul .current a {
     color: #666;
 }
+
+.col2 {
+	width: 50%;
+}
+.col3, .col4 {
+	width: 10%;
+}
+.col5 {
+	width: 30%;
+}

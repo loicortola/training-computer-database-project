@@ -16,7 +16,7 @@
 					href="${sortActionPrefix}&sortBy=${thFieldD}">${thLabel}</a></th>
 			</c:when>
 			<c:otherwise>
-				<th class="col${param.colId} header headerSortDown"><a
+				<th class="col${colId} header headerSortDown"><a
 					href="${sortActionPrefix}&sortBy=${thFieldA}">${thLabel}</a></th>
 			</c:otherwise>
 		</c:choose>
