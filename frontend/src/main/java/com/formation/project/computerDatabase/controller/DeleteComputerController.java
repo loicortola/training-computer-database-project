@@ -40,7 +40,7 @@ public class DeleteComputerController {
 			cs.deleteComputer(id);
 			redirectAttributes.addFlashAttribute("submitAction","delete");
 		} catch (IllegalArgumentException e) {
-			logger.warn("WARNING in DeleteComputer.submitDeleteComputer iae: " + e.getMessage());
+			logger.warn("WARNING in DeleteComputer.submitDeleteComputer iae: {}", e.getMessage());
 			mav.setViewName("editComputer");
 		}
 		

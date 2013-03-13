@@ -87,7 +87,7 @@ public class AddComputerController {
 				redirectAttributes.addFlashAttribute("computerName",computer.getName());
 				
 			} catch (IllegalArgumentException e) {
-				logger.warn("WARNING in CoreServlet.submitAddComputer iae: " + e.getMessage());
+				logger.warn("WARNING in CoreServlet.submitAddComputer iae: {}", e.getMessage());
 			}
 			mav.setViewName("redirect:/dashboard.html");
 		}

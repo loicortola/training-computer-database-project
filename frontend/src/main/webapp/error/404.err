@@ -1,0 +1,16 @@
+<!DOCTYPE html>  
+<html>
+  <head>
+    <title>Computer Database - Error 404</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap -->
+    <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <link href="css/main.css" rel="stylesheet" media="screen">
+  </head>
+  <body>
+  	<section id="main">
+  	<h1>Error 404: Page not found</h1>
+  	<a href="dashboard.html"> Back to Dashboard </a>
+  	</section>
+  </body>
+</html>

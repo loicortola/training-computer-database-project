@@ -88,7 +88,7 @@ public class EditComputerController {
 					redirectAttributes.addFlashAttribute("submitAction","update");
 					redirectAttributes.addFlashAttribute("computerName",computerForm.getName());
 				} catch (IllegalArgumentException e) {
-					logger.warn("WARNING in CoreServlet.submitEditComputer iae: " + e.getMessage());
+					logger.warn("WARNING in CoreServlet.submitEditComputer iae: {}",e.getMessage());
 				}
 				mav.setViewName("redirect:/dashboard.html");
 			}

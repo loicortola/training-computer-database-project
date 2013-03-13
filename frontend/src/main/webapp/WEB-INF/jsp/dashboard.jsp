@@ -43,8 +43,9 @@
 
 	<div id="actions">
 		<form action="" method="GET">
+			<lbl:message code="form.placeHolder.filterByName" var="phSearchName"/>
 			<input type="search" id="searchbox" name="searchName"
-				value="${param.searchName}" placeholder="Filter by computer name...">
+				value="${param.searchName}" placeholder="${phSearchName}">
 			<input type="submit" id="searchsubmit"
 				value="<lbl:message code="form.submit.filterByName"/>"
 				class="btn primary">

@@ -56,7 +56,7 @@ public class ComputerDatabaseServiceImpl implements IComputerDatabaseService {
 			
 			statRepo.save(stat);
 		} catch (IllegalArgumentException e) {
-			logger.warn("WARNING: iae in Service.addComputer: " + e.getMessage());
+			logger.warn("WARNING: iae in Service.addComputer: {}", e.getMessage());
 			throw new IllegalArgumentException();
 		}
 	}
@@ -79,7 +79,7 @@ public class ComputerDatabaseServiceImpl implements IComputerDatabaseService {
 			
 			statRepo.save(stat);
 		} catch (IllegalArgumentException e) {
-			logger.warn("WARNING: iae in Service.updateComputer: " + e.getMessage());
+			logger.warn("WARNING: iae in Service.updateComputer: {}", e.getMessage());
 			throw new IllegalArgumentException();
 		}
 	}
@@ -101,7 +101,7 @@ public class ComputerDatabaseServiceImpl implements IComputerDatabaseService {
 			
 			statRepo.save(stat);
 		} catch (IllegalArgumentException e){
-			logger.warn("WARNING: iae in Service.deleteComputer: " + e.getMessage());
+			logger.warn("WARNING: iae in Service.deleteComputer: {}", e.getMessage());
 			throw new IllegalArgumentException();
 		}
 	}
@@ -123,7 +123,7 @@ public class ComputerDatabaseServiceImpl implements IComputerDatabaseService {
 
 	@Override
 	public Computers getComputers(Integer currentPage, Integer resultsPerPage, TableSort sortBy, String name) {
-		logger.debug("Entering Service.getComputers: currentPage=" + currentPage + " resultsPerPage=" + resultsPerPage + " sortBy=" + sortBy.getSortString() + " searchName=" + name);
+		logger.debug("Entering Service.getComputers: currentPage={} resultsPerPage={} sortBy={} searchName={}",currentPage,resultsPerPage,sortBy.getSortString(),name);
 		Assert.notNull(currentPage);
 		Assert.notNull(resultsPerPage);
 		Assert.notNull(sortBy);
