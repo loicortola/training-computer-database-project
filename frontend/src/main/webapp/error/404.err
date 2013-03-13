@@ -8,6 +8,11 @@
     <link href="css/main.css" rel="stylesheet" media="screen">
   </head>
   <body>
+  	<header class="topbar">
+		<h1 class="fill">
+			<a href="<c:url value='/dashboard.html'/>"> Application - Error </a>
+		</h1>
+	</header>
   	<section id="main">
   	<h1>Error 404: Page not found</h1>
   	<a href="dashboard.html"> Back to Dashboard </a>

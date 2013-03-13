@@ -6,6 +6,7 @@
 <%@ page import="java.util.*"%>
 
 <jsp:include page="include/header.jsp" />
+
 <section id="main">
 
 	<c:set var="actionPrefix"
@@ -14,7 +15,7 @@
 	<c:set var="sortActionPrefix" value="?&searchName=${param.searchName}"
 		scope="page" />
 
-	<div style="position: absolute; top: 0px; right: 20px;">
+	<div style="position: absolute; top: 70px; right: 20px; z-index:99;">
 		Ln: <a href="?ln=fr_FR">FR</a> / <a href="?ln=en_EN">EN</a>
 	</div>
 
