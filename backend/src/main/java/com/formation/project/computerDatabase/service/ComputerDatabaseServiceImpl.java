@@ -16,22 +16,27 @@ import org.springframework.util.Assert;
 import com.formation.project.computerDatabase.base.Company;
 import com.formation.project.computerDatabase.base.Computer;
 import com.formation.project.computerDatabase.base.Computers;
+import com.formation.project.computerDatabase.base.QCompany;
+import com.formation.project.computerDatabase.base.QComputer;
 import com.formation.project.computerDatabase.base.Stat;
 import com.formation.project.computerDatabase.base.TableSort;
-import com.formation.project.computerDatabase.dao.CompanyRepository;
-import com.formation.project.computerDatabase.dao.ComputerRepository;
-import com.formation.project.computerDatabase.dao.StatRepository;
+import com.formation.project.computerDatabase.dao.ICompanyDao;
+import com.formation.project.computerDatabase.dao.IComputerDao;
+import com.formation.project.computerDatabase.dao.IStatDao;
+import com.mysema.query.BooleanBuilder;
+import com.mysema.query.types.Predicate;
+import com.mysema.query.types.expr.BooleanExpression;
 
 @Service
 @Transactional(readOnly=true)
 public class ComputerDatabaseServiceImpl implements IComputerDatabaseService {
 	
 	@Autowired
-	private ComputerRepository computerRepo;
+	private IComputerDao computerDao;
 	@Autowired
-	private CompanyRepository companyRepo;
+	private ICompanyDao companyDao;
 	@Autowired
-	private StatRepository statRepo;
+	private IStatDao statDao;
 	
 	private final static Logger logger = LoggerFactory.getLogger(ComputerDatabaseServiceImpl.class);
 	
@@ -50,11 +55,11 @@ public class ComputerDatabaseServiceImpl implements IComputerDatabaseService {
 			Assert.notNull(computer);
 			Assert.hasText(computer.getName().trim());
 			
-			computerRepo.save(computer);
+			computerDao.save(computer);
 			
 			Stat stat = new Stat(computer.getId(),"add");
 			
-			statRepo.save(stat);
+			statDao.save(stat);
 		} catch (IllegalArgumentException e) {
 			logger.warn("WARNING: iae in Service.addComputer: {}", e.getMessage());
 			throw new IllegalArgumentException();
@@ -71,13 +76,13 @@ public class ComputerDatabaseServiceImpl implements IComputerDatabaseService {
 			Assert.hasText(computer.getName().trim());
 			
 			//Checking that the computer actually exists in the database
-			Assert.isTrue(computerRepo.exists(computer.getId()));
+			Assert.isTrue(computerDao.exists(computer.getId()));
 					
-			computerRepo.save(computer);
+			computerDao.save(computer);
 			
 			Stat stat = new Stat(computer.getId(),"update");
 			
-			statRepo.save(stat);
+			statDao.save(stat);
 		} catch (IllegalArgumentException e) {
 			logger.warn("WARNING: iae in Service.updateComputer: {}", e.getMessage());
 			throw new IllegalArgumentException();
@@ -95,11 +100,11 @@ public class ComputerDatabaseServiceImpl implements IComputerDatabaseService {
 			//Checking that the computer actually exists in the database
 			Assert.notNull(c);
 			
-			computerRepo.delete(c);
+			computerDao.delete(c);
 			
 			Stat stat = new Stat(computerId, "delete");
 			
-			statRepo.save(stat);
+			statDao.save(stat);
 		} catch (IllegalArgumentException e){
 			logger.warn("WARNING: iae in Service.deleteComputer: {}", e.getMessage());
 			throw new IllegalArgumentException();
@@ -111,28 +116,37 @@ public class ComputerDatabaseServiceImpl implements IComputerDatabaseService {
 		logger.debug("Entering Service.getComputer");		
 		Assert.notNull(computerId);
 		
-		return computerRepo.findOne(computerId);
+		return computerDao.findOne(computerId);
 	}
 
 	@Override
 	public List<Company> getCompaniesList() {
 		logger.debug("Entering Service.getCompaniesList");
 		Sort sort = new Sort(Sort.Direction.ASC, "name");
-		return companyRepo.findAll(sort);
+		return companyDao.findAll(sort);
 	}
 
 	@Override
-	public Computers getComputers(Integer currentPage, Integer resultsPerPage, TableSort sortBy, String name) {
-		logger.debug("Entering Service.getComputers: currentPage={} resultsPerPage={} sortBy={} searchName={}",currentPage,resultsPerPage,sortBy.getSortString(),name);
+	public Computers getComputers(Integer currentPage, Integer resultsPerPage, TableSort sortBy, String computerName, String companyName) {
+		logger.debug("Entering Service.getComputers: currentPage={} resultsPerPage={} sortBy={} searchComputerName={} searchCompanyName={}",currentPage,resultsPerPage,sortBy.getSortString(),computerName,companyName);
 		Assert.notNull(currentPage);
 		Assert.notNull(resultsPerPage);
 		Assert.notNull(sortBy);
-		Assert.notNull(name);
+		Assert.notNull(computerName);
+		Assert.notNull(companyName);
 		
 		Computers computers = null;
 		Pageable pageable = new PageRequest(currentPage-1, resultsPerPage, getSort(sortBy));
-		Page<Computer> computersPage = computerRepo.findAllByNameContainsIgnoreCase(name, pageable);
 		
+		
+		BooleanBuilder bb = new BooleanBuilder();
+
+	    if (!computerName.trim().isEmpty())
+	        bb.and(QComputer.computer.name.containsIgnoreCase(computerName));
+	    if (!companyName.trim().isEmpty())
+	        bb.and(QComputer.computer.company.name.containsIgnoreCase(companyName));
+	    
+		Page<Computer> computersPage = computerDao.findAll(bb, pageable);
 		
 		computers = new Computers(computersPage.getContent(),computersPage.getTotalElements(),sortBy);
 		computers.setPageCount(((Long) computers.getComputerCount()/resultsPerPage) + 1);
@@ -146,7 +160,7 @@ public class ComputerDatabaseServiceImpl implements IComputerDatabaseService {
 	public Company getCompany(Long companyId) {
 		logger.debug("Entering Service.getCompany");
 		Assert.notNull(companyId);
-		return companyRepo.findOne(companyId);
+		return companyDao.findOne(companyId);
 	}
 
 }

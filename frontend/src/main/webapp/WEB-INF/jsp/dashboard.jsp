@@ -10,9 +10,9 @@
 <section id="main">
 
 	<c:set var="actionPrefix"
-		value="?&sortBy=${computers.tableSort.ordinal()}&searchName=${param.searchName}"
+		value="?&sortBy=${computers.tableSort.ordinal()}&searchCompanyName=${param.searchCompanyName}&searchComputerName=${param.searchComputerName}"
 		scope="page" />
-	<c:set var="sortActionPrefix" value="?&searchName=${param.searchName}"
+	<c:set var="sortActionPrefix" value="?&searchCompanyName=${param.searchCompanyName}&searchComputerName=${param.searchComputerName}"
 		scope="page" />
 
 	<div style="position: absolute; top: 70px; right: 20px; z-index:99;">
@@ -44,9 +44,12 @@
 
 	<div id="actions">
 		<form action="" method="GET">
-			<lbl:message code="form.placeHolder.filterByName" var="phSearchName"/>
-			<input type="search" id="searchbox" name="searchName"
-				value="${param.searchName}" placeholder="${phSearchName}">
+			<lbl:message code="form.placeHolder.filterByCompanyName" var="phSearchCompanyName"/>
+			<lbl:message code="form.placeHolder.filterByComputerName" var="phSearchComputerName"/>
+			<input type="search" id="searchbox" name="searchComputerName"
+				value="${param.searchComputerName}" placeholder="${phSearchComputerName}">
+			<input type="search" name="searchCompanyName"
+				value="${param.searchCompanyName}" placeholder="${phSearchCompanyName}">
 			<input type="submit" id="searchsubmit"
 				value="<lbl:message code="form.submit.filterByName"/>"
 				class="btn primary">

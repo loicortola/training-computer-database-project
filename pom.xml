@@ -11,10 +11,11 @@
 		<spring.version>3.2.1.RELEASE</spring.version>
 		<cglib.version>2.2.2</cglib.version>
 		<spring.data.jpa.version>1.3.0.RELEASE</spring.data.jpa.version>
-		<javax.persistence-api.version>1.0.2</javax.persistence-api.version>
+		<javax.persistence-api.version>2.0.0</javax.persistence-api.version>
 		<mysql.version>5.1.23</mysql.version>
 		<hibernate.version>4.1.9.Final</hibernate.version>
 		<jdbc-template.version>3.0.7.RELEASE</jdbc-template.version>
+		<querydsl.version>2.9.0</querydsl.version>
 		<javassist.version>3.12.1.GA</javassist.version>
 		<junit.version>3.8.1</junit.version>
 		<logback.version>1.0.9</logback.version>
@@ -83,8 +84,8 @@
 				<version>${spring.data.jpa.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>javax.persistence</groupId>
-				<artifactId>persistence-api</artifactId>
+				<groupId>org.eclipse.persistence</groupId>
+				<artifactId>javax.persistence</artifactId>
 				<version>${javax.persistence-api.version}</version>
 			</dependency>
 			<!-- Mysql connector dependencies -->
@@ -104,6 +105,22 @@
 				<groupId>org.springframework</groupId>
 				<artifactId>spring-jdbc</artifactId>
 				<version>${jdbc-template.version}</version>
+			</dependency>
+			<!-- QueryDsl for Spring data JPA dependencies -->
+			<dependency>
+				<groupId>com.mysema.querydsl</groupId>
+				<artifactId>querydsl-core</artifactId>
+				<version>${querydsl.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.mysema.querydsl</groupId>
+				<artifactId>querydsl-apt</artifactId>
+				<version>${querydsl.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.mysema.querydsl</groupId>
+				<artifactId>querydsl-jpa</artifactId>
+				<version>${querydsl.version}</version>
 			</dependency>
 			<!-- Junit dependencies -->
 			<dependency>
@@ -186,7 +203,6 @@
 				</configuration>
 			</plugin>
 		</plugins>
-
 	</build>
 	<modules>
 		<module>backend</module>

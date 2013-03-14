@@ -21,6 +21,6 @@ public interface IComputerDatabaseService {
 
 	List<Company> getCompaniesList();
 
-	Computers getComputers(Integer currentPage, Integer resultsPerPage, TableSort sortBy, String name);
+	Computers getComputers(Integer currentPage, Integer resultsPerPage, TableSort sortBy, String computerName, String companyName);
 
 }

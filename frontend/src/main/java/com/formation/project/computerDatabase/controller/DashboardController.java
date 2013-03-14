@@ -29,7 +29,8 @@ public class DashboardController {
 	
 	@RequestMapping(method = RequestMethod.GET)
 	private ModelAndView dashboard(
-									@RequestParam(value="searchName", defaultValue="") String searchName,
+									@RequestParam(value="searchCompanyName", defaultValue="") String searchCompanyName,
+									@RequestParam(value="searchComputerName", defaultValue="") String searchComputerName,
 									@RequestParam(value="sortBy", defaultValue="0") String sortBy,
 									@RequestParam(value="page", defaultValue="1") String page
 									) {
@@ -43,7 +44,7 @@ public class DashboardController {
 		sortByEnum  = TableSort.fromInteger(Integer.parseInt(sortBy));
 		currentPage = Integer.parseInt(page);
 					
-		Computers computers = cs.getComputers(currentPage, RESULTS_PER_PAGE, sortByEnum, searchName);
+		Computers computers = cs.getComputers(currentPage, RESULTS_PER_PAGE, sortByEnum, searchComputerName, searchCompanyName);
 		
 		pageCount 	= ((Long) computers.getComputerCount()/RESULTS_PER_PAGE) + 1;
 		
