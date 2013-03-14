@@ -5,8 +5,11 @@ import java.util.List;
 
 public class Computers {
 	private List<Computer> computers = null;
-	private Long computerCount = null;
-	private TableSort tableSort = null;
+	private Long computerCount  	 = null;
+	private Long pageCount	    	 = null;
+	private Integer currentPage		 = null;
+	private Integer numberOfElements = null;
+	private TableSort tableSort 	 = null;
 	
 	
 	
@@ -56,6 +59,24 @@ public class Computers {
 	}
 	public void setTableSort(TableSort tableSort) {
 		this.tableSort = tableSort;
+	}
+	public Long getPageCount() {
+		return pageCount;
+	}	
+	public void setPageCount(Long pageCount) {
+		this.pageCount = pageCount;
+	}	
+	public Integer getNumberOfElements() {
+		return numberOfElements;
+	}
+	public void setNumberOfElements(Integer numberOfElements) {
+		this.numberOfElements = numberOfElements;
+	}
+	public Integer getCurrentPage() {
+		return currentPage;
+	}
+	public void setCurrentPage(Integer currentPage) {
+		this.currentPage = currentPage;
 	}
 	
 	

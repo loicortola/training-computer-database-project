@@ -135,6 +135,9 @@ public class ComputerDatabaseServiceImpl implements IComputerDatabaseService {
 		
 		
 		computers = new Computers(computersPage.getContent(),computersPage.getTotalElements(),sortBy);
+		computers.setPageCount(((Long) computers.getComputerCount()/resultsPerPage) + 1);
+		computers.setCurrentPage(currentPage);
+		computers.setNumberOfElements(computersPage.getNumberOfElements());
 		
 		return computers;
 	}

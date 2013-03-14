@@ -107,7 +107,7 @@
 		</table>
 	</c:if>
 	<div id="pagination" class="pagination">
-		<pag:pagination actionPrefix="${actionPrefix}" page="${currentPage}" pageCount="${pageCount}" resultsPerPage="${resultsPerPage}"/>
+		<pag:pagination actionPrefix="${actionPrefix}" page="${currentPage}" pageCount="${pageCount}" resultsPerPage="${resultsPerPage}" numberOfElements="${computers.numberOfElements}"/>
 	</div>
 </section>
 
