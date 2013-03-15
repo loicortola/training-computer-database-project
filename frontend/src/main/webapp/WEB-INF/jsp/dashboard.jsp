@@ -8,7 +8,7 @@
 <jsp:include page="include/header.jsp" />
 
 <section id="main">
-
+	
 	<c:set var="actionPrefix"
 		value="?&sortBy=${computers.tableSort.ordinal()}&searchCompanyName=${param.searchCompanyName}&searchComputerName=${param.searchComputerName}"
 		scope="page" />
@@ -17,6 +17,7 @@
 
 	<div style="position: absolute; top: 70px; right: 20px; z-index:99;">
 		Ln: <a href="?ln=fr_FR">FR</a> / <a href="?ln=en_EN">EN</a>
+		<br/><a href="logout"><lbl:message code="form.logout"/></a>
 	</div>
 
 	<h1 id="homeTitle">

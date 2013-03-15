@@ -16,7 +16,6 @@ import org.springframework.util.Assert;
 import com.formation.project.computerDatabase.base.Company;
 import com.formation.project.computerDatabase.base.Computer;
 import com.formation.project.computerDatabase.base.Computers;
-import com.formation.project.computerDatabase.base.QCompany;
 import com.formation.project.computerDatabase.base.QComputer;
 import com.formation.project.computerDatabase.base.Stat;
 import com.formation.project.computerDatabase.base.TableSort;
@@ -24,8 +23,6 @@ import com.formation.project.computerDatabase.dao.ICompanyDao;
 import com.formation.project.computerDatabase.dao.IComputerDao;
 import com.formation.project.computerDatabase.dao.IStatDao;
 import com.mysema.query.BooleanBuilder;
-import com.mysema.query.types.Predicate;
-import com.mysema.query.types.expr.BooleanExpression;
 
 @Service
 @Transactional(readOnly=true)
@@ -140,7 +137,6 @@ public class ComputerDatabaseServiceImpl implements IComputerDatabaseService {
 		
 		
 		BooleanBuilder bb = new BooleanBuilder();
-
 	    if (!computerName.trim().isEmpty())
 	        bb.and(QComputer.computer.name.containsIgnoreCase(computerName));
 	    if (!companyName.trim().isEmpty())
