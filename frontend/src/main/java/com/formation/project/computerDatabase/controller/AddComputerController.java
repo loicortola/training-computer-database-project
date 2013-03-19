@@ -4,7 +4,6 @@ import java.beans.PropertyEditorSupport;
 
 import javax.validation.Valid;
 
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +20,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.formation.project.computerDatabase.base.Company;
 import com.formation.project.computerDatabase.base.Computer;
 import com.formation.project.computerDatabase.service.IComputerDatabaseService;
+import com.formation.project.computerDatabase.service.IUserService;
 import com.formation.project.computerDatabase.validator.ComputerForm;
 
 @Controller
@@ -30,6 +30,9 @@ public class AddComputerController {
 	@Autowired
     private IComputerDatabaseService cs	= null;
     
+	@Autowired
+	private IUserService us = null;
+	
 	private final static Logger logger = LoggerFactory.getLogger(AddComputerController.class);
 		
     public AddComputerController() {
@@ -62,6 +65,7 @@ public class AddComputerController {
     	ModelAndView mav = new ModelAndView("addComputer");
     	mav.addObject("computerForm", new ComputerForm());
     	mav.addObject("companies", cs.getCompaniesList());
+    	
         return mav;
     }
     

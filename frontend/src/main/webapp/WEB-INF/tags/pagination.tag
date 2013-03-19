@@ -6,6 +6,7 @@
 	type="java.lang.Integer"%>
 <%@ attribute name="pageCount" required="true" type="java.lang.Integer"%>
 <%@ attribute name="numberOfElements" required="true" type="java.lang.Integer"%>
+<%@ attribute name="totalElements" required="true" type="java.lang.Integer"%>
 <%@ attribute name="actionPrefix" required="true"
 	type="java.lang.String"%>
 
@@ -23,7 +24,7 @@
 
 	<li class="current"><a><lbl:message
 				code="form.pagination.display"
-				arguments="${(page-1)*resultsPerPage+1},${(page-1)*resultsPerPage+numberOfElements},${computers.computerCount}" /></a>
+				arguments="${(page-1)*resultsPerPage+1},${(page-1)*resultsPerPage+numberOfElements},${totalElements}" /></a>
 	</li>
 
 	<c:if test="${ page == pageCount }">

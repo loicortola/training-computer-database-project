@@ -10,7 +10,7 @@
 <section id="main">
 	
 	<c:set var="actionPrefix"
-		value="?&sortBy=${computers.tableSort.ordinal()}&searchCompanyName=${param.searchCompanyName}&searchComputerName=${param.searchComputerName}"
+		value="?&sortBy=${sortBy.ordinal()}&searchCompanyName=${param.searchCompanyName}&searchComputerName=${param.searchComputerName}"
 		scope="page" />
 	<c:set var="sortActionPrefix" value="?&searchCompanyName=${param.searchCompanyName}&searchComputerName=${param.searchComputerName}"
 		scope="page" />
@@ -22,7 +22,7 @@
 
 	<h1 id="homeTitle">
 		<lbl:message code="page.dashboard.title"
-			arguments="${computers.computerCount}" />
+			arguments="${computers.totalElements}" />
 	</h1>
 	<c:if test="${!empty submitAction}">
 		<div class="alert-message warning">
@@ -59,12 +59,12 @@
 				code="page.dashboard.addNewComputer" /></a>
 	</div>
 
-	<c:if test="${ computers.size() == 0 }">
+	<c:if test="${ computers.size == 0 }">
 		<div class="well">
 			<em><lbl:message code="page.dashboard.noRecord" /></em>
 		</div>
 	</c:if>
-	<c:if test="${ computers.size() > 0 }">
+	<c:if test="${ computers.size > 0 }">
 		<table class="computers zebra-striped">
 			<thead>
 				<tr>
@@ -77,29 +77,29 @@
 					<lbl:message code="form.company.name" var="lblCompanyName" />
 					<!-- Table header for Computer Name -->
 					<pag:tableSortedHead thFieldA="0" thFieldD="1" thLabel="${lblComputerName}" colId="2" 
-										 selected="${computers.tableSort.ordinal()==0 || computers.tableSort.ordinal()==1}" 
+										 selected="${sortBy.ordinal()==0 || sortBy.ordinal()==1}" 
 										 sortActionPrefix="${sortActionPrefix}" 
-										 orderAsc="${computers.tableSort.ordinal()==0}" />
+										 orderAsc="${sortBy.ordinal()==0}" />
 					<!-- Table header for Introduced Date -->
 					<pag:tableSortedHead thFieldA="2" thFieldD="3" thLabel="${lblComputerIntroduced}" colId="3" 
-										 selected="${computers.tableSort.ordinal()==2 || computers.tableSort.ordinal()==3}" 
+										 selected="${sortBy.ordinal()==2 || sortBy.ordinal()==3}" 
 										 sortActionPrefix="${sortActionPrefix}" 
-										 orderAsc="${computers.tableSort.ordinal()==2}" />
+										 orderAsc="${sortBy.ordinal()==2}" />
 					<!-- Table header for Discontinued Date -->
 					<pag:tableSortedHead thFieldA="4" thFieldD="5" thLabel="${lblComputerDiscontinued}" colId="4" 
-										 selected="${computers.tableSort.ordinal()==4 || computers.tableSort.ordinal()==5}" 
+										 selected="${sortBy.ordinal()==4 || sortBy.ordinal()==5}" 
 										 sortActionPrefix="${sortActionPrefix}" 
-										 orderAsc="${computers.tableSort.ordinal()==4}" />
+										 orderAsc="${sortBy.ordinal()==4}" />
 					<!-- Table header for Company -->
 					<pag:tableSortedHead thFieldA="6" thFieldD="7" thLabel="${lblCompanyName}" colId="5" 
-										 selected="${computers.tableSort.ordinal()==6 || computers.tableSort.ordinal()==7}" 
+										 selected="${sortBy.ordinal()==6 || sortBy.ordinal()==7}" 
 										 sortActionPrefix="${sortActionPrefix}" 
-										 orderAsc="${computers.tableSort.ordinal()==6}" />
+										 orderAsc="${sortBy.ordinal()==6}" />
 				</tr>
 			</thead>
 			<tbody>
 
-				<c:forEach var="computer" items="${computers.list()}">
+				<c:forEach var="computer" items="${computers.content}">
 					<tr>
 						<td><a href="editComputer.html?editId=${computer.id}">${computer.name}</a></td>
 						<td><joda:format value="${computer.introduced}" pattern="yyyy-MM-dd" /></td>
@@ -111,7 +111,7 @@
 		</table>
 	</c:if>
 	<div id="pagination" class="pagination">
-		<pag:pagination actionPrefix="${actionPrefix}" page="${currentPage}" pageCount="${pageCount}" resultsPerPage="${resultsPerPage}" numberOfElements="${computers.numberOfElements}"/>
+		<pag:pagination actionPrefix="${actionPrefix}" page="${computers.number+1}" pageCount="${computers.totalPages}" resultsPerPage="${computers.numberOfElements}" numberOfElements="${computers.numberOfElements}" totalElements="${computers.totalElements}"/>
 	</div>
 </section>
 

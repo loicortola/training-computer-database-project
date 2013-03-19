@@ -58,6 +58,11 @@
 			<artifactId>spring-security-web</artifactId>
 			<scope>compile</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-crypto</artifactId>
+			<scope>compile</scope>
+		</dependency>
 		<!-- Junit dependencies -->
 		<dependency>
 			<groupId>junit</groupId>

@@ -46,15 +46,13 @@ public class Computer {
     @Column(nullable=true)
     @Temporal(TemporalType.DATE)
     private LocalDate discontinued;
-    
+   
     @ManyToOne
-    @JoinColumn(name = "id_company")
+    @JoinColumn(name="id_company", nullable=true)
     private Company company;
     
     @Column(name="is_visible")
-    private Boolean isVisible;
-    
-   
+    private Boolean isVisible;   
 
 	public Computer() {}
     

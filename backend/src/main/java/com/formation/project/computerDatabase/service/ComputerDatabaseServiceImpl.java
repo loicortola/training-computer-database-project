@@ -6,7 +6,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -15,14 +14,10 @@ import org.springframework.util.Assert;
 
 import com.formation.project.computerDatabase.base.Company;
 import com.formation.project.computerDatabase.base.Computer;
-import com.formation.project.computerDatabase.base.Computers;
-import com.formation.project.computerDatabase.base.QComputer;
 import com.formation.project.computerDatabase.base.Stat;
-import com.formation.project.computerDatabase.base.TableSort;
 import com.formation.project.computerDatabase.dao.ICompanyDao;
 import com.formation.project.computerDatabase.dao.IComputerDao;
 import com.formation.project.computerDatabase.dao.IStatDao;
-import com.mysema.query.BooleanBuilder;
 
 @Service
 @Transactional(readOnly=true)
@@ -36,13 +31,6 @@ public class ComputerDatabaseServiceImpl implements IComputerDatabaseService {
 	private IStatDao statDao;
 	
 	private final static Logger logger = LoggerFactory.getLogger(ComputerDatabaseServiceImpl.class);
-	
-	private Sort getSort(TableSort sortBy) {
-		return new Sort(sortBy.isAsc() 
-				? Sort.Direction.ASC
-				: Sort.Direction.DESC, 
-				sortBy.getSortString());
-	}
 	
 	@Override
 	@Transactional(readOnly=false)
@@ -110,32 +98,15 @@ public class ComputerDatabaseServiceImpl implements IComputerDatabaseService {
 	}
 
 	@Override
-	public Computers getComputers(Integer currentPage, Integer resultsPerPage, TableSort sortBy, String computerName, String companyName) {
-		logger.debug("Entering Service.getComputers: currentPage={} resultsPerPage={} sortBy={} searchComputerName={} searchCompanyName={}",currentPage,resultsPerPage,sortBy.getSortString(),computerName,companyName);
-		Assert.notNull(currentPage,"Assert Exception: currentPage is null in Service.getComputers");
-		Assert.notNull(resultsPerPage,"Assert Exception: resultsPerPage is null in Service.getComputers");
-		Assert.notNull(sortBy,"Assert Exception: sortBy is null in Service.getComputers");
+	public Page<Computer> getComputers(Pageable page, String computerName, String companyName) {
+		logger.debug("Entering Service.getComputers: currentPage={} resultsPerPage={} sortBy={} searchComputerName={} searchCompanyName={}",page.getPageNumber(),page.getPageSize(),page.getSort(),computerName,companyName);
+		Assert.notNull(page.getPageNumber(),"Assert Exception: currentPage is null in Service.getComputers");
+		Assert.notNull(page.getPageSize(),"Assert Exception: resultsPerPage is null in Service.getComputers");
+		Assert.notNull(page.getSort(),"Assert Exception: sortBy is null in Service.getComputers");
 		Assert.notNull(computerName,"Assert Exception: computerName is null in Service.getComputers");
 		Assert.notNull(companyName,"Assert Exception: companyName is null in Service.getComputers");
 		
-		Computers computers = null;
-		Pageable pageable = new PageRequest(currentPage-1, resultsPerPage, getSort(sortBy));
-		
-		
-		BooleanBuilder bb = new BooleanBuilder();
-	    if (!computerName.trim().isEmpty())
-	        bb.and(QComputer.computer.name.containsIgnoreCase(computerName));
-	    if (!companyName.trim().isEmpty())
-	        bb.and(QComputer.computer.company.name.containsIgnoreCase(companyName));
-	    
-		Page<Computer> computersPage = computerDao.findAll(bb, pageable);
-		
-		computers = new Computers(computersPage.getContent(),computersPage.getTotalElements(),sortBy);
-		computers.setPageCount(((Long) computers.getComputerCount()/resultsPerPage) + 1);
-		computers.setCurrentPage(currentPage);
-		computers.setNumberOfElements(computersPage.getNumberOfElements());
-		
-		return computers;
+		return computerDao.getComputers(page, computerName, companyName);
 	}
 
 	@Override

@@ -17,6 +17,10 @@
 		<error-code>404</error-code>
 		<location>/error/404.err</location>
 	</error-page>
+	<error-page>
+		<error-code>403</error-code>
+		<location>/error/403.err</location>
+	</error-page>
 	<!-- Chargement du contexte spring -->
 	<servlet>
 		<servlet-name>spring</servlet-name>
