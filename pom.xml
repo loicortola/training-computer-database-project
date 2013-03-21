@@ -26,10 +26,10 @@
 		<servlet-api.version>3.0-alpha-1</servlet-api.version>
 		<bonecp.version>0.8.0-rc1</bonecp.version>
 		<form.validator.version>5.0.0.CR1</form.validator.version>
+		<cxf.version>2.7.3</cxf.version>
 	</properties>
 	<dependencyManagement>
 		<dependencies>
-
 			<!-- Spring Framework dependencies -->
 			<dependency>
 				<groupId>org.springframework</groupId>
@@ -202,6 +202,23 @@
 				<artifactId>hibernate-validator</artifactId>
 				<version>${form.validator.version}</version>
 			</dependency>
+			<!-- CXF Jax-WS WebService dependencies -->
+			<dependency>
+				<groupId>org.apache.cxf</groupId>
+				<artifactId>cxf-rt-frontend-jaxws</artifactId>
+				<version>${cxf.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.cxf</groupId>
+				<artifactId>cxf-rt-transports-http</artifactId>
+				<version>${cxf.version}</version>
+			</dependency>
+			<!-- Jetty is needed if we are not using the CXFServlet -->
+			<dependency>
+				<groupId>org.apache.cxf</groupId>
+				<artifactId>cxf-rt-transports-http-jetty</artifactId>
+				<version>${cxf.version}</version>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 
@@ -227,7 +244,9 @@
 		</plugins>
 	</build>
 	<modules>
-		<module>backend</module>
-		<module>frontend</module>
+		<module>computerDatabaseProject.backend</module>
+		<module>computerDatabaseProject.frontend</module>
+		<module>computerDatabaseProject.webServiceJaxWS</module>
+		<module>computerDatabaseProject.clientJax-Ws</module>
 	</modules>
 </project>
