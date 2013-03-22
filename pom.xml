@@ -202,10 +202,15 @@
 				<artifactId>hibernate-validator</artifactId>
 				<version>${form.validator.version}</version>
 			</dependency>
-			<!-- CXF Jax-WS WebService dependencies -->
+			<!-- CXF Jax-WS And Jax-RS WebService dependencies -->
 			<dependency>
 				<groupId>org.apache.cxf</groupId>
 				<artifactId>cxf-rt-frontend-jaxws</artifactId>
+				<version>${cxf.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.cxf</groupId>
+				<artifactId>cxf-rt-frontend-jaxrs</artifactId>
 				<version>${cxf.version}</version>
 			</dependency>
 			<dependency>
@@ -248,5 +253,7 @@
 		<module>computerDatabaseProject.frontend</module>
 		<module>computerDatabaseProject.webServiceJaxWS</module>
 		<module>computerDatabaseProject.clientJax-Ws</module>
+		<module>computerDatabaseProject.webServiceJaxRS</module>
+		<module>computerDatabaseProject.clientJax-Rs</module>
 	</modules>
 </project>
