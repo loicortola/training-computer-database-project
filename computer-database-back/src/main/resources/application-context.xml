@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:tx="http://www.springframework.org/schema/tx"
+    xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	http://www.springframework.org/schema/context
+	http://www.springframework.org/schema/context/spring-context-3.0.xsd
+	http://www.springframework.org/schema/tx
+	http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+	http://www.springframework.org/schema/data/jpa
+	http://www.springframework.org/schema/data/jpa/spring-jpa-1.2.xsd">
+	
+	
+	<!-- Using spring annotations -->
+	<context:annotation-config/>
+	<!-- Scanning packages for beans -->
+	<context:component-scan base-package="com.formation.computerdatabase.back.service" />
+	<context:component-scan base-package="com.formation.computerdatabase.back.dao" />
+	<context:component-scan base-package="com.formation.computerdatabase.core.domain" />
+	
+	<!-- BoneCP DataSource config -->
+	<bean id="computerDataSource" class="com.jolbox.bonecp.BoneCPDataSource">
+		<property name="driverClass" value="com.mysql.jdbc.Driver" />
+		<property name="jdbcUrl" value="jdbc:mysql://127.0.0.1:3306/computerDatabaseProject_DB" />
+		<property name="username" value="root" />
+		<property name="password" value="password" />
+		<property name="idleConnectionTestPeriodInMinutes" value="60" />
+		<property name="idleMaxAgeInMinutes" value="240" />
+		<property name="maxConnectionsPerPartition" value="10" />
+		<property name="minConnectionsPerPartition" value="2" />
+		<property name="partitionCount" value="1" />
+		<property name="acquireIncrement" value="2" />
+		<property name="statementsCacheSize" value="100" />
+	</bean>
+
+	<!-- 	JDBC Template -->
+	<bean id="computerJdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+		<constructor-arg ref="computerDataSource" />
+	</bean>
+	
+	
+	<!-- Spring configuration for JPA -->
+	<!-- Adding scan of repositories package -->	
+	<bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+    	<property name="dataSource" ref="computerDataSource" />
+    	<property name="persistenceUnitName" value="jpaPU" />
+    	<property name="packagesToScan">
+    		<list>
+	       		<value>com.formation.computerdatabase.core.domain</value>
+    		</list>
+    	</property>
+    	<property name="jpaVendorAdapter">
+       		<bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+				<!-- For DEV purposes, showSQL true -->
+          		<property name="showSql" value="true" />          		
+				<property name="generateDdl" value="true" />
+				<property name="database" value="MYSQL" />
+       		</bean>
+    	</property>
+ 	</bean>
+ 	<!-- Spring configuration for JPA -->
+ 	<bean id="transactionManager"
+		class="org.springframework.orm.jpa.JpaTransactionManager">
+		<property name="entityManagerFactory" ref="entityManagerFactory" />
+	</bean>
+	<!-- Spring configuration for JPA -->
+	<jpa:repositories base-package="com.formation.computerdatabase.back.dao" />
+	
+	<!-- Spring configuration for hibernate or JPA--> 	
+	<tx:annotation-driven transaction-manager="transactionManager" />
+	
+</beans>

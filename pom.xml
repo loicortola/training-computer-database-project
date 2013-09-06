@@ -1,11 +1,11 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>computerDatabase</groupId>
-	<artifactId>project</artifactId>
+	<groupId>com.formation</groupId>
+	<artifactId>computer-database</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
-	<name>computerDatabaseProject</name>
+	<name>computer-database</name>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<spring.version>3.2.1.RELEASE</spring.version>
@@ -30,6 +30,12 @@
 	</properties>
 	<dependencyManagement>
 		<dependencies>
+			<!-- Computer database dependencies -->
+			<dependency>
+				<groupId>com.formation</groupId>
+				<artifactId>computer-database-core</artifactId>
+				<version>${project.version}</version>
+			</dependency>
 			<!-- Spring Framework dependencies -->
 			<dependency>
 				<groupId>org.springframework</groupId>
@@ -249,11 +255,12 @@
 		</plugins>
 	</build>
 	<modules>
-		<module>computerDatabaseProject.backend</module>
-		<module>computerDatabaseProject.frontend</module>
-		<module>computerDatabaseProject.webServiceJaxWS</module>
-		<module>computerDatabaseProject.clientJax-Ws</module>
-		<module>computerDatabaseProject.webServiceJaxRS</module>
-		<module>computerDatabaseProject.clientJax-Rs</module>
+		<module>computer-database-back</module>
+		<module>computer-database-front</module>
+		<module>computer-database-webservices-jax-ws</module>
+		<module>computer-database-client-jax-ws</module>
+		<module>computer-database-webservices-jax-rs</module>
+		<module>computer-database-client-jax-rs</module>
+		<module>computer-database-core</module>
 	</modules>
 </project>
