@@ -17,7 +17,7 @@
 	<!-- BoneCP DataSource config -->
 	<bean id="computerDataSource" class="com.jolbox.bonecp.BoneCPDataSource">
 		<property name="driverClass" value="com.mysql.jdbc.Driver" />
-		<property name="jdbcUrl" value="jdbc:mysql://127.0.0.1:3306/computer-database-db" />
+		<property name="jdbcUrl" value="jdbc:mysql://127.0.0.1:3306/computer-database-db?zeroDateTimeBehavior=convertToNull" />
 		<property name="username" value="root" />
 		<property name="password" value="password" />
 		<property name="idleConnectionTestPeriodInMinutes" value="60" />
