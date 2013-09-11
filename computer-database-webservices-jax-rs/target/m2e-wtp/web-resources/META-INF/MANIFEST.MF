@@ -1,5 +1,5 @@
 Manifest-Version: 1.0
-Built-By: lortola
-Build-Jdk: 1.6.0_27
+Built-By: loic
+Build-Jdk: 1.7.0_25
 Created-By: Maven Integration for Eclipse
 

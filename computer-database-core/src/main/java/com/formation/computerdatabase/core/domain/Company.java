@@ -17,7 +17,7 @@ public class Company {
 	}
     @Id
    	@GeneratedValue
-   	@Column(name="id_company")
+   	@Column(name="id")
 	private Long id;
     
     @Column(name="name", nullable=false)

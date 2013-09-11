@@ -34,7 +34,7 @@
   </filter-mapping>
   <context-param>
     <param-name>contextConfigLocation</param-name>
-    <param-value>classpath:/application-context.xml /WEB-INF/spring-security.xml</param-value>
+    <param-value>classpath:/core-context.xml, classpath:/datasource-context.xml, classpath:/persistence-context.xml, classpath:/service-context.xml, /WEB-INF/spring-security.xml</param-value>
   </context-param>
   <listener>
     <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>

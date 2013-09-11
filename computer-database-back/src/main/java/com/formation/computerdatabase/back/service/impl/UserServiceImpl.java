@@ -17,28 +17,30 @@ import com.formation.computerdatabase.core.domain.User;
 @Service("userService")
 public class UserServiceImpl implements UserService {
 
-	private final static Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
-	
-	
+	private final static Logger logger = LoggerFactory
+			.getLogger(UserServiceImpl.class);
+
 	@Autowired
-    private UserDao userDao;
+	private UserDao userDao;
 	
 	@Override
 	@Transactional
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userDao.findByUsername(username);
+	public UserDetails loadUserByUsername(String username)
+			throws UsernameNotFoundException {
+		User user = userDao.findByUsername(username);
 
-        Assert.notNull(user,"User authentication failed");
-        
-        logger.info("User successfully retrieved: User name : {}", user.getUsername());
-        Hibernate.initialize(user.getAuthorities());
-        
-        return user;
-    }
+		Assert.notNull(user, "User authentication failed");
+
+		logger.info("User successfully retrieved: User name : {}",
+				user.getUsername());
+		Hibernate.initialize(user.getAuthorities());
+
+		return user;
+	}
 
 	@Override
 	public void save(User u) {
-		userDao.save(u);	
+		userDao.save(u);
 	}
 
 }

@@ -30,8 +30,6 @@ public class QComputer extends EntityPathBase<Computer> {
 
     public final DatePath<org.joda.time.LocalDate> introduced = createDate("introduced", org.joda.time.LocalDate.class);
 
-    public final BooleanPath isVisible = createBoolean("isVisible");
-
     public final StringPath name = createString("name");
 
     public QComputer(String variable) {

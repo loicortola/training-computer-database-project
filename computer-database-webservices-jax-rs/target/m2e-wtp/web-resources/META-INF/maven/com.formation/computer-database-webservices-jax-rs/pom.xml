@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>com.formation</groupId>
 		<artifactId>computer-database</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
+		<version>0.0.2-SNAPSHOT</version>
 	</parent>
 	<artifactId>computer-database-webservices-jax-rs</artifactId>
 	<packaging>war</packaging>
@@ -13,7 +13,7 @@
 		<dependency>
 			<groupId>com.formation</groupId>
 			<artifactId>computer-database-back</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>0.0.2-SNAPSHOT</version>
 			<scope>compile</scope>
 		</dependency>
 		<!-- Slf4j Logback dependencies -->

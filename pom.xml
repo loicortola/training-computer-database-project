@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.formation</groupId>
 	<artifactId>computer-database</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.2-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<name>computer-database</name>
 	<properties>
@@ -234,10 +234,10 @@
 	</dependencyManagement>
 
 	<build>
-		<finalName>computerDatabaseProject</finalName>
+		<finalName>computer-database</finalName>
 		<resources>
 			<resource>
-				<directory>src/main/java</directory>
+				<directory>src/main/resources</directory>
 				<excludes>
 					<exclude>**/*.java</exclude>
 				</excludes>
@@ -255,12 +255,12 @@
 		</plugins>
 	</build>
 	<modules>
+		<module>computer-database-core</module>
 		<module>computer-database-back</module>
 		<module>computer-database-front</module>
 		<module>computer-database-webservices-jax-ws</module>
 		<module>computer-database-client-jax-ws</module>
 		<module>computer-database-webservices-jax-rs</module>
 		<module>computer-database-client-jax-rs</module>
-		<module>computer-database-core</module>
 	</modules>
 </project>

@@ -72,7 +72,6 @@ public class ComputerForm {
 		computer.setName(name);
 		computer.setIntroduced(introduced);
 		computer.setDiscontinued(discontinued);
-		computer.setIsVisible(true);
 		computer.setCompany(company);
 		return computer;
 	}

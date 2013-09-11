@@ -18,14 +18,15 @@
 	<!-- Using spring annotations -->
 	<context:annotation-config/>
 	<!-- Scanning packages for beans -->
+	<context:component-scan base-package="com.formation.computerdatabase.core.domain" />
 	<context:component-scan base-package="com.formation.computerdatabase.back.service" />
 	<context:component-scan base-package="com.formation.computerdatabase.back.dao" />
-	<context:component-scan base-package="com.formation.computerdatabase.core.domain" />
+	
 	
 	<!-- BoneCP DataSource config -->
 	<bean id="computerDataSource" class="com.jolbox.bonecp.BoneCPDataSource">
 		<property name="driverClass" value="com.mysql.jdbc.Driver" />
-		<property name="jdbcUrl" value="jdbc:mysql://127.0.0.1:3306/computerDatabaseProject_DB" />
+		<property name="jdbcUrl" value="jdbc:mysql://127.0.0.1:3306/computer-database-db" />
 		<property name="username" value="root" />
 		<property name="password" value="password" />
 		<property name="idleConnectionTestPeriodInMinutes" value="60" />
@@ -47,17 +48,13 @@
 	<!-- Adding scan of repositories package -->	
 	<bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
     	<property name="dataSource" ref="computerDataSource" />
-    	<property name="persistenceUnitName" value="jpaPU" />
-    	<property name="packagesToScan">
-    		<list>
-	       		<value>com.formation.computerdatabase.core.domain</value>
-    		</list>
-    	</property>
+    	<property name="persistenceUnitName" value="jpaPU" />    	
+    	<property name="packagesToScan" value="com.formation.computerdatabase" />
     	<property name="jpaVendorAdapter">
        		<bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
 				<!-- For DEV purposes, showSQL true -->
           		<property name="showSql" value="true" />          		
-				<property name="generateDdl" value="true" />
+				<property name="generateDdl" value="false" />
 				<property name="database" value="MYSQL" />
        		</bean>
     	</property>
@@ -68,7 +65,7 @@
 		<property name="entityManagerFactory" ref="entityManagerFactory" />
 	</bean>
 	<!-- Spring configuration for JPA -->
-	<jpa:repositories base-package="com.formation.computerdatabase.back.dao" />
+<!-- 	<jpa:repositories base-package="com.formation.computerdatabase.back.dao" /> -->
 	
 	<!-- Spring configuration for hibernate or JPA--> 	
 	<tx:annotation-driven transaction-manager="transactionManager" />

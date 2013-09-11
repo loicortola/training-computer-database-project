@@ -1,6 +1,6 @@
 com/formation/computerdatabase/core/domain/Company.class
-com/formation/computerdatabase/core/domain/Role$AuthorityType.class
 com/formation/computerdatabase/core/domain/QUser.class
+com/formation/computerdatabase/core/domain/Role$AuthorityType.class
 com/formation/computerdatabase/core/domain/QCompany.class
 com/formation/computerdatabase/core/domain/Role.class
 com/formation/computerdatabase/core/domain/QRole.class

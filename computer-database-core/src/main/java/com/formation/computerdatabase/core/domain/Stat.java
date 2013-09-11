@@ -20,7 +20,7 @@ public class Stat {
     
    	@Id
    	@GeneratedValue
-	@Column(name="id_stats")
+	@Column(name="id")
 	private Long id;
     
    	@Column(name="id_computer")

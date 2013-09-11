@@ -27,13 +27,6 @@
 	<beans:bean id="daoAuthenticationProvider"
 		class="org.springframework.security.authentication.dao.DaoAuthenticationProvider">
 		<beans:property name="userDetailsService" ref="userService" />
-		<beans:property name="saltSource">
-			<!-- Reflection salt (to improve SHA-1 algorithm) -->
-			<beans:bean class="org.springframework.security.authentication.dao.ReflectionSaltSource">
-			<!-- Property for username -->
-				<beans:property name="userPropertyToUse" value="username" />
-			</beans:bean>
-		</beans:property>
 		<beans:property name="passwordEncoder" ref="passwordEncoder" />
 	</beans:bean>
 	<!-- SHA encoder -->

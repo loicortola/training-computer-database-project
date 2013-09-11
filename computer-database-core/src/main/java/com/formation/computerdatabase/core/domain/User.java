@@ -18,7 +18,7 @@ public class User implements Serializable, UserDetails {
 
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_user")
+    @Column(name = "id")
     private Integer id;
 
     @Column(name = "username", nullable = false)
@@ -63,6 +63,7 @@ public class User implements Serializable, UserDetails {
 
     public void setPassword(String password) {
         this.password = password;
+        System.err.println("password:" + this.password);
     }
 
     public List<Role> getAuthorities() {

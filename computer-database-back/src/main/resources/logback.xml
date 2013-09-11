@@ -5,15 +5,20 @@
 		<!-- encoders are assigned the type ch.qos.logback.classic.encoder.PatternLayoutEncoder 
 			by default -->
 		<encoder>
-			<pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n
+			<pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger - %msg%n
 			</pattern>
 		</encoder>
 	</appender>
 
-	<logger name="com.formation.computerdatabase.back" level="INFO" />
-	<logger name="com.formation.computerdatabase.back.service" level="DEBUG" />
+	
+	<logger name="com.formation.computerdatabase" level="INFO" />
+	<logger name="com.formation.computerdatabase.core" level="DEBUG" />
+	<logger name="org.hibernate" level="INFO" />
+	<logger name="org.springframework.core.env" level="INFO" />
+	<logger name="org.springframework.web" level="INFO" />
+	<logger name="org.springframework.beans.factory" level="INFO" />
 
-	<root level="warn">
+	<root level="DEBUG">
 		<appender-ref ref="STDOUT" />
 	</root>
 </configuration>

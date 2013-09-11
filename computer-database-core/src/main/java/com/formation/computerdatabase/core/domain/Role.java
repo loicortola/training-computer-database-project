@@ -20,7 +20,7 @@ public class Role implements Serializable, GrantedAuthority {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_role", nullable = false, unique = true)
+    @Column(name = "id", nullable = false, unique = true)
     private Integer id;
 
     @Enumerated(EnumType.STRING)
@@ -50,6 +50,11 @@ public class Role implements Serializable, GrantedAuthority {
 
     public void setRoleId(Integer roleId) {
         this.id = roleId;
+    }
+    
+    @Override
+    public String toString() {
+    	return this.getAuthority().toString();
     }
 
 }

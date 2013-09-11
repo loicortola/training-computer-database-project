@@ -6,10 +6,10 @@
 	<parent>
 		<groupId>com.formation</groupId>
 		<artifactId>computer-database</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
+		<version>0.0.2-SNAPSHOT</version>
 	</parent>
 	<artifactId>computer-database-front</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.2-SNAPSHOT</version>
 	<name>computer-database-front</name>
 	<packaging>war</packaging>
 	<dependencies>
@@ -17,13 +17,13 @@
 		<dependency>
 			<groupId>com.formation</groupId>
 			<artifactId>computer-database-core</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>0.0.2-SNAPSHOT</version>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.formation</groupId>
 			<artifactId>computer-database-back</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>0.0.2-SNAPSHOT</version>
 			<scope>compile</scope>
 		</dependency>
 		<!-- Spring Framework dependencies -->
@@ -121,6 +121,27 @@
 		</dependency>
 	</dependencies>
 	<build>
-		<finalName>computerDatabaseProject</finalName>
+		<finalName>${project.artifactId}-${project.version}</finalName>
+		<sourceDirectory>${project.basedir}/src/main/java</sourceDirectory>
+		<directory>${project.basedir}/target</directory>
+		<outputDirectory>${project.build.directory}/classes</outputDirectory>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<excludes>
+					<exclude>**/*.java</exclude>
+				</excludes>
+			</resource>
+		</resources>
+		<plugins>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.0</version>
+				<configuration>
+					<source>1.6</source>
+					<target>1.6</target>
+				</configuration>
+			</plugin>
+		</plugins>
 	</build>
 </project>

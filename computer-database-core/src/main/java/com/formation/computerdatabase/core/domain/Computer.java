@@ -26,12 +26,11 @@ public class Computer {
 		this.introduced = introduced;
 		this.discontinued = discontinued;
 		this.company = company;
-		this.isVisible = true;
 	}
     
     @Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name="id_computer")
+	@Column(name="id")
 	private Long id;
     
     @Column(nullable=false)
@@ -48,11 +47,9 @@ public class Computer {
     private LocalDate discontinued;
    
     @ManyToOne
-    @JoinColumn(name="id_company", nullable=true)
+    @JoinColumn(name="company_id", nullable=true)
     private Company company;
     
-    @Column(name="is_visible")
-    private Boolean isVisible;   
 
 	public Computer() {}
     
@@ -154,13 +151,5 @@ public class Computer {
 
 	public void setCompany(Company company) {
 		this.company = company;
-	}
-    
-	public Boolean isVisible() {
-			return isVisible;
-	}
-
-	public void setIsVisible(Boolean isVisible) {
-			this.isVisible = isVisible;
 	}
 }
