@@ -73,7 +73,7 @@ public class ComputerDaoImpl implements ComputerDaoCustom {
 	   query.fetch();
 	   
 	   List<Computer> computersList = query.list(QComputer.computer);
-	   
+	  	   
 	   return computersList;
 	}
 	

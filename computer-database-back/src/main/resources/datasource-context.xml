@@ -46,6 +46,7 @@
           		<property name="showSql" value="true" />          		
 				<property name="generateDdl" value="false" />
 				<property name="database" value="MYSQL" />
+				<property name="hibernate.connection.zeroDateTimeBehavior" value="convertToNull"/>
        		</bean>
     	</property>
  	</bean>

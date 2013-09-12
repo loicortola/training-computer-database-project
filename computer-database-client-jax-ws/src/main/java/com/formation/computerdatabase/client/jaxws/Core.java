@@ -5,7 +5,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import com.formation.computerdatabase.client.jaxws.ui.ConsoleInterface;
 import com.formation.computerdatabase.webservice.ComputerDatabaseService;
 
-public class Client {
+public class Core {
 	
 	public static void main(String[] args) {
 		ClassPathXmlApplicationContext ctx = null;

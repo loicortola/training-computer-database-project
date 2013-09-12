@@ -16,5 +16,5 @@
 	</jaxrs:server>
 
 	<bean id="computerDatabaseService"
-		class="com.formation.computerdatabase.back.webService.ComputerDatabaseWebServiceJaxRSImpl" />
+		class="com.formation.computerdatabase.webservice.ComputerDatabaseServiceJaxRSImpl" />
 </beans>

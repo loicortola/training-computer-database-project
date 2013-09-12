@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>com.formation</groupId>
 		<artifactId>computer-database</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
+		<version>0.0.2-SNAPSHOT</version>
 	</parent>
 	<artifactId>computer-database-client-jax-ws</artifactId>
 	<dependencies>
@@ -12,7 +12,6 @@
 		<dependency>
 			<groupId>com.formation</groupId>
 			<artifactId>computer-database-core</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
 			<scope>compile</scope>
 		</dependency>
 		<!-- Spring Framework dependencies -->

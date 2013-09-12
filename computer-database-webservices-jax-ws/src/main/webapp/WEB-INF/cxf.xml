@@ -9,6 +9,6 @@
 	<import resource="classpath:META-INF/cxf/cxf.xml" />
 
 	<jaxws:endpoint id="service"
-		implementor="com.formation.computerdatabase.webservice.ComputerDatabaseWebServiceJaxWSImpl" address="/service" />
+		implementor="com.formation.computerdatabase.webservice.ComputerDatabaseServiceJaxWSImpl" address="/service" />
 	
 </beans>

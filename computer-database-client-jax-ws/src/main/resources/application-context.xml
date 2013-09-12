@@ -19,9 +19,9 @@
 	<context:annotation-config />
 	<!-- Scanning packages for beans -->
 	<context:component-scan
-		base-package="com.formation.computerdatabase.client.jaxws.clientjaxws" />
+		base-package="com.formation.computerdatabase.client.jaxws" />
 
 	<jaxws:client id="service"
 		serviceClass="com.formation.computerdatabase.webservice.ComputerDatabaseService"
-		address="http://localhost:8081/computerDatabaseProject/service?wsdl" />
+		address="http://localhost:8080/computer-database-webservices-jax-ws/service" />
 </beans>

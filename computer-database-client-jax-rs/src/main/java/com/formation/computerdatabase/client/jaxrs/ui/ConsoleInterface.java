@@ -2,9 +2,11 @@ package com.formation.computerdatabase.client.jaxrs.ui;
 
 import java.io.IOException;
 import java.util.InputMismatchException;
+import java.util.List;
 import java.util.Scanner;
 
 import com.formation.computerdatabase.core.domain.Computer;
+import com.formation.computerdatabase.core.dto.ComputerList;
 import com.formation.computerdatabase.webservice.ComputerDatabaseService;
 
 public class ConsoleInterface {
@@ -89,9 +91,14 @@ public class ConsoleInterface {
 
 		System.out.println("Enter computer name:");
 		name = scanner.nextLine();
-		
-		for(Computer c : service.getComputers(name, " ").getList()) {
-			System.out.println(c.toString());
+		ComputerList computers = service.getComputers(name, " ");
+		if(computers != null && computers.getList() != null)
+			for(Computer c : computers.getList()) {
+				System.out.println(c.toString());
+			}
+		else
+		{
+			System.out.println("No computer found");
 		}
 		waitKey();
 		mainMenu();
@@ -105,8 +112,14 @@ public class ConsoleInterface {
 		System.out.println("Enter company name:");
 		name = scanner.nextLine();
 		
-		for(Computer c : service.getComputers(" ", name).getList()) {
-			System.out.println(c.toString());
+		ComputerList computers = service.getComputers(" ", name);
+		if(computers != null && computers.getList() != null)
+			for(Computer c : computers.getList()) {
+				System.out.println(c.toString());
+			}
+		else
+		{
+			System.out.println("No computer found");
 		}
 		
 		
@@ -123,10 +136,11 @@ public class ConsoleInterface {
 		computerName = scanner.nextLine();
 		System.out.println("Enter company name:");
 		companyName = scanner.nextLine();
-		
-		for(Computer c : service.getComputers(computerName, companyName).getList()) {
-			System.out.println(c.toString());
-		}
+		List<Computer> computers = service.getComputers(computerName, companyName).getList();
+		if(computers != null)
+			for(Computer c : computers) {
+				System.out.println(c.toString());
+			}
 		
 		waitKey();
 		mainMenu();

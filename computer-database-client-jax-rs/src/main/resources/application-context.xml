@@ -19,9 +19,9 @@
 	<context:annotation-config />
 	<!-- Scanning packages for beans -->
 	<context:component-scan
-		base-package="com.formation.computerdatabase.client.jaxrs.clientJaxRS" />
+		base-package="com.formation.computerdatabase.client.jaxrs" />
 
 	<jaxrs:client id="service"
-		serviceClass="com.formation.computerdatabase.webservice.ComputerDatabaseService"
-		address="http://localhost:8081/computerDatabaseProject/service" />
+		serviceClass="com.formation.computerdatabase.webapp.ComputerDatabaseService"
+		address="http://localhost:8080/computer-database-webservices-jax-rs/service" />
 </beans>
